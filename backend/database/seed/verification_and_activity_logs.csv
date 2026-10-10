@@ -1,0 +1,201 @@
+log_id,timestamp,event_type,actor_type,actor_id,vendor_id,application_id,report_id,consent_id,outcome,details
+LOG0001,2026-10-01 00:14:54,consent_granted,vendor,V020,V020,APP0002,RPT0002,CON0002,success,scope=assessment_report;factor_explanations;evidence_document_review; lender=L002; expires=2026-10-08 00:14:54
+LOG0002,2026-10-01 00:24:54,report_generated,system,assessment-service,V020,APP0002,RPT0002,CON0002,success,score=73; band=moderate_evidence; hash=b86bc414b15d
+LOG0003,2026-10-01 00:29:45,report_shared,system,consent-service,V020,APP0002,RPT0002,CON0002,success,shared with L002 within consented scope only
+LOG0004,2026-10-01 06:34:13,consent_granted,vendor,V044,V044,APP0008,RPT0008,CON0008,success,scope=assessment_report;factor_explanations;monthly_summary;category_summary; lender=L001; expires=2026-10-31 06:34:13
+LOG0005,2026-10-01 06:40:13,report_generated,system,assessment-service,V044,APP0008,RPT0008,CON0008,success,score=43; band=limited_evidence; hash=6bab497936db
+LOG0006,2026-10-01 06:42:56,report_shared,system,consent-service,V044,APP0008,RPT0008,CON0008,success,shared with L001 within consented scope only
+LOG0007,2026-10-01 20:43:20,consent_granted,vendor,V033,V033,APP0017,RPT0017,CON0017,success,scope=assessment_report;factor_explanations;monthly_summary;category_summary; lender=L002; expires=2026-10-15 20:43:20
+LOG0008,2026-10-01 20:54:20,report_generated,system,assessment-service,V033,APP0017,RPT0017,CON0017,success,score=47; band=limited_evidence; hash=65852e20a540
+LOG0009,2026-10-01 20:58:01,report_shared,system,consent-service,V033,APP0017,RPT0017,CON0017,success,shared with L002 within consented scope only
+LOG0010,2026-10-02 04:03:39,consent_granted,vendor,V003,V003,APP0026,RPT0026,CON0026,success,scope=assessment_report;factor_explanations;category_summary; lender=L005; expires=2026-11-01 04:03:39
+LOG0011,2026-10-02 04:14:39,report_generated,system,assessment-service,V003,APP0026,RPT0026,CON0026,success,score=51; band=limited_evidence; hash=33239a25d0f5
+LOG0012,2026-10-02 04:16:03,report_shared,system,consent-service,V003,APP0026,RPT0026,CON0026,success,shared with L005 within consented scope only
+LOG0013,2026-10-02 06:28:05,consent_granted,vendor,V043,V043,APP0028,RPT0028,CON0028,success,scope=assessment_report;factor_explanations;monthly_summary;evidence_document_review; lender=L002; expires=2026-10-05 06:28:05
+LOG0014,2026-10-02 06:38:05,report_generated,system,assessment-service,V043,APP0028,RPT0028,CON0028,success,score=53; band=limited_evidence; hash=10db63e64a9a
+LOG0015,2026-10-02 06:39:27,report_shared,system,consent-service,V043,APP0028,RPT0028,CON0028,success,shared with L002 within consented scope only
+LOG0016,2026-10-02 12:16:50,consent_revoked,vendor,V043,V043,APP0028,RPT0028,CON0028,success,vendor withdrew consent; lender access disabled
+LOG0017,2026-10-02 14:20:44,consent_granted,vendor,V005,V005,APP0039,RPT0039,CON0039,success,scope=assessment_report;factor_explanations;monthly_summary;category_summary;evidence_document_review; lender=L002; expires=2026-10-09 14:20:44
+LOG0018,2026-10-02 14:30:44,report_generated,system,assessment-service,V005,APP0039,RPT0039,CON0039,success,score=58; band=moderate_evidence; hash=f7a3d8675142
+LOG0019,2026-10-02 14:32:21,report_shared,system,consent-service,V005,APP0039,RPT0039,CON0039,success,shared with L002 within consented scope only
+LOG0020,2026-10-02 14:49:14,consent_granted,vendor,V047,V047,APP0040,RPT0040,CON0040,success,scope=assessment_report;factor_explanations;category_summary; lender=L003; expires=2026-11-01 14:49:14
+LOG0021,2026-10-02 15:00:14,report_generated,system,assessment-service,V047,APP0040,RPT0040,CON0040,success,score=39; band=limited_evidence; hash=2c9213e79ba4
+LOG0022,2026-10-02 15:01:47,report_shared,system,consent-service,V047,APP0040,RPT0040,CON0040,success,shared with L003 within consented scope only
+LOG0023,2026-10-02 16:37:44,consent_revoked,vendor,V033,V033,APP0017,RPT0017,CON0017,success,vendor withdrew consent; lender access disabled
+LOG0024,2026-10-02 17:49:31,consent_granted,vendor,V002,V002,APP0042,RPT0042,CON0042,success,scope=assessment_report;factor_explanations;monthly_summary;category_summary;evidence_document_review; lender=L005; expires=2026-11-01 17:49:31
+LOG0025,2026-10-02 17:56:31,report_generated,system,assessment-service,V002,APP0042,RPT0042,CON0042,success,score=50; band=limited_evidence; hash=6b1b23bfc74b
+LOG0026,2026-10-02 18:00:31,report_shared,system,consent-service,V002,APP0042,RPT0042,CON0042,success,shared with L005 within consented scope only
+LOG0027,2026-10-02 20:28:45,consent_granted,vendor,V023,V023,APP0045,RPT0045,CON0045,success,scope=assessment_report;factor_explanations;monthly_summary;category_summary; lender=L003; expires=2026-10-09 20:28:45
+LOG0028,2026-10-02 20:39:45,report_generated,system,assessment-service,V023,APP0045,RPT0045,CON0045,success,score=64; band=moderate_evidence; hash=c18e6a5a9b0d
+LOG0029,2026-10-02 20:40:48,report_shared,system,consent-service,V023,APP0045,RPT0045,CON0045,success,shared with L003 within consented scope only
+LOG0030,2026-10-02 23:12:20,report_verification_attempt,lender,L005,V003,APP0026,RPT0026,CON0026,valid,signature verified with demo-key-01; hash matches
+LOG0031,2026-10-03 10:08:04,report_verification_attempt,lender,L002,V043,APP0028,RPT0028,CON0028,hash_mismatch,submitted report hash does not match stored hash; possible tampering
+LOG0032,2026-10-03 14:26:38,consent_granted,vendor,V022,V022,APP0059,RPT0059,CON0059,success,scope=assessment_report;factor_explanations;monthly_summary; lender=L002; expires=2026-10-06 14:26:38
+LOG0033,2026-10-03 14:34:30,report_accessed,lender,L005,V003,APP0026,RPT0026,CON0026,success,scope=assessment_report;factor_explanations;category_summary
+LOG0034,2026-10-03 14:38:38,report_generated,system,assessment-service,V022,APP0059,RPT0059,CON0059,success,score=61; band=moderate_evidence; hash=ec2c4fa904a3
+LOG0035,2026-10-03 14:42:43,report_shared,system,consent-service,V022,APP0059,RPT0059,CON0059,success,shared with L002 within consented scope only
+LOG0036,2026-10-03 17:11:58,consent_granted,vendor,V028,V028,APP0063,RPT0063,CON0063,success,scope=assessment_report;factor_explanations;monthly_summary;category_summary; lender=L002; expires=2026-11-02 17:11:58
+LOG0037,2026-10-03 17:18:58,report_generated,system,assessment-service,V028,APP0063,RPT0063,CON0063,success,score=58; band=moderate_evidence; hash=da8c8c7702be
+LOG0038,2026-10-03 17:20:18,report_shared,system,consent-service,V028,APP0063,RPT0063,CON0063,success,shared with L002 within consented scope only
+LOG0039,2026-10-03 18:04:26,consent_granted,vendor,V004,V004,APP0064,RPT0064,CON0064,success,scope=assessment_report;factor_explanations; lender=L001; expires=2026-10-17 18:04:26
+LOG0040,2026-10-03 18:13:26,report_generated,system,assessment-service,V004,APP0064,RPT0064,CON0064,success,score=70; band=moderate_evidence; hash=7bcb3d17c287
+LOG0041,2026-10-03 18:15:34,report_shared,system,consent-service,V004,APP0064,RPT0064,CON0064,success,shared with L001 within consented scope only
+LOG0042,2026-10-03 19:45:42,report_accessed,lender,L002,V020,APP0002,RPT0002,CON0002,success,scope=assessment_report;factor_explanations;evidence_document_review
+LOG0043,2026-10-03 21:47:56,consent_granted,vendor,V002,V002,APP0066,RPT0066,CON0066,success,scope=assessment_report;factor_explanations;monthly_summary;evidence_document_review; lender=L004; expires=2026-10-17 21:47:56
+LOG0044,2026-10-03 21:52:56,report_generated,system,assessment-service,V002,APP0066,RPT0066,CON0066,success,score=46; band=limited_evidence; hash=5e77b6d7418b
+LOG0045,2026-10-03 21:57:56,report_shared,system,consent-service,V002,APP0066,RPT0066,CON0066,success,shared with L004 within consented scope only
+LOG0046,2026-10-03 22:07:16,consent_granted,vendor,V014,V014,APP0067,RPT0067,CON0067,success,scope=assessment_report;factor_explanations;monthly_summary;category_summary; lender=L002; expires=2026-10-10 22:07:16
+LOG0047,2026-10-03 22:20:16,report_generated,system,assessment-service,V014,APP0067,RPT0067,CON0067,success,score=85; band=strong_evidence; hash=7f92814c1103
+LOG0048,2026-10-03 22:22:07,report_shared,system,consent-service,V014,APP0067,RPT0067,CON0067,success,shared with L002 within consented scope only
+LOG0049,2026-10-04 01:09:26,access_denied_consent_revoked,lender,L002,V033,APP0017,RPT0017,CON0017,denied,consent revoked by vendor; report content withheld
+LOG0050,2026-10-04 07:13:31,consent_revoked,vendor,V022,V022,APP0059,RPT0059,CON0059,success,vendor withdrew consent; lender access disabled
+LOG0051,2026-10-04 08:04:35,report_verification_attempt,lender,L001,V004,APP0064,RPT0064,CON0064,hash_mismatch,submitted report hash does not match stored hash; possible tampering
+LOG0052,2026-10-04 13:00:22,consent_revoked,vendor,V020,V020,APP0002,RPT0002,CON0002,success,vendor withdrew consent; lender access disabled
+LOG0053,2026-10-04 13:22:13,consent_granted,vendor,V012,V012,APP0077,RPT0077,CON0077,success,scope=assessment_report;factor_explanations;monthly_summary; lender=L003; expires=2026-10-18 13:22:13
+LOG0054,2026-10-04 13:33:13,report_generated,system,assessment-service,V012,APP0077,RPT0077,CON0077,success,score=75; band=strong_evidence; hash=4a5ff92ce664
+LOG0055,2026-10-04 13:34:24,report_shared,system,consent-service,V012,APP0077,RPT0077,CON0077,success,shared with L003 within consented scope only
+LOG0056,2026-10-04 15:58:18,consent_revoked,vendor,V005,V005,APP0039,RPT0039,CON0039,success,vendor withdrew consent; lender access disabled
+LOG0057,2026-10-04 18:24:15,consent_revoked,vendor,V044,V044,APP0008,RPT0008,CON0008,success,vendor withdrew consent; lender access disabled
+LOG0058,2026-10-04 19:42:42,access_denied_consent_revoked,lender,L001,V044,APP0008,RPT0008,CON0008,denied,consent revoked by vendor; report content withheld
+LOG0059,2026-10-04 20:24:38,application_status_changed,lender,L005,V002,APP0042,RPT0042,CON0042,success,pending -> rejected
+LOG0060,2026-10-04 21:57:37,report_verification_attempt,lender,L002,V022,APP0059,RPT0059,CON0059,valid_but_consent_withdrawn,signature and hash valid; vendor has withdrawn consent
+LOG0061,2026-10-04 23:15:22,consent_granted,vendor,V007,V007,APP0088,RPT0088,CON0088,success,scope=assessment_report;factor_explanations;monthly_summary;category_summary; lender=L005; expires=2026-11-03 23:15:22
+LOG0062,2026-10-04 23:18:22,report_generated,system,assessment-service,V007,APP0088,RPT0088,CON0088,success,score=53; band=limited_evidence; hash=81d0b1f2b860
+LOG0063,2026-10-04 23:21:01,report_shared,system,consent-service,V007,APP0088,RPT0088,CON0088,success,shared with L005 within consented scope only
+LOG0064,2026-10-05 05:10:42,consent_granted,vendor,V031,V031,APP0097,RPT0097,CON0097,success,scope=assessment_report;factor_explanations;monthly_summary; lender=L002; expires=2026-10-12 05:10:42
+LOG0065,2026-10-05 05:21:42,report_generated,system,assessment-service,V031,APP0097,RPT0097,CON0097,success,score=81; band=strong_evidence; hash=68a964066b01
+LOG0066,2026-10-05 05:24:46,report_shared,system,consent-service,V031,APP0097,RPT0097,CON0097,success,shared with L002 within consented scope only
+LOG0067,2026-10-05 06:18:58,consent_granted,vendor,V010,V010,APP0098,RPT0098,CON0098,success,scope=assessment_report;factor_explanations;monthly_summary; lender=L001; expires=2026-10-19 06:18:58
+LOG0068,2026-10-05 06:25:58,report_generated,system,assessment-service,V010,APP0098,RPT0098,CON0098,success,score=50; band=limited_evidence; hash=1c467296d165
+LOG0069,2026-10-05 06:27:51,report_shared,system,consent-service,V010,APP0098,RPT0098,CON0098,success,shared with L001 within consented scope only
+LOG0070,2026-10-05 07:49:22,consent_granted,vendor,V050,V050,APP0101,RPT0101,CON0101,success,scope=assessment_report;factor_explanations;monthly_summary;category_summary;evidence_document_review; lender=L004; expires=2026-10-12 07:49:22
+LOG0071,2026-10-05 08:01:22,report_generated,system,assessment-service,V050,APP0101,RPT0101,CON0101,success,score=50; band=limited_evidence; hash=989f70e18595
+LOG0072,2026-10-05 08:06:17,report_shared,system,consent-service,V050,APP0101,RPT0101,CON0101,success,shared with L004 within consented scope only
+LOG0073,2026-10-05 09:31:53,consent_granted,vendor,V031,V031,APP0102,RPT0102,CON0102,success,scope=assessment_report;factor_explanations;monthly_summary;evidence_document_review; lender=L003; expires=2026-11-04 09:31:53
+LOG0074,2026-10-05 09:34:53,report_generated,system,assessment-service,V031,APP0102,RPT0102,CON0102,success,score=59; band=moderate_evidence; hash=5c0b8efc78d2
+LOG0075,2026-10-05 09:37:39,report_shared,system,consent-service,V031,APP0102,RPT0102,CON0102,success,shared with L003 within consented scope only
+LOG0076,2026-10-05 10:45:08,access_denied_consent_revoked,lender,L001,V044,APP0008,RPT0008,CON0008,denied,consent revoked by vendor; report content withheld
+LOG0077,2026-10-05 11:21:43,access_denied_consent_revoked,lender,L002,V022,APP0059,RPT0059,CON0059,denied,consent revoked by vendor; report content withheld
+LOG0078,2026-10-05 12:08:57,consent_granted,vendor,V005,V005,APP0105,RPT0105,CON0105,success,scope=assessment_report;factor_explanations;category_summary; lender=L004; expires=2026-10-12 12:08:57
+LOG0079,2026-10-05 12:16:57,report_generated,system,assessment-service,V005,APP0105,RPT0105,CON0105,success,score=74; band=moderate_evidence; hash=dd7f0f04a33c
+LOG0080,2026-10-05 12:21:57,report_shared,system,consent-service,V005,APP0105,RPT0105,CON0105,success,shared with L004 within consented scope only
+LOG0081,2026-10-05 15:35:00,consent_granted,vendor,V036,V036,APP0109,RPT0109,CON0109,success,scope=assessment_report;factor_explanations;monthly_summary; lender=L004; expires=2026-10-19 15:35:00
+LOG0082,2026-10-05 15:45:00,report_generated,system,assessment-service,V036,APP0109,RPT0109,CON0109,success,score=73; band=moderate_evidence; hash=13c96c6ac978
+LOG0083,2026-10-05 15:45:57,report_shared,system,consent-service,V036,APP0109,RPT0109,CON0109,success,shared with L004 within consented scope only
+LOG0084,2026-10-05 18:03:43,report_accessed,lender,L004,V050,APP0101,RPT0101,CON0101,success,scope=assessment_report;factor_explanations;monthly_summary;category_summary;evidence_document_review
+LOG0085,2026-10-05 19:54:34,consent_granted,vendor,V016,V016,APP0112,RPT0112,CON0112,success,scope=assessment_report;factor_explanations;monthly_summary;category_summary; lender=L001; expires=2026-10-12 19:54:34
+LOG0086,2026-10-05 20:05:34,report_generated,system,assessment-service,V016,APP0112,RPT0112,CON0112,success,score=66; band=moderate_evidence; hash=1b83c5e95761
+LOG0087,2026-10-05 20:09:19,report_shared,system,consent-service,V016,APP0112,RPT0112,CON0112,success,shared with L001 within consented scope only
+LOG0088,2026-10-05 21:41:38,access_denied_consent_revoked,lender,L002,V005,APP0039,RPT0039,CON0039,denied,consent revoked by vendor; report content withheld
+LOG0089,2026-10-05 22:02:18,report_accessed,lender,L004,V050,APP0101,RPT0101,CON0101,success,scope=assessment_report;factor_explanations;monthly_summary;category_summary;evidence_document_review
+LOG0090,2026-10-05 22:21:23,report_verification_attempt,lender,L004,V002,APP0066,RPT0066,CON0066,valid,signature verified with demo-key-01; hash matches
+LOG0091,2026-10-05 22:34:58,report_verification_attempt,lender,L003,V031,APP0102,RPT0102,CON0102,valid,signature verified with demo-key-01; hash matches
+LOG0092,2026-10-05 23:46:03,consent_revoked,vendor,V023,V023,APP0045,RPT0045,CON0045,success,vendor withdrew consent; lender access disabled
+LOG0093,2026-10-06 02:41:35,consent_granted,vendor,V023,V023,APP0117,RPT0117,CON0117,success,scope=assessment_report;factor_explanations;category_summary; lender=L002; expires=2026-10-13 02:41:35
+LOG0094,2026-10-06 02:45:35,report_generated,system,assessment-service,V023,APP0117,RPT0117,CON0117,success,score=42; band=limited_evidence; hash=f528388c3a02
+LOG0095,2026-10-06 02:50:09,report_shared,system,consent-service,V023,APP0117,RPT0117,CON0117,success,shared with L002 within consented scope only
+LOG0096,2026-10-06 04:41:43,consent_revoked,vendor,V005,V005,APP0105,RPT0105,CON0105,success,vendor withdrew consent; lender access disabled
+LOG0097,2026-10-06 06:06:49,report_verification_attempt,lender,L002,V043,APP0028,RPT0028,CON0028,valid_but_consent_withdrawn,signature and hash valid; vendor has withdrawn consent
+LOG0098,2026-10-06 08:28:45,report_accessed,lender,L001,V004,APP0064,RPT0064,CON0064,success,scope=assessment_report;factor_explanations
+LOG0099,2026-10-06 12:45:56,consent_granted,vendor,V043,V043,APP0124,RPT0124,CON0124,success,scope=assessment_report;factor_explanations;monthly_summary;evidence_document_review; lender=L001; expires=2026-10-13 12:45:56
+LOG0100,2026-10-06 12:54:56,report_generated,system,assessment-service,V043,APP0124,RPT0124,CON0124,success,score=71; band=moderate_evidence; hash=6fd83f12b250
+LOG0101,2026-10-06 12:57:00,report_shared,system,consent-service,V043,APP0124,RPT0124,CON0124,success,shared with L001 within consented scope only
+LOG0102,2026-10-06 16:21:17,consent_granted,vendor,V038,V038,APP0125,RPT0125,CON0125,success,scope=assessment_report;factor_explanations;monthly_summary; lender=L003; expires=2026-11-05 16:21:17
+LOG0103,2026-10-06 16:25:17,report_generated,system,assessment-service,V038,APP0125,RPT0125,CON0125,success,score=66; band=moderate_evidence; hash=b7993cc7bdf2
+LOG0104,2026-10-06 16:28:10,report_shared,system,consent-service,V038,APP0125,RPT0125,CON0125,success,shared with L003 within consented scope only
+LOG0105,2026-10-06 17:04:31,application_status_changed,lender,L004,V050,APP0101,RPT0101,CON0101,success,pending -> rejected
+LOG0106,2026-10-06 23:05:22,consent_granted,vendor,V047,V047,APP0133,RPT0133,CON0133,success,scope=assessment_report;factor_explanations; lender=L005; expires=2026-10-13 23:05:22
+LOG0107,2026-10-06 23:11:22,report_generated,system,assessment-service,V047,APP0133,RPT0133,CON0133,success,score=39; band=limited_evidence; hash=1b0c7a14d2c9
+LOG0108,2026-10-06 23:14:12,report_shared,system,consent-service,V047,APP0133,RPT0133,CON0133,success,shared with L005 within consented scope only
+LOG0109,2026-10-07 00:58:01,report_verification_attempt,lender,L002,V028,APP0063,RPT0063,CON0063,valid,signature verified with demo-key-01; hash matches
+LOG0110,2026-10-07 01:12:20,report_accessed,lender,L001,V016,APP0112,RPT0112,CON0112,success,scope=assessment_report;factor_explanations;monthly_summary;category_summary
+LOG0111,2026-10-07 01:30:34,report_accessed,lender,L003,V047,APP0040,RPT0040,CON0040,success,scope=assessment_report;factor_explanations;category_summary
+LOG0112,2026-10-07 01:52:04,report_accessed,lender,L001,V043,APP0124,RPT0124,CON0124,success,scope=assessment_report;factor_explanations;monthly_summary;evidence_document_review
+LOG0113,2026-10-07 02:01:04,consent_granted,vendor,V048,V048,APP0136,RPT0136,CON0136,success,scope=assessment_report;factor_explanations;category_summary;evidence_document_review; lender=L002; expires=2026-10-21 02:01:04
+LOG0114,2026-10-07 02:14:04,report_generated,system,assessment-service,V048,APP0136,RPT0136,CON0136,success,score=73; band=moderate_evidence; hash=72d55b3b6d7e
+LOG0115,2026-10-07 02:17:03,report_shared,system,consent-service,V048,APP0136,RPT0136,CON0136,success,shared with L002 within consented scope only
+LOG0116,2026-10-07 02:23:02,consent_granted,vendor,V029,V029,APP0137,RPT0137,CON0137,success,scope=assessment_report;factor_explanations;monthly_summary; lender=L003; expires=2026-10-21 02:23:02
+LOG0117,2026-10-07 02:32:02,report_generated,system,assessment-service,V029,APP0137,RPT0137,CON0137,success,score=63; band=moderate_evidence; hash=d404fc1341ef
+LOG0118,2026-10-07 02:36:46,report_shared,system,consent-service,V029,APP0137,RPT0137,CON0137,success,shared with L003 within consented scope only
+LOG0119,2026-10-07 02:38:19,consent_granted,vendor,V027,V027,APP0138,RPT0138,CON0138,success,scope=assessment_report;factor_explanations;monthly_summary; lender=L001; expires=2026-10-21 02:38:19
+LOG0120,2026-10-07 02:51:19,report_generated,system,assessment-service,V027,APP0138,RPT0138,CON0138,success,score=54; band=limited_evidence; hash=088b84dc6e72
+LOG0121,2026-10-07 02:53:52,report_shared,system,consent-service,V027,APP0138,RPT0138,CON0138,success,shared with L001 within consented scope only
+LOG0122,2026-10-07 03:31:02,consent_revoked,vendor,V010,V010,APP0098,RPT0098,CON0098,success,vendor withdrew consent; lender access disabled
+LOG0123,2026-10-07 04:00:12,report_verification_attempt,lender,L003,V023,APP0045,RPT0045,CON0045,hash_mismatch,submitted report hash does not match stored hash; possible tampering
+LOG0124,2026-10-07 05:05:38,application_status_changed,lender,L002,V031,APP0097,RPT0097,CON0097,success,pending -> approved
+LOG0125,2026-10-07 05:48:32,report_accessed,lender,L002,V023,APP0117,RPT0117,CON0117,success,scope=assessment_report;factor_explanations;category_summary
+LOG0126,2026-10-07 06:27:24,report_verification_attempt,lender,L004,V005,APP0105,RPT0105,CON0105,valid_but_consent_withdrawn,signature and hash valid; vendor has withdrawn consent
+LOG0127,2026-10-07 09:49:13,report_verification_attempt,lender,L004,V036,APP0109,RPT0109,CON0109,valid,signature verified with demo-key-01; hash matches
+LOG0128,2026-10-07 10:29:12,consent_granted,vendor,V025,V025,APP0145,RPT0145,CON0145,success,scope=assessment_report;factor_explanations;monthly_summary; lender=L004; expires=2026-10-21 10:29:12
+LOG0129,2026-10-07 10:41:12,report_generated,system,assessment-service,V025,APP0145,RPT0145,CON0145,success,score=64; band=moderate_evidence; hash=6f8df53663ad
+LOG0130,2026-10-07 10:45:24,report_shared,system,consent-service,V025,APP0145,RPT0145,CON0145,success,shared with L004 within consented scope only
+LOG0131,2026-10-07 12:44:59,access_denied_consent_revoked,lender,L003,V023,APP0045,RPT0045,CON0045,denied,consent revoked by vendor; report content withheld
+LOG0132,2026-10-07 12:56:51,consent_granted,vendor,V011,V011,APP0148,RPT0148,CON0148,success,scope=assessment_report;factor_explanations; lender=L002; expires=2026-11-06 12:56:51
+LOG0133,2026-10-07 13:08:51,report_generated,system,assessment-service,V011,APP0148,RPT0148,CON0148,success,score=72; band=moderate_evidence; hash=d2de4a378a4e
+LOG0134,2026-10-07 13:12:41,report_shared,system,consent-service,V011,APP0148,RPT0148,CON0148,success,shared with L002 within consented scope only
+LOG0135,2026-10-07 13:42:26,report_accessed,lender,L001,V004,APP0064,RPT0064,CON0064,success,scope=assessment_report;factor_explanations
+LOG0136,2026-10-07 16:12:11,consent_granted,vendor,V024,V024,APP0151,RPT0151,CON0151,success,scope=assessment_report;factor_explanations;category_summary; lender=L004; expires=2026-10-14 16:12:11
+LOG0137,2026-10-07 16:18:11,report_generated,system,assessment-service,V024,APP0151,RPT0151,CON0151,success,score=86; band=strong_evidence; hash=ed9526f9d23e
+LOG0138,2026-10-07 16:21:53,report_shared,system,consent-service,V024,APP0151,RPT0151,CON0151,success,shared with L004 within consented scope only
+LOG0139,2026-10-07 17:50:45,report_verification_attempt,lender,L003,V047,APP0040,RPT0040,CON0040,valid,signature verified with demo-key-01; hash matches
+LOG0140,2026-10-07 20:08:03,consent_revoked,vendor,V031,V031,APP0102,RPT0102,CON0102,success,vendor withdrew consent; lender access disabled
+LOG0141,2026-10-07 20:35:55,consent_revoked,vendor,V038,V038,APP0125,RPT0125,CON0125,success,vendor withdrew consent; lender access disabled
+LOG0142,2026-10-07 20:46:20,consent_revoked,vendor,V007,V007,APP0088,RPT0088,CON0088,success,vendor withdrew consent; lender access disabled
+LOG0143,2026-10-07 22:54:23,report_accessed,lender,L001,V043,APP0124,RPT0124,CON0124,success,scope=assessment_report;factor_explanations;monthly_summary;evidence_document_review
+LOG0144,2026-10-07 23:26:57,consent_revoked,vendor,V004,V004,APP0064,RPT0064,CON0064,success,vendor withdrew consent; lender access disabled
+LOG0145,2026-10-08 00:18:31,report_accessed,lender,L005,V047,APP0133,RPT0133,CON0133,success,scope=assessment_report;factor_explanations
+LOG0146,2026-10-08 01:29:39,access_denied_consent_revoked,lender,L002,V033,APP0017,RPT0017,CON0017,denied,consent revoked by vendor; report content withheld
+LOG0147,2026-10-08 01:55:44,consent_revoked,vendor,V002,V002,APP0066,RPT0066,CON0066,success,vendor withdrew consent; lender access disabled
+LOG0148,2026-10-08 03:20:38,report_verification_attempt,lender,L001,V043,APP0124,RPT0124,CON0124,hash_mismatch,submitted report hash does not match stored hash; possible tampering
+LOG0149,2026-10-08 03:27:30,access_denied_consent_revoked,lender,L001,V010,APP0098,RPT0098,CON0098,denied,consent revoked by vendor; report content withheld
+LOG0150,2026-10-08 06:06:48,access_denied_consent_revoked,lender,L002,V033,APP0017,RPT0017,CON0017,denied,consent revoked by vendor; report content withheld
+LOG0151,2026-10-08 06:32:04,report_verification_attempt,lender,L003,V031,APP0102,RPT0102,CON0102,valid_but_consent_withdrawn,signature and hash valid; vendor has withdrawn consent
+LOG0152,2026-10-08 06:32:54,report_verification_attempt,lender,L001,V004,APP0064,RPT0064,CON0064,valid_but_consent_withdrawn,signature and hash valid; vendor has withdrawn consent
+LOG0153,2026-10-08 07:03:50,report_accessed,lender,L004,V036,APP0109,RPT0109,CON0109,success,scope=assessment_report;factor_explanations;monthly_summary
+LOG0154,2026-10-08 07:12:01,consent_revoked,vendor,V023,V023,APP0117,RPT0117,CON0117,success,vendor withdrew consent; lender access disabled
+LOG0155,2026-10-08 10:21:43,access_denied_consent_revoked,lender,L002,V043,APP0028,RPT0028,CON0028,denied,consent revoked by vendor; report content withheld
+LOG0156,2026-10-08 14:00:28,report_verification_attempt,lender,L005,V007,APP0088,RPT0088,CON0088,valid_but_consent_withdrawn,signature and hash valid; vendor has withdrawn consent
+LOG0157,2026-10-08 15:01:11,report_verification_attempt,lender,L001,V027,APP0138,RPT0138,CON0138,valid,signature verified with demo-key-01; hash matches
+LOG0158,2026-10-08 15:30:16,report_verification_attempt,lender,L004,V025,APP0145,RPT0145,CON0145,valid,signature verified with demo-key-01; hash matches
+LOG0159,2026-10-08 15:42:21,report_accessed,lender,L003,V012,APP0077,RPT0077,CON0077,success,scope=assessment_report;factor_explanations;monthly_summary
+LOG0160,2026-10-08 15:58:39,report_accessed,lender,L004,V025,APP0145,RPT0145,CON0145,success,scope=assessment_report;factor_explanations;monthly_summary
+LOG0161,2026-10-08 16:25:40,consent_revoked,vendor,V011,V011,APP0148,RPT0148,CON0148,success,vendor withdrew consent; lender access disabled
+LOG0162,2026-10-08 17:35:05,application_status_changed,lender,L003,V047,APP0040,RPT0040,CON0040,success,pending -> more_documents_requested
+LOG0163,2026-10-08 18:32:44,access_denied_consent_revoked,lender,L005,V007,APP0088,RPT0088,CON0088,denied,consent revoked by vendor; report content withheld
+LOG0164,2026-10-08 20:56:32,report_verification_attempt,lender,L002,V011,APP0148,RPT0148,CON0148,valid_but_consent_withdrawn,signature and hash valid; vendor has withdrawn consent
+LOG0165,2026-10-08 21:02:57,access_denied_consent_revoked,lender,L001,V044,APP0008,RPT0008,CON0008,denied,consent revoked by vendor; report content withheld
+LOG0166,2026-10-08 22:16:10,access_denied_consent_revoked,lender,L003,V038,APP0125,RPT0125,CON0125,denied,consent revoked by vendor; report content withheld
+LOG0167,2026-10-08 22:16:25,report_verification_attempt,lender,L002,V048,APP0136,RPT0136,CON0136,valid,signature verified with demo-key-01; hash matches
+LOG0168,2026-10-08 23:09:31,consent_revoked,vendor,V012,V012,APP0077,RPT0077,CON0077,success,vendor withdrew consent; lender access disabled
+LOG0169,2026-10-08 23:47:11,report_accessed,lender,L004,V025,APP0145,RPT0145,CON0145,success,scope=assessment_report;factor_explanations;monthly_summary
+LOG0170,2026-10-08 23:54:52,access_denied_consent_revoked,lender,L003,V038,APP0125,RPT0125,CON0125,denied,consent revoked by vendor; report content withheld
+LOG0171,2026-10-09 00:38:02,report_verification_attempt,lender,L003,V012,APP0077,RPT0077,CON0077,valid_but_consent_withdrawn,signature and hash valid; vendor has withdrawn consent
+LOG0172,2026-10-09 00:53:45,report_verification_attempt,lender,L005,V047,APP0133,RPT0133,CON0133,valid,signature verified with demo-key-01; hash matches
+LOG0173,2026-10-09 02:58:08,report_verification_attempt,lender,L002,V022,APP0059,RPT0059,CON0059,valid_but_consent_withdrawn,signature and hash valid; vendor has withdrawn consent
+LOG0174,2026-10-09 03:02:45,consent_revoked,vendor,V025,V025,APP0145,RPT0145,CON0145,success,vendor withdrew consent; lender access disabled
+LOG0175,2026-10-09 03:24:07,report_verification_attempt,lender,L001,V027,APP0138,RPT0138,CON0138,valid,signature verified with demo-key-01; hash matches
+LOG0176,2026-10-09 04:02:52,access_denied_consent_revoked,lender,L002,V020,APP0002,RPT0002,CON0002,denied,consent revoked by vendor; report content withheld
+LOG0177,2026-10-09 04:08:34,report_verification_attempt,lender,L003,V029,APP0137,RPT0137,CON0137,valid,signature verified with demo-key-01; hash matches
+LOG0178,2026-10-09 04:29:31,report_accessed,lender,L004,V024,APP0151,RPT0151,CON0151,success,scope=assessment_report;factor_explanations;category_summary
+LOG0179,2026-10-09 05:51:34,report_verification_attempt,lender,L002,V020,APP0002,RPT0002,CON0002,valid_but_consent_withdrawn,signature and hash valid; vendor has withdrawn consent
+LOG0180,2026-10-09 08:34:15,report_accessed,lender,L001,V016,APP0112,RPT0112,CON0112,success,scope=assessment_report;factor_explanations;monthly_summary;category_summary
+LOG0181,2026-10-09 09:25:15,access_denied_consent_revoked,lender,L003,V031,APP0102,RPT0102,CON0102,denied,consent revoked by vendor; report content withheld
+LOG0182,2026-10-09 09:42:36,consent_revoked,vendor,V047,V047,APP0133,RPT0133,CON0133,success,vendor withdrew consent; lender access disabled
+LOG0183,2026-10-09 10:43:21,access_denied_consent_revoked,lender,L004,V005,APP0105,RPT0105,CON0105,denied,consent revoked by vendor; report content withheld
+LOG0184,2026-10-09 14:07:10,consent_revoked,vendor,V024,V024,APP0151,RPT0151,CON0151,success,vendor withdrew consent; lender access disabled
+LOG0185,2026-10-09 15:39:26,report_accessed,lender,L002,V031,APP0097,RPT0097,CON0097,success,scope=assessment_report;factor_explanations;monthly_summary
+LOG0186,2026-10-09 15:41:32,access_denied_consent_revoked,lender,L004,V002,APP0066,RPT0066,CON0066,denied,consent revoked by vendor; report content withheld
+LOG0187,2026-10-09 17:26:57,application_status_changed,lender,L004,V036,APP0109,RPT0109,CON0109,success,pending -> under_review
+LOG0188,2026-10-09 17:37:41,consent_revoked,vendor,V028,V028,APP0063,RPT0063,CON0063,success,vendor withdrew consent; lender access disabled
+LOG0189,2026-10-09 18:04:45,consent_revoked,vendor,V027,V027,APP0138,RPT0138,CON0138,success,vendor withdrew consent; lender access disabled
+LOG0190,2026-10-09 21:14:53,access_denied_consent_revoked,lender,L002,V005,APP0039,RPT0039,CON0039,denied,consent revoked by vendor; report content withheld
+LOG0191,2026-10-09 23:44:23,report_verification_attempt,lender,L004,V050,APP0101,RPT0101,CON0101,valid,signature verified with demo-key-01; hash matches
+LOG0192,2026-10-10 00:33:16,report_verification_attempt,lender,L005,V002,APP0042,RPT0042,CON0042,valid,signature verified with demo-key-01; hash matches
+LOG0193,2026-10-10 00:33:58,consent_revoked,vendor,V016,V016,APP0112,RPT0112,CON0112,success,vendor withdrew consent; lender access disabled
+LOG0194,2026-10-10 03:23:59,consent_revoked,vendor,V003,V003,APP0026,RPT0026,CON0026,success,vendor withdrew consent; lender access disabled
+LOG0195,2026-10-10 04:53:50,consent_revoked,vendor,V029,V029,APP0137,RPT0137,CON0137,success,vendor withdrew consent; lender access disabled
+LOG0196,2026-10-10 05:45:47,access_denied_consent_revoked,lender,L002,V005,APP0039,RPT0039,CON0039,denied,consent revoked by vendor; report content withheld
+LOG0197,2026-10-10 05:53:47,report_verification_attempt,lender,L002,V031,APP0097,RPT0097,CON0097,valid,signature verified with demo-key-01; hash matches
+LOG0198,2026-10-10 06:59:10,access_denied_consent_revoked,lender,L001,V027,APP0138,RPT0138,CON0138,denied,consent revoked by vendor; report content withheld
+LOG0199,2026-10-10 07:07:16,access_denied_consent_revoked,lender,L001,V027,APP0138,RPT0138,CON0138,denied,consent revoked by vendor; report content withheld
+LOG0200,2026-10-10 09:33:15,report_verification_attempt,lender,L002,V005,APP0039,RPT0039,CON0039,valid_but_consent_withdrawn,signature and hash valid; vendor has withdrawn consent

@@ -1,0 +1,6 @@
+lender_id,lender_name,lender_type,city,signing_key_id_trusted
+L001,Meenakshi Micro Finance,microfinance_institution,Madurai,demo-key-01
+L002,Kaveri Cooperative Bank,cooperative_bank,Tiruchirappalli,demo-key-01
+L003,Pandian Small Business Finance,nbfc,Chennai,demo-key-01
+L004,Coimbatore Vendors Credit Society,credit_society,Coimbatore,demo-key-01
+L005,Tamirabarani Rural Bank,regional_rural_bank,Tirunelveli,demo-key-01

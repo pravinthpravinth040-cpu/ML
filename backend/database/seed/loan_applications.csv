@@ -1,0 +1,201 @@
+application_id,vendor_id,requested_amount,loan_purpose,preferred_repayment_months,application_status,lender_id,submitted_time
+APP0001,V007,65000,new cart or stall equipment,12,approved,L004,2026-10-01 00:05:48
+APP0002,V020,150000,new cart or stall equipment,24,pending,L002,2026-10-01 00:16:54
+APP0003,V022,150000,new cart or stall equipment,12,more_documents_requested,L005,2026-10-01 00:25:05
+APP0004,V030,60000,new cart or stall equipment,12,pending,L002,2026-10-01 00:28:13
+APP0005,V046,85000,new cart or stall equipment,18,under_review,L004,2026-10-01 01:49:51
+APP0006,V012,110000,refrigerator or equipment,9,approved,L003,2026-10-01 05:44:37
+APP0007,V032,130000,stock purchase,18,approved,L003,2026-10-01 06:11:28
+APP0008,V044,150000,stock purchase,12,pending,L001,2026-10-01 06:36:13
+APP0009,V007,40000,refrigerator or equipment,9,under_review,L003,2026-10-01 08:51:35
+APP0010,V046,150000,refrigerator or equipment,18,approved,L001,2026-10-01 08:53:10
+APP0011,V041,55000,shop expansion,18,under_review,L005,2026-10-01 09:10:49
+APP0012,V009,150000,working capital,9,more_documents_requested,L001,2026-10-01 10:20:45
+APP0013,V047,150000,new cart or stall equipment,9,more_documents_requested,L005,2026-10-01 11:52:48
+APP0014,V018,150000,refrigerator or equipment,6,pending,L005,2026-10-01 14:22:22
+APP0015,V041,135000,working capital,12,rejected,L004,2026-10-01 19:14:07
+APP0016,V030,70000,new cart or stall equipment,18,rejected,L003,2026-10-01 19:58:36
+APP0017,V033,55000,digital payment setup,6,pending,L002,2026-10-01 20:46:20
+APP0018,V004,150000,repairs and maintenance,18,more_documents_requested,L004,2026-10-01 20:55:41
+APP0019,V018,150000,repairs and maintenance,18,approved,L001,2026-10-01 21:44:34
+APP0020,V033,30000,working capital,24,pending,L005,2026-10-01 22:59:38
+APP0021,V013,125000,digital payment setup,6,pending,L005,2026-10-02 00:17:41
+APP0022,V041,75000,digital payment setup,9,approved,L005,2026-10-02 00:45:03
+APP0023,V019,150000,stock purchase,12,under_review,L002,2026-10-02 00:57:44
+APP0024,V039,150000,new cart or stall equipment,9,more_documents_requested,L004,2026-10-02 02:11:02
+APP0025,V037,150000,repairs and maintenance,12,under_review,L003,2026-10-02 03:15:29
+APP0026,V003,75000,repairs and maintenance,6,pending,L005,2026-10-02 04:06:39
+APP0027,V015,80000,working capital,24,pending,L004,2026-10-02 04:44:47
+APP0028,V043,135000,repairs and maintenance,6,pending,L002,2026-10-02 06:29:05
+APP0029,V026,150000,shop expansion,9,pending,L002,2026-10-02 07:20:57
+APP0030,V028,150000,stock purchase,6,more_documents_requested,L003,2026-10-02 07:29:10
+APP0031,V002,110000,stock purchase,24,more_documents_requested,L003,2026-10-02 08:45:43
+APP0032,V031,100000,repairs and maintenance,24,more_documents_requested,L003,2026-10-02 09:33:57
+APP0033,V001,150000,repairs and maintenance,6,under_review,L004,2026-10-02 11:01:36
+APP0034,V032,65000,repairs and maintenance,6,more_documents_requested,L001,2026-10-02 11:16:27
+APP0035,V003,150000,working capital,12,more_documents_requested,L005,2026-10-02 11:19:15
+APP0036,V019,150000,refrigerator or equipment,24,pending,L004,2026-10-02 11:36:41
+APP0037,V035,95000,repairs and maintenance,18,under_review,L004,2026-10-02 12:59:22
+APP0038,V021,120000,shop expansion,18,more_documents_requested,L003,2026-10-02 13:22:13
+APP0039,V005,150000,digital payment setup,6,pending,L002,2026-10-02 14:21:44
+APP0040,V047,125000,refrigerator or equipment,24,more_documents_requested,L003,2026-10-02 14:52:14
+APP0041,V043,150000,shop expansion,24,rejected,L001,2026-10-02 15:11:20
+APP0042,V002,75000,shop expansion,18,rejected,L005,2026-10-02 17:51:31
+APP0043,V026,45000,working capital,6,approved,L005,2026-10-02 18:57:46
+APP0044,V018,115000,shop expansion,6,rejected,L002,2026-10-02 20:03:41
+APP0045,V023,80000,shop expansion,24,pending,L003,2026-10-02 20:31:45
+APP0046,V010,50000,new cart or stall equipment,9,pending,L003,2026-10-02 22:01:03
+APP0047,V033,90000,stock purchase,9,more_documents_requested,L002,2026-10-02 23:14:44
+APP0048,V026,35000,repairs and maintenance,6,approved,L002,2026-10-02 23:41:35
+APP0049,V003,70000,repairs and maintenance,24,approved,L005,2026-10-02 23:54:49
+APP0050,V040,95000,stock purchase,24,under_review,L001,2026-10-03 00:03:23
+APP0051,V045,150000,digital payment setup,18,rejected,L001,2026-10-03 00:16:19
+APP0052,V019,150000,new cart or stall equipment,24,approved,L003,2026-10-03 00:15:19
+APP0053,V032,35000,refrigerator or equipment,6,rejected,L004,2026-10-03 00:49:23
+APP0054,V036,95000,stock purchase,9,under_review,L004,2026-10-03 01:50:50
+APP0055,V030,150000,new cart or stall equipment,9,more_documents_requested,L002,2026-10-03 03:37:04
+APP0056,V011,85000,digital payment setup,18,pending,L001,2026-10-03 03:55:34
+APP0057,V045,150000,new cart or stall equipment,18,pending,L004,2026-10-03 06:05:31
+APP0058,V017,150000,refrigerator or equipment,18,approved,L005,2026-10-03 06:37:13
+APP0059,V022,150000,new cart or stall equipment,12,pending,L002,2026-10-03 14:29:38
+APP0060,V036,95000,new cart or stall equipment,24,more_documents_requested,L002,2026-10-03 14:35:38
+APP0061,V017,150000,digital payment setup,24,under_review,L003,2026-10-03 16:06:06
+APP0062,V006,115000,shop expansion,24,under_review,L005,2026-10-03 16:19:00
+APP0063,V028,150000,new cart or stall equipment,9,pending,L002,2026-10-03 17:13:58
+APP0064,V004,150000,refrigerator or equipment,9,pending,L001,2026-10-03 18:05:26
+APP0065,V005,150000,shop expansion,18,approved,L001,2026-10-03 19:12:54
+APP0066,V002,140000,shop expansion,24,pending,L004,2026-10-03 21:48:56
+APP0067,V014,85000,stock purchase,9,pending,L002,2026-10-03 22:10:16
+APP0068,V020,100000,digital payment setup,12,more_documents_requested,L003,2026-10-03 23:21:42
+APP0069,V020,50000,stock purchase,6,more_documents_requested,L001,2026-10-04 01:42:59
+APP0070,V012,150000,working capital,18,under_review,L005,2026-10-04 06:10:22
+APP0071,V033,95000,repairs and maintenance,9,rejected,L004,2026-10-04 06:36:37
+APP0072,V040,150000,shop expansion,6,more_documents_requested,L003,2026-10-04 07:31:17
+APP0073,V031,150000,repairs and maintenance,24,under_review,L002,2026-10-04 08:57:05
+APP0074,V029,150000,working capital,18,approved,L005,2026-10-04 10:47:47
+APP0075,V050,150000,stock purchase,12,more_documents_requested,L005,2026-10-04 11:03:59
+APP0076,V027,75000,repairs and maintenance,12,more_documents_requested,L003,2026-10-04 12:27:49
+APP0077,V012,35000,digital payment setup,18,pending,L003,2026-10-04 13:24:13
+APP0078,V011,150000,stock purchase,24,approved,L003,2026-10-04 13:42:53
+APP0079,V042,150000,stock purchase,6,under_review,L001,2026-10-04 14:47:05
+APP0080,V050,150000,digital payment setup,18,more_documents_requested,L003,2026-10-04 16:29:18
+APP0081,V013,145000,repairs and maintenance,24,under_review,L002,2026-10-04 17:03:47
+APP0082,V018,150000,repairs and maintenance,9,pending,L005,2026-10-04 18:05:00
+APP0083,V003,120000,repairs and maintenance,9,under_review,L001,2026-10-04 18:35:55
+APP0084,V037,150000,refrigerator or equipment,12,approved,L002,2026-10-04 18:37:42
+APP0085,V007,120000,repairs and maintenance,18,under_review,L004,2026-10-04 20:16:16
+APP0086,V049,150000,working capital,24,under_review,L002,2026-10-04 20:20:16
+APP0087,V008,150000,repairs and maintenance,18,more_documents_requested,L004,2026-10-04 22:18:41
+APP0088,V007,115000,repairs and maintenance,9,pending,L005,2026-10-04 23:17:22
+APP0089,V048,95000,refrigerator or equipment,12,more_documents_requested,L005,2026-10-04 23:42:12
+APP0090,V038,150000,working capital,9,approved,L002,2026-10-05 01:40:25
+APP0091,V034,105000,working capital,6,approved,L005,2026-10-05 03:22:11
+APP0092,V048,150000,digital payment setup,18,under_review,L001,2026-10-05 03:24:14
+APP0093,V049,150000,stock purchase,9,rejected,L003,2026-10-05 04:30:03
+APP0094,V028,140000,shop expansion,12,pending,L002,2026-10-05 04:32:02
+APP0095,V029,150000,new cart or stall equipment,6,under_review,L003,2026-10-05 04:40:05
+APP0096,V044,150000,repairs and maintenance,6,more_documents_requested,L004,2026-10-05 04:58:05
+APP0097,V031,75000,repairs and maintenance,24,approved,L002,2026-10-05 05:13:42
+APP0098,V010,135000,working capital,9,pending,L001,2026-10-05 06:19:58
+APP0099,V016,45000,repairs and maintenance,6,pending,L004,2026-10-05 07:01:13
+APP0100,V045,150000,repairs and maintenance,12,under_review,L003,2026-10-05 07:27:11
+APP0101,V050,150000,working capital,9,rejected,L004,2026-10-05 07:52:22
+APP0102,V031,150000,working capital,9,pending,L003,2026-10-05 09:32:53
+APP0103,V001,150000,refrigerator or equipment,12,under_review,L001,2026-10-05 11:10:36
+APP0104,V028,150000,working capital,6,under_review,L005,2026-10-05 12:07:40
+APP0105,V005,100000,stock purchase,12,pending,L004,2026-10-05 12:11:57
+APP0106,V021,150000,shop expansion,24,more_documents_requested,L002,2026-10-05 12:25:13
+APP0107,V023,140000,digital payment setup,12,pending,L001,2026-10-05 14:47:35
+APP0108,V014,150000,digital payment setup,12,under_review,L001,2026-10-05 15:20:52
+APP0109,V036,150000,shop expansion,12,under_review,L004,2026-10-05 15:38:00
+APP0110,V001,150000,digital payment setup,18,pending,L002,2026-10-05 16:29:50
+APP0111,V009,150000,digital payment setup,12,pending,L003,2026-10-05 18:12:05
+APP0112,V016,130000,digital payment setup,12,pending,L001,2026-10-05 19:57:34
+APP0113,V014,150000,repairs and maintenance,18,approved,L003,2026-10-05 20:37:25
+APP0114,V016,115000,new cart or stall equipment,6,more_documents_requested,L004,2026-10-05 20:39:52
+APP0115,V034,150000,digital payment setup,9,approved,L004,2026-10-05 20:41:19
+APP0116,V022,60000,working capital,9,more_documents_requested,L002,2026-10-05 20:57:40
+APP0117,V023,150000,repairs and maintenance,9,pending,L002,2026-10-06 02:43:35
+APP0118,V010,150000,refrigerator or equipment,18,pending,L001,2026-10-06 05:59:27
+APP0119,V036,30000,new cart or stall equipment,12,under_review,L003,2026-10-06 06:32:49
+APP0120,V027,115000,refrigerator or equipment,9,pending,L005,2026-10-06 07:24:31
+APP0121,V039,150000,refrigerator or equipment,9,pending,L004,2026-10-06 09:08:18
+APP0122,V001,125000,repairs and maintenance,9,approved,L002,2026-10-06 10:51:48
+APP0123,V029,150000,shop expansion,24,approved,L005,2026-10-06 11:10:34
+APP0124,V043,100000,repairs and maintenance,24,pending,L001,2026-10-06 12:48:56
+APP0125,V038,90000,digital payment setup,9,pending,L003,2026-10-06 16:24:17
+APP0126,V035,150000,repairs and maintenance,6,under_review,L002,2026-10-06 16:28:03
+APP0127,V023,50000,refrigerator or equipment,12,rejected,L002,2026-10-06 17:24:19
+APP0128,V017,125000,digital payment setup,24,approved,L005,2026-10-06 18:34:09
+APP0129,V040,35000,repairs and maintenance,9,under_review,L003,2026-10-06 19:26:32
+APP0130,V005,150000,repairs and maintenance,12,approved,L004,2026-10-06 19:37:02
+APP0131,V042,70000,repairs and maintenance,24,under_review,L004,2026-10-06 20:40:17
+APP0132,V046,125000,working capital,6,pending,L005,2026-10-06 21:36:45
+APP0133,V047,130000,shop expansion,18,pending,L005,2026-10-06 23:07:22
+APP0134,V026,130000,refrigerator or equipment,24,more_documents_requested,L001,2026-10-07 00:59:15
+APP0135,V011,55000,refrigerator or equipment,6,pending,L003,2026-10-07 01:45:09
+APP0136,V048,85000,working capital,12,pending,L002,2026-10-07 02:04:04
+APP0137,V029,145000,repairs and maintenance,18,pending,L003,2026-10-07 02:24:02
+APP0138,V027,65000,working capital,12,pending,L001,2026-10-07 02:41:19
+APP0139,V006,115000,repairs and maintenance,18,under_review,L005,2026-10-07 03:28:38
+APP0140,V044,80000,repairs and maintenance,9,rejected,L001,2026-10-07 04:51:21
+APP0141,V030,140000,stock purchase,24,rejected,L001,2026-10-07 05:03:44
+APP0142,V045,120000,repairs and maintenance,12,more_documents_requested,L005,2026-10-07 06:38:45
+APP0143,V041,85000,refrigerator or equipment,18,approved,L003,2026-10-07 10:08:29
+APP0144,V039,150000,repairs and maintenance,12,pending,L005,2026-10-07 10:18:52
+APP0145,V025,125000,shop expansion,12,pending,L004,2026-10-07 10:32:12
+APP0146,V015,150000,shop expansion,24,approved,L004,2026-10-07 10:59:37
+APP0147,V025,150000,new cart or stall equipment,12,under_review,L002,2026-10-07 11:00:32
+APP0148,V011,105000,digital payment setup,9,pending,L002,2026-10-07 12:58:51
+APP0149,V025,150000,repairs and maintenance,6,under_review,L001,2026-10-07 13:20:52
+APP0150,V021,150000,repairs and maintenance,9,under_review,L005,2026-10-07 14:27:33
+APP0151,V024,70000,digital payment setup,24,pending,L004,2026-10-07 16:15:11
+APP0152,V013,30000,shop expansion,6,approved,L002,2026-10-07 16:20:17
+APP0153,V032,150000,shop expansion,6,under_review,L004,2026-10-07 16:49:39
+APP0154,V020,150000,shop expansion,6,more_documents_requested,L003,2026-10-07 16:59:57
+APP0155,V009,135000,shop expansion,18,pending,L005,2026-10-07 17:07:13
+APP0156,V006,150000,digital payment setup,12,more_documents_requested,L001,2026-10-07 19:48:36
+APP0157,V050,40000,working capital,6,pending,L005,2026-10-07 21:22:35
+APP0158,V037,90000,stock purchase,18,under_review,L004,2026-10-07 21:53:26
+APP0159,V034,150000,stock purchase,18,rejected,L002,2026-10-07 22:50:56
+APP0160,V048,150000,new cart or stall equipment,12,under_review,L001,2026-10-07 23:10:31
+APP0161,V004,150000,shop expansion,9,more_documents_requested,L002,2026-10-08 00:14:55
+APP0162,V004,150000,new cart or stall equipment,18,approved,L004,2026-10-08 05:29:13
+APP0163,V049,150000,stock purchase,6,more_documents_requested,L002,2026-10-08 07:05:51
+APP0164,V002,135000,digital payment setup,12,under_review,L002,2026-10-08 10:36:26
+APP0165,V025,55000,working capital,6,more_documents_requested,L003,2026-10-08 11:12:35
+APP0166,V009,150000,new cart or stall equipment,12,approved,L002,2026-10-08 12:36:09
+APP0167,V010,150000,repairs and maintenance,18,under_review,L005,2026-10-08 16:04:25
+APP0168,V042,115000,working capital,6,under_review,L004,2026-10-08 17:04:13
+APP0169,V042,150000,stock purchase,24,pending,L004,2026-10-08 17:27:49
+APP0170,V008,40000,stock purchase,12,pending,L002,2026-10-08 18:07:52
+APP0171,V012,150000,digital payment setup,9,rejected,L001,2026-10-08 18:12:13
+APP0172,V049,150000,new cart or stall equipment,9,pending,L002,2026-10-08 18:14:58
+APP0173,V034,150000,refrigerator or equipment,24,pending,L003,2026-10-08 18:22:36
+APP0174,V024,150000,working capital,9,rejected,L005,2026-10-08 19:33:25
+APP0175,V008,150000,refrigerator or equipment,9,pending,L005,2026-10-08 20:31:41
+APP0176,V016,130000,repairs and maintenance,18,pending,L002,2026-10-08 23:02:33
+APP0177,V014,150000,digital payment setup,18,rejected,L003,2026-10-08 23:12:30
+APP0178,V035,30000,digital payment setup,6,approved,L002,2026-10-08 23:52:16
+APP0179,V015,80000,working capital,6,under_review,L002,2026-10-08 23:54:06
+APP0180,V038,150000,stock purchase,12,pending,L003,2026-10-08 23:52:22
+APP0181,V035,120000,working capital,6,pending,L005,2026-10-09 00:51:02
+APP0182,V008,65000,stock purchase,24,approved,L005,2026-10-09 01:16:56
+APP0183,V037,150000,new cart or stall equipment,6,approved,L003,2026-10-09 02:55:03
+APP0184,V006,150000,refrigerator or equipment,12,approved,L005,2026-10-09 03:35:38
+APP0185,V024,150000,digital payment setup,6,pending,L001,2026-10-09 04:01:04
+APP0186,V013,85000,working capital,18,pending,L004,2026-10-09 04:37:19
+APP0187,V047,100000,stock purchase,24,more_documents_requested,L001,2026-10-09 05:06:20
+APP0188,V044,115000,shop expansion,24,rejected,L004,2026-10-09 05:21:20
+APP0189,V022,30000,digital payment setup,9,pending,L004,2026-10-09 05:35:09
+APP0190,V039,150000,refrigerator or equipment,12,approved,L002,2026-10-09 09:41:49
+APP0191,V017,150000,repairs and maintenance,18,approved,L002,2026-10-09 11:25:45
+APP0192,V043,95000,refrigerator or equipment,9,pending,L003,2026-10-09 11:29:44
+APP0193,V040,150000,digital payment setup,18,under_review,L005,2026-10-09 12:52:51
+APP0194,V038,150000,shop expansion,24,pending,L005,2026-10-09 13:20:04
+APP0195,V024,150000,stock purchase,24,under_review,L001,2026-10-09 14:07:03
+APP0196,V027,140000,stock purchase,24,more_documents_requested,L002,2026-10-09 16:42:37
+APP0197,V015,150000,refrigerator or equipment,24,approved,L001,2026-10-09 16:45:25
+APP0198,V019,150000,new cart or stall equipment,12,approved,L003,2026-10-09 20:23:37
+APP0199,V021,150000,new cart or stall equipment,6,pending,L004,2026-10-09 22:23:12
+APP0200,V046,150000,working capital,9,pending,L005,2026-10-09 22:53:08
