@@ -31,6 +31,19 @@ c:\ML/
 │   ├── dataset-schema.md              # Data dictionary, feature formulas & scorecard rules
 │   ├── pseudo-label-rules.md          # Fraud rules, thresholds & Isolation Forest evaluation
 │   └── dataset-audit.md               # Repository audit report
+├── frontend/
+│   ├── index.html                     # Responsive single-page web app
+│   ├── README.md                      # Frontend documentation & usage guide
+│   ├── css/
+│   │   └── style.css                  # CSS design system (dark/light, responsive, print)
+│   ├── js/
+│   │   ├── app.js                     # Main application logic & state management
+│   │   ├── charts.js                  # Chart.js visual analytics controllers
+│   │   ├── score.js                   # 100-point transparent demo scorecard engine
+│   │   └── data.js                    # Embedded fallback for file:// protocol
+│   └── data/
+│       ├── vendor_summary.json        # 40-vendor summary records
+│       └── vendor_scores.csv          # Merged ML scorecard outputs
 ├── ml-training/
 │   ├── train.py                       # Single-command training pipeline
 │   ├── requirements.txt               # ML dependencies
@@ -63,11 +76,18 @@ c:\ML/
 pip install -r requirements.txt
 ```
 
-### Run Pipeline
+### Run ML Training Pipeline
 Execute the complete pipeline with a single command from the repository root:
 ```bash
 python ml-training/train.py
 ```
+
+### Launch Interactive Frontend Web App
+Launch via Python's HTTP server:
+```bash
+python -m http.server 8000
+```
+Open [http://localhost:8000/frontend/](http://localhost:8000/frontend/) in any browser, or directly double-click `frontend/index.html`.
 
 The script will:
 1. Validate dataset integrity.

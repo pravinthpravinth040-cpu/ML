@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TrustCred AI - Cash-flow underwriting a lender can trust for micro-merchants with no credit history. Detects suspicious circular turnover and delivers a 100-point transparent scorecard.">
+  <title>TrustCred AI — Cash-Flow Credit Assessment & Fraud Detection</title>
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+</head>
+<body>
+
+  <!-- =========================================================================
+       1. STICKY TOP NAVIGATION BAR
+       ========================================================================= -->
+  <header class="top-nav" role="banner">
+    <div class="container nav-inner">
+      <a href="#heroSection" class="brand-wrap" aria-label="TrustCred AI Home">
+        <div class="brand-icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="m9 12 2 2 4-4"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>TrustCred AI <span class="brand-pill">UPI Flow ML</span></h1>
+        </div>
+      </a>
+
+      <nav aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="#heroSection" class="nav-link">Overview</a></li>
+          <li><a href="#vendorsSection" class="nav-link">Vendors Directory</a></li>
+          <li><a href="#simulatorSection" class="nav-link">Loan Simulator</a></li>
+          <li><a href="#compareSection" class="nav-link">Compare</a></li>
+          <li><a href="#methodologySection" class="nav-link">Methodology</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <span id="dataSourceBadge" class="status-badge status-badge--neutral">Loading Data...</span>
+        <button id="themeToggleBtn" class="theme-toggle-btn" type="button" aria-label="Toggle light or dark display mode">
+          <svg id="themeToggleIcon" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <span id="themeToggleLabel">Light Mode</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- =========================================================================
+         2. HERO SECTION
+         ========================================================================= -->
+    <section id="heroSection" class="hero-section" aria-labelledby="heroTitle">
+      <div class="container">
+        <div class="hero-badge-wrap">
+          <span class="hero-pill">
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+            </svg>
+            Cash-Flow Underwriting Engine • Zero Bureau Reliance
+          </span>
+        </div>
+        <h2 id="heroTitle" class="hero-title">
+          Credit Underwriting a Lender Can Trust,<br>
+          <span class="hero-gradient-text">Powered by UPI Transaction Evidence</span>
+        </h2>
+        <p class="hero-subtitle">
+          Small vendors with no formal credit bureau history get an explainable cash-flow assessment.
+          Identifies genuine merchant turnover and flags accounts inflated by circular round-tripping transfers.
+        </p>
+        <div class="hero-cta-group">
+          <button id="heroCheckVendorBtn" class="btn btn--primary" type="button">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            Check a Vendor Assessment
+          </button>
+          <a href="#simulatorSection" class="btn btn--secondary">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+            Simulate Debt Coverage
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Error Banner -->
+    <div class="container">
+      <div id="loadErrorBanner" class="warning-box hidden" role="alert">
+        <svg class="warning-icon" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+          <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+        </svg>
+        <div class="warning-text">
+          <h4>Dataset Initialization Notice</h4>
+          <p id="loadErrorText"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================================================================
+         3. SUMMARY KEY METRIC CARDS
+         ========================================================================= -->
+    <section class="stats-section" aria-labelledby="statsTitle">
+      <div class="container">
+        <h3 id="statsTitle" class="sr-only">Key Portfolio Metrics</h3>
+        <div class="stats-grid">
+          <article class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Total Vendors Evaluated</span>
+              <div class="stat-icon stat-icon--primary" aria-hidden="true">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+            </div>
+            <div id="statTotalVendors" class="stat-value">--</div>
+            <span class="stat-subtext">Active micro-merchant cohort</span>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Total Loan Requested</span>
+              <div class="stat-icon stat-icon--warning" aria-hidden="true">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+            </div>
+            <div id="statTotalLoan" class="stat-value">--</div>
+            <span class="stat-subtext">Range: ₹30,000 to ₹75,000</span>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Vendors Flagged (Circular)</span>
+              <div class="stat-icon stat-icon--danger" aria-hidden="true">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </div>
+            </div>
+            <div id="statFlaggedVendors" class="stat-value text-danger">--</div>
+            <span class="stat-subtext">Reciprocal inter-vendor transfers</span>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Average Assessment Score</span>
+              <div class="stat-icon stat-icon--success" aria-hidden="true">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              </div>
+            </div>
+            <div id="statAvgScore" class="stat-value text-success">--</div>
+            <span class="stat-subtext">100-Point Evidence Scorecard</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skeleton Loader State -->
+    <div id="loadingSkeleton" class="container">
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+      <div class="skeleton-card"></div>
+    </div>
+
+    <!-- Main Content Container -->
+    <div id="mainContentView" class="hidden">
+
+      <!-- =========================================================================
+           4. VENDOR SEARCH, FILTERS & DIRECTORY
+           ========================================================================= -->
+      <section id="vendorsSection" class="container" style="padding-bottom: var(--space-12);" aria-labelledby="directoryHeading">
+        <div class="section-heading-bar">
+          <div>
+            <h3 id="directoryHeading" class="section-title">Micro-Merchant Assessment Directory</h3>
+            <p style="color: var(--text-secondary); font-size: 0.95rem;">
+              Filter, search, and click any merchant to view deep cash-flow evidence, stability charts, and underwriting decisions.
+            </p>
+          </div>
+          <div id="resultsCount" style="font-weight: 600; color: var(--color-primary); font-size: 0.95rem;">
+            40 vendors found
+          </div>
+        </div>
+
+        <!-- Filter Toolbar -->
+        <div class="filter-toolbar-card">
+          <div class="filter-grid">
+            <div class="form-group">
+              <label for="vendorSearchInput" class="form-label">Search by Vendor ID or Amount</label>
+              <input type="search" id="vendorSearchInput" class="form-input" placeholder="e.g. V007 or 75000..." autocomplete="off">
+            </div>
+
+            <div class="form-group">
+              <label for="filterScoreBand" class="form-label">Score Band</label>
+              <select id="filterScoreBand" class="form-select">
+                <option value="all">All Score Bands</option>
+                <option value="strong">Strong (Score &ge; 75)</option>
+                <option value="moderate">Moderate (Score &ge; 55)</option>
+                <option value="limited">Limited (Score &ge; 35)</option>
+                <option value="insufficient">Insufficient (Score &lt; 35)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="filterStatus" class="form-label">Turnover Genuineness</label>
+              <select id="filterStatus" class="form-select">
+                <option value="all">All Statuses</option>
+                <option value="genuine">Verified Genuine Only</option>
+                <option value="flagged">Flagged (Circular Transfers)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="sortVendorsBy" class="form-label">Sort Vendors</label>
+              <select id="sortVendorsBy" class="form-select">
+                <option value="score_desc">Score: High to Low</option>
+                <option value="score_asc">Score: Low to High</option>
+                <option value="receipts_desc">Total Receipts: Highest</option>
+                <option value="loan_desc">Loan Requested: Highest</option>
+                <option value="net_desc">Net Cash Flow: Highest</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="justify-content: flex-end;">
+              <button id="resetFiltersBtn" type="button" class="btn btn--secondary" style="height: 44px;">
+                Reset
+              </button>
+            </div>
+          </div>
+
+          <div class="filter-status-row">
+            <span id="filterLiveCount" aria-live="polite">Showing all 40 vendors.</span>
+            <span>Click any vendor row or card to inspect cash flow breakdown</span>
+          </div>
+        </div>
+
+        <!-- Empty State Message -->
+        <div id="emptyState" class="filter-toolbar-card hidden" style="text-align: center; padding: var(--space-8);">
+          <svg style="width: 48px; height: 48px; margin: 0 auto var(--space-3); color: var(--text-muted);" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <h4 style="font-size: 1.1rem; margin-bottom: var(--space-2);">No matching vendors found</h4>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: var(--space-4);">
+            Try adjusting your search ID or resetting the filters.
+          </p>
+        </div>
+
+        <!-- Desktop Table View -->
+        <div class="table-responsive-wrapper">
+          <table class="vendor-table" aria-label="Vendors Cash Flow and Score Directory">
+            <thead>
+              <tr>
+                <th scope="col">Vendor ID</th>
+                <th scope="col">Assessment Score</th>
+                <th scope="col" style="text-align: right;">Total Receipts (90d)</th>
+                <th scope="col" style="text-align: right;">Net Cash Flow</th>
+                <th scope="col" style="text-align: right;">Loan Requested</th>
+                <th scope="col">Turnover Genuineness</th>
+                <th scope="col" style="text-align: center;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="vendorTableBody">
+              <!-- Dynamically rendered -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Mobile Card View (< 700px) -->
+        <div id="vendorCardsContainer" class="mobile-cards-view">
+          <!-- Dynamically rendered -->
+        </div>
+      </section>
+
+      <!-- =========================================================================
+           5. LOAN SIMULATOR SECTION
+           ========================================================================= -->
+      <section id="simulatorSection" class="simulator-section" aria-labelledby="simHeading">
+        <div class="container">
+          <div class="section-heading-bar">
+            <div>
+              <h3 id="simHeading" class="section-title">Micro-Loan Debt Coverage Simulator</h3>
+              <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                Stress-test monthly debt obligations against a vendor's empirical net cash flow.
+              </p>
+            </div>
+          </div>
+
+          <div class="simulator-card">
+            <div class="sim-inputs-col">
+              <div class="form-group" style="margin-bottom: var(--space-6);">
+                <label for="simVendorSelect" class="form-label">Select Vendor to Simulate</label>
+                <select id="simVendorSelect" class="form-select">
+                  <!-- Populated by JS -->
+                </select>
+              </div>
+
+              <div class="slider-group">
+                <div class="slider-header">
+                  <label for="simLoanAmount" class="form-label">Loan Amount</label>
+                  <span id="simLoanAmountDisplay" class="slider-val-badge">₹50,000</span>
+                </div>
+                <input type="range" id="simLoanAmount" class="range-slider" min="10000" max="100000" step="5000" value="50000">
+                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted);">
+                  <span>₹10,000</span>
+                  <span>₹1,00,000</span>
+                </div>
+              </div>
+
+              <div class="slider-group">
+                <div class="slider-header">
+                  <label for="simTenureMonths" class="form-label">Repayment Tenure</label>
+                  <span id="simTenureDisplay" class="slider-val-badge">12 months</span>
+                </div>
+                <input type="range" id="simTenureMonths" class="range-slider" min="6" max="24" step="1" value="12">
+                <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted);">
+                  <span>6 months</span>
+                  <span>24 months</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="sim-output-card">
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4);">
+                  <span style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">
+                    Debt Servicing Analysis
+                  </span>
+                  <span id="simCoverageBadge" class="status-badge status-badge--success">Safe Buffer</span>
+                </div>
+
+                <div class="sim-metric-big">
+                  <span>Illustrative Monthly EMI</span>
+                  <strong id="simResultEmi">₹5,000</strong>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-top: var(--space-6);">
+                  <div class="metric-item">
+                    <span class="metric-label">Vendor Monthly Net Flow</span>
+                    <strong id="simResultNetFlow" class="metric-val" style="font-size: 1.15rem;">₹1,33,770</strong>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-label">Debt Coverage Ratio</span>
+                    <strong id="simResultCoverage" class="metric-val text-success" style="font-size: 1.15rem;">26.8x</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="sim-disclaimer">
+                * Note: Illustrative EMI calculated at flat 20% p.a. simple interest formula for credit risk sizing.
+                A coverage ratio above 2.0x indicates safe buffer against day-to-day revenue volatility.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================================
+           6. VENDOR COMPARISON SECTION
+           ========================================================================= -->
+      <section id="compareSection" class="compare-section" aria-labelledby="compareHeading">
+        <div class="container">
+          <div class="section-heading-bar">
+            <div>
+              <h3 id="compareHeading" class="section-title">Side-by-Side Vendor Comparison</h3>
+              <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                Select up to 3 vendors simultaneously to compare cash-flow resilience and circular transaction risk.
+              </p>
+            </div>
+          </div>
+
+          <div class="compare-selectors-bar">
+            <div class="form-group">
+              <label for="compareSelect1" class="form-label">Vendor Slot 1</label>
+              <select id="compareSelect1" class="form-select"></select>
+            </div>
+            <div class="form-group">
+              <label for="compareSelect2" class="form-label">Vendor Slot 2</label>
+              <select id="compareSelect2" class="form-select"></select>
+            </div>
+            <div class="form-group">
+              <label for="compareSelect3" class="form-label">Vendor Slot 3</label>
+              <select id="compareSelect3" class="form-select"></select>
+            </div>
+          </div>
+
+          <div id="comparisonContainer">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================================
+           7. HOW IT WORKS & LIMITATIONS
+           ========================================================================= -->
+      <section id="methodologySection" class="explainer-section" aria-labelledby="methodHeading">
+        <div class="container">
+          <div class="section-heading-bar">
+            <div>
+              <h3 id="methodHeading" class="section-title">How TrustCred AI Works</h3>
+              <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                Four-stage empirical underwriting framework for micro-merchants with zero credit history.
+              </p>
+            </div>
+          </div>
+
+          <div class="steps-grid">
+            <div class="step-card">
+              <div class="step-badge">1</div>
+              <h3>UPI Flow Ingestion</h3>
+              <p>
+                Ingests 90 days of UPI transaction streams, segregating genuine customer payments (income), supplier expenses (costs), and inter-account transfers.
+              </p>
+            </div>
+
+            <div class="step-card">
+              <div class="step-badge">2</div>
+              <h3>Circular Flow Audit</h3>
+              <p>
+                Identifies circular round-tripping transfers where accounts move funds back and forth to artificially inflate apparent revenue without real retail sales.
+              </p>
+            </div>
+
+            <div class="step-card">
+              <div class="step-badge">3</div>
+              <h3>100-Point Scorecard</h3>
+              <p>
+                Evaluates 5 objective pillars: Income Stability (25), Repayment Capacity (30), Expense Discipline (15), Business Continuity (15), and Genuineness (15).
+              </p>
+            </div>
+
+            <div class="step-card">
+              <div class="step-badge">4</div>
+              <h3>Underwriting Decision</h3>
+              <p>
+                Delivers plain-language explanations and debt service coverage bounds so micro-finance institutions can lend with audit-ready confidence.
+              </p>
+            </div>
+          </div>
+
+          <!-- Explicit Limitations Box -->
+          <div class="limitations-callout">
+            <svg style="width: 28px; height: 28px; color: var(--color-warning); flex-shrink: 0;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <div class="limitations-text">
+              <h4>Important Underwriting Scope & Limitations</h4>
+              <p>
+                <strong>Cash-Flow Evidence Score, Not a Bureau Prediction:</strong> TrustCred AI measures empirical velocity, revenue stability, and account legitimacy from transactional bank flows. It does not possess historical loan default records or willingness-to-pay credit bureau ratings, and does not claim to predict credit default behavior. With a 40-vendor demonstration cohort, statistical metrics are illustrative and intended for underwriting decision-support.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- =========================================================================
+       8. VENDOR DETAIL DRAWER / SLIDE-OVER MODAL
+       ========================================================================= -->
+  <div id="drawerOverlay" class="drawer-overlay" aria-hidden="true"></div>
+
+  <aside id="vendorDetailDrawer" class="drawer" aria-labelledby="drawerVendorId" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="print-header hidden">
+      <h2>TrustCred AI Underwriting Evaluation Report</h2>
+      <p>Official Transaction Cash-Flow Assessment</p>
+    </div>
+
+    <div class="drawer-header">
+      <div class="drawer-header-left">
+        <h3 id="drawerVendorId" class="drawer-vendor-title">V001</h3>
+        <span id="drawerScoreBandBadge" class="score-badge badge--strong">STRONG</span>
+        <span id="drawerConfidenceBadge" class="confidence-label">95% Confidence</span>
+      </div>
+      <div style="display: flex; gap: var(--space-2);">
+        <button id="printReportBtn" type="button" class="btn btn--secondary btn--sm" aria-label="Print or download report">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Print Report
+        </button>
+        <button id="closeDrawerBtn" type="button" class="btn btn--secondary btn--sm" aria-label="Close details drawer">
+          &times;
+        </button>
+      </div>
+    </div>
+
+    <div class="drawer-body">
+
+      <!-- Score Hero Gauge -->
+      <div class="score-hero-box">
+        <div class="gauge-wrap">
+          <svg class="gauge-svg" viewBox="0 0 120 120">
+            <circle class="gauge-bg" cx="60" cy="60" r="54" />
+            <circle id="scoreGaugeCircle" class="gauge-circle" cx="60" cy="60" r="54" />
+          </svg>
+          <div class="gauge-content">
+            <span id="drawerScoreValue" class="gauge-score-number">97</span>
+            <span class="gauge-max">out of 100</span>
+          </div>
+        </div>
+
+        <div class="score-meta-col">
+          <h4 style="font-size: 1.15rem; font-weight: 700;">Overall Cash-Flow Evidence Score</h4>
+          <p style="font-size: 0.875rem; color: var(--text-secondary);">
+            Computed strictly from 90-day UPI inflows, operational costs, and counter-party legitimacy.
+          </p>
+          <div style="display: flex; gap: var(--space-2); margin-top: var(--space-2);">
+            <button id="drawerSimulateBtn" type="button" class="btn btn--subtle btn--sm">
+              Simulate Loan &rarr;
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Warning Banner (Visible only for circular transfer vendors) -->
+      <div id="drawerWarningBanner" class="warning-box hidden" role="alert">
+        <svg class="warning-icon" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+          <path fill-rule="evenodd" d="M8.485 2.495c.673-1.167 2.357-1.167 3.03 0l6.28 10.875c.673 1.167-.17 2.625-1.516 2.625H3.72c-1.347 0-2.189-1.458-1.515-2.625L8.485 2.495zM10 5a.75.75 0 01.75.75v3.5a.75.75 0 01-1.5 0v-3.5A.75.75 0 0110 5zm0 9a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+        </svg>
+        <div class="warning-text">
+          <h4>Suspicious Turnover Detected (Reciprocal Transfers)</h4>
+          <p id="drawerWarningDetail">Money moved back and forth between vendors; turnover may be inflated.</p>
+        </div>
+      </div>
+
+      <!-- Plain Language Rationale -->
+      <div class="rationale-card">
+        <div class="rationale-title">Underwriting Evidence Summary</div>
+        <p id="drawerRationaleText" class="rationale-text">
+          Verified genuine commercial activity across 90 days.
+        </p>
+      </div>
+
+      <!-- 5 Factor Bars -->
+      <div>
+        <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: var(--space-3);">
+          100-Point Scorecard Breakdown
+        </h4>
+        <div id="factorBarsContainer" class="factor-bars-card">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Key Financial Metrics 8-grid -->
+      <div>
+        <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: var(--space-3);">
+          Financial & Operational Velocity
+        </h4>
+        <div class="drawer-stats-grid">
+          <div class="drawer-stat-item">
+            <span class="drawer-stat-label">Total Receipts (90d)</span>
+            <span id="dValReceipts" class="drawer-stat-val">--</span>
+          </div>
+          <div class="drawer-stat-item">
+            <span class="drawer-stat-label">Supplier Expenses</span>
+            <span id="dValExpenses" class="drawer-stat-val">--</span>
+          </div>
+          <div class="drawer-stat-item">
+            <span class="drawer-stat-label">Net Cash Flow (90d)</span>
+            <span id="dValNetFlow" class="drawer-stat-val">--</span>
+          </div>
+          <div class="drawer-stat-item">
+            <span class="drawer-stat-label">Monthly Net Run-Rate</span>
+            <span id="dValMonthlyNet" class="drawer-stat-val text-success">--</span>
+          </div>
+          <div class="drawer-stat-item">
+            <span class="drawer-stat-label">Unique Customers</span>
+            <span id="dValCustomers" class="drawer-stat-val">--</span>
+          </div>
+          <div class="drawer-stat-item">
+            <span class="drawer-stat-label">Loan Requested</span>
+            <span id="dValLoanRequested" class="drawer-stat-val">--</span>
+          </div>
+          <div class="drawer-stat-item">
+            <span class="drawer-stat-label">Est. Monthly EMI (12m)</span>
+            <span id="dValEmi" class="drawer-stat-val">--</span>
+          </div>
+          <div class="drawer-stat-item">
+            <span class="drawer-stat-label">Debt Coverage Buffer</span>
+            <span id="dValCoverage" class="drawer-stat-val text-success">--</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Monthly Trend Chart -->
+      <div class="drawer-chart-card">
+        <h4 class="chart-title">Monthly Inflow Run-Rate (Jul - Sep 2026)</h4>
+        <div class="chart-wrapper">
+          <canvas id="monthlyReceiptsChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Loan vs Net Cash Flow Comparison Chart -->
+      <div class="drawer-chart-card">
+        <h4 class="chart-title">Requested Principal vs Cash Flow Run-Rate</h4>
+        <div class="chart-wrapper">
+          <canvas id="cashflowCompareChart"></canvas>
+        </div>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- =========================================================================
+       9. FOOTER
+       ========================================================================= -->
+  <footer class="app-footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>TrustCred AI Underwriting Engine</strong> &bull; Cash-flow assessment for micro-merchants
+      </div>
+      <div>
+        Dataset: Synthetic data (40 vendors, 48,160 UPI transactions, 2026-07-01 to 2026-09-28).
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/score.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

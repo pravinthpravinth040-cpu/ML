@@ -5,12 +5,12 @@
     "errors": [],
     "warnings": [],
     "txn_null_counts": {
-      "txn_id": 0,
-      "amount": 0,
-      "type": 0,
       "to_account": 0,
       "from_account": 0,
-      "date": 0
+      "txn_id": 0,
+      "type": 0,
+      "date": 0,
+      "amount": 0
     },
     "duplicate_txn_ids": 0,
     "non_positive_amounts": 0,
