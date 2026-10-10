@@ -18,9 +18,8 @@ Run the standard Python web server from the repository root:
 python -m http.server 8000
 ```
 Then navigate to:
-```
-http://localhost:8000/frontend/
-```
+- **Underwriter / Lender Dashboard**: [http://localhost:8000/frontend/](http://localhost:8000/frontend/) (or `frontend/index.html`)
+- **Vendor Mobile Experience (Bilingual EN/TA)**: [http://localhost:8000/frontend/vendor.html](http://localhost:8000/frontend/vendor.html) (or `frontend/vendor.html`)
 
 ---
 
