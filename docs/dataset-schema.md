@@ -1,65 +1,102 @@
-# TrustCred AI - Dataset Schema
+# TrustCred AI - Dataset Schema & Methodology
 
-All data is **synthetic** and reproducible: `python ml-training/generate_datasets.py` (seed 2026).
-Snapshot time for statuses: `2026-10-10 12:00:00` IST. Timestamps are `YYYY-MM-DD HH:MM:SS` (IST). Currency is INR.
+This document defines the schema, data dictionaries, validation rules, and feature methodology for TrustCred AI.
+The project uses **exclusively** the verified transaction-flow dataset (`vendors.csv` and `transactions.csv`). All legacy synthetic generation scripts and seed tables have been deprecated and removed.
 
-## Where each file lives
+---
 
-| File | Location | Rows | Used by |
+## 1. Primary Datasets
+
+All datasets reside in `ml-training/data/`.
+
+### 1.1 `vendors.csv` (40 rows)
+Metadata defining the vendors applying for micro-credit and their requested financing amounts.
+
+| Column | Type | Nullable | Value Range | Description |
+|---|---|---|---|---|
+| `vendor_id` | String (`V###`) | No | `V001` - `V040` | Unique vendor identifier |
+| `loan_amount_requested` | Integer | No | ₹30,000 - ₹75,000 | Amount of working capital / micro-loan requested (INR) |
+
+### 1.2 `transactions.csv` (49,160 rows)
+High-frequency UPI-style digital transaction log covering 90 calendar days (`2026-07-01` to `2026-09-28`).
+
+| Column | Type | Nullable | Example Values | Description |
+|---|---|---|---|---|
+| `txn_id` | String | No | `T000001` - `T049160` | Unique transaction reference ID |
+| `date` | Date (`YYYY-MM-DD`) | No | `2026-07-01` - `2026-09-28` | Timestamp date of transaction |
+| `from_account` | String | No | `C38018`, `V022`, etc. | Originating account ID |
+| `to_account` | String | No | `V022`, `SUP102`, etc. | Destination account ID |
+| `amount` | Float | No | ₹1.00 - ₹9,276.43 | Value of the transaction in INR |
+| `type` | Categorical | No | `customer_payment`, `expense`, `transfer` | Directional category of funds |
+
+---
+
+## 2. Account Prefix & Transaction Semantics
+
+| Prefix | Entity | Role in Transactions |
+|---|---|---|
+| `C` (`C#####`) | Retail Customer | Payer in `customer_payment` transactions (Business Receipts) |
+| `SUP` (`SUP###`) | Commercial Supplier | Payee in `expense` transactions (Operational Costs) |
+| `V` (`V###`) | Small Merchant / Vendor | Beneficiary of customer receipts, payer of expenses, counterparty in transfers |
+
+### Transaction Flow Matrix
+
+| Transaction Type | Row Count | From -> To | Economic Meaning | Typical Amount |
+|---|---|---|---|---|
+| `customer_payment` | 46,760 | `C#####` -> `V###` | Genuine retail customer paying for goods/services (Income) | Avg: ~₹232 (Max: ₹1,718) |
+| `expense` | 1,818 | `V###` -> `SUP###` | Merchant paying wholesale suppliers / inventory / stalls | Avg: ~₹856 (Max: ₹1,500) |
+| `transfer` | 582 | `V###` -> `V###` | Account-to-account funds transfer between merchants | Avg: ~₹5,897 (Max: ₹9,276) |
+
+---
+
+## 3. Feature Engineering Dictionary
+
+Each vendor row is transformed into aggregated financial health and authenticity features:
+
+1. **`monthly_receipts`**: Total customer payments received divided by 3 (`total_receipts / 3.0`).
+2. **`monthly_expenses`**: Total supplier payments divided by 3 (`total_expenses / 3.0`).
+3. **`monthly_net_cash_flow`**: `monthly_receipts - monthly_expenses` (excludes non-commercial transfers).
+4. **`weekly_receipt_cv`**: Coefficient of variation ($\sigma / \mu$) of weekly customer receipts across 13 ISO weeks.
+5. **`unique_customers`**: Count of distinct `from_account` customer IDs paying the merchant.
+6. **`repeat_customer_share`**: Percentage of customers with $>1$ customer payment.
+7. **`top_customer_concentration`**: Ratio of highest single customer's payment volume to total receipts.
+8. **`transfer_in_volume`**: Cumulative value of incoming vendor transfers (`V -> V`).
+9. **`transfer_out_volume`**: Cumulative value of outgoing vendor transfers (`V -> V`).
+10. **`transfer_volume`**: Cumulative in + out transfer activity (`transfer_in + transfer_out`).
+11. **`transfer_share_of_receipts`**: Ratio of incoming transfer volume to total genuine customer receipts.
+12. **`reciprocal_transfer_share`**: Percentage of transfer volume occurring between reciprocal pairs ($A \rightarrow B$ and $B \rightarrow A$).
+13. **`expense_to_receipt_ratio`**: Operational expense ratio (`total_expenses / total_receipts`).
+14. **`active_days_ratio`**: Number of active business transaction days divided by the 90-day observation window.
+15. **`estimated_monthly_emi`**: Illustrative debt service for requested loan: Flat 20% annual interest over 12 months = $\frac{P \times 1.20}{12} = 0.10 \times P$.
+16. **`repayment_coverage`**: Debt Service Coverage Ratio = $\frac{\text{monthly\_net\_cash\_flow}}{\text{estimated\_monthly\_emi}}$.
+17. **`receipts_per_cust`**: Average ticket size per unique customer = $\frac{\text{total\_receipts}}{\text{unique\_customers}}$.
+
+---
+
+## 4. Factors Dropped from Legacy Version
+
+The original synthetic prototype included several hypothetical factors that cannot be substantiated by transaction logs alone. These factors have been systematically dropped:
+
+| Dropped Factor | Reason for Removal | Replacement / Handling |
+|---|---|---|
+| `business_age_months` | The new dataset provides only a 90-day transaction log; true business registration age is absent. | Replaced by **Active-Days Consistency** (`active_days_ratio`) measuring business operating continuity over the 90 days. |
+| `loan_repayment_history` | No historical loan repayment records exist in the verified dataset. | Replaced by **Repayment Capacity Buffer** (`repayment_coverage`) measuring net operating cash flow against illustrative EMI. |
+| `udyam_registration` / Document Hashes | External regulatory certificates are not present in transaction feeds. | Replaced by **Transaction Flow Genuineness** assessing circular transfer inflation. |
+
+---
+
+## 5. 100-Point Scorecard Framework
+
+| Scorecard Pillar | Max Points | Metric Foundation | Criteria |
 |---|---|---|---|
-| transactions.csv | ml-training/data | 240 | classifier input (200 labelled + 40 to predict) |
-| transaction_labels.csv | ml-training/data | 200 | classifier training |
-| vendor_monthly_financials.csv | ml-training/data | 200 | assessment features |
-| loan_repayment_history.csv | ml-training/data | 200 | later stage only (synthetic) |
-| vendor_profiles.csv | backend/database/seed | 50 | vendor app, assessment |
-| lenders.csv | backend/database/seed | 5 | lender dashboard (not in original list; needed for lender_id) |
-| loan_applications.csv | backend/database/seed | 200 | lender dashboard |
-| consent_records.csv | backend/database/seed | 200 | consent service |
-| evidence_documents.csv | backend/database/seed | 200 | vendor app, review |
-| assessment_reports.csv | backend/database/seed | 200 | reports, verification |
-| verification_and_activity_logs.csv | backend/database/seed | 200 | audit trail |
+| **1. Income Stability** | 25 pts | `weekly_receipt_cv` + `unique_customers` | CV < 0.20 (15 pts), CV < 0.25 (12 pts), CV < 0.30 (9 pts). Customer base > 1100 (10 pts), > 900 (7 pts). |
+| **2. Repayment Capacity** | 30 pts | `repayment_coverage` (DSCR against EMI) | $\ge 2.5\times$ (30 pts), $\ge 2.0\times$ (25 pts), $\ge 1.5\times$ (20 pts), $\ge 1.2\times$ (15 pts), $\ge 1.0\times$ (10 pts), $<1.0\times$ (0 pts). |
+| **3. Expense Discipline** | 15 pts | `expense_to_receipt_ratio` | $\le 40\%$ (15 pts), $\le 50\%$ (12 pts), $\le 65\%$ (9 pts), $\le 80\%$ (6 pts), $>80\%$ (2 pts). |
+| **4. Business Continuity** | 15 pts | `active_days_ratio` | $\ge 95\%$ (15 pts), $\ge 90\%$ (12 pts), $\ge 80\%$ (8 pts), $<80\%$ (0 pts). |
+| **5. Evidence Coverage & Genuineness** | 15 pts | Circular transfer / round-tripping check | Verified genuine transactions (15 pts). Flagged non-genuine circular turnover (0 pts). |
 
-Keys: `demo-key-01_public.pem` (lenders verify with this) and `DEMO_ONLY_demo-key-01_private.pem` (demo signing only; never reuse in production).
-
-## ML datasets
-
-**transactions.csv** - `transaction_id, vendor_id, date, amount, direction (credit|debit), description, category, verification_status`
-- `category` is filled only when `verification_status` is `vendor_confirmed`, `human_reviewed` or `source_verified`.
-- `unverified` / `pending_review` rows have empty `category`: these 40 rows are the classifier's prediction target.
-
-**transaction_labels.csv** - `transaction_id, description, amount, direction, verified_category, label_source`
-- `verified_category`: business_receipt, business_expense, refund, personal_transfer, duplicate, unknown.
-- `label_source`: `vendor_confirmed`, `human_review`, `reliable_metadata` (QR/soundbox settlement or exact-match duplicate).
-- Duplicates share vendor, amount and description with an earlier row within 2 minutes: detect them with a row-level rule, text alone cannot.
-
-**vendor_monthly_financials.csv** - `vendor_id, period_month, business_type, business_age_months, business_receipts, business_expenses, net_cashflow, cashflow_variability, existing_monthly_debt_payments, data_completeness, value_source`
-- `value_source`: `verified_transactions` (completeness >= 0.75) or `estimated_from_partial_data`. Keep this distinction in reports.
-- `cashflow_variability` = coefficient of variation of the 4 weekly receipt totals in that month.
-- These rows are generated at vendor level; they are NOT an aggregate of the 240-row transaction sample. With real data, compute them from classified transactions.
-
-**loan_repayment_history.csv** - `loan_id, vendor_id, loan_amount, monthly_obligation, repayment_due_date, actual_payment_date, days_past_due, default_status, data_origin`
-- Repayment behaviour is random and unrelated to the other files. Do **not** train or claim repayment-risk prediction from it.
-
-## Operational datasets
-
-**vendor_profiles.csv** - `vendor_id, vendor_name, business_type, business_age_months, operating_location, registration_status (udyam_registered|local_vending_certificate|pending|none), available_alternative_evidence (semicolon list), onboarded_date`
-
-**loan_applications.csv** - `application_id, vendor_id, requested_amount, loan_purpose, preferred_repayment_months, application_status (pending|under_review|more_documents_requested|approved|rejected), lender_id, submitted_time`
-- Applications whose consent was revoked stay `pending`.
-
-**consent_records.csv** - `consent_id, application_id, vendor_id, lender_id, allowed_data_scope, purpose, granted_time, expiry_time, revoked_time, consent_status (active|expired|revoked)`
-- Scope values: `assessment_report`, `factor_explanations` (always), `monthly_summary`, `category_summary`, `evidence_document_review` (optional). Raw transactions are never a scope value.
-- Enforcement rule: lender access is allowed only if `granted_time <= now < expiry_time` and `revoked_time` is empty or later than now.
-
-**evidence_documents.csv** - `document_id, vendor_id, document_type, secure_storage_reference, content_hash, verification_status (verified|pending_review|needs_resubmission|rejected), uploaded_time, review_timestamp, lender_access`
-- `lender_access` is always `restricted_consent_required`: files are served only under `evidence_document_review` consent.
-
-**assessment_reports.csv** - `report_id, application_id, vendor_id, lender_id, consent_id, assessment_score (0-100), score_band, confidence, factor_explanations (JSON), limitations (JSON), model_version, report_hash, signature_reference, created_time, report_status (active|expired|withdrawn)`
-- Scorecard (100 points): income_stability 25, repayment_capacity 30, business_continuity 15, expense_discipline 15, evidence_coverage 15. Each factor row carries value, points, max_points, impact and a plain-language explanation.
-- Bands: strong_evidence >= 75, moderate_evidence >= 55, limited_evidence >= 35, insufficient_evidence below 35.
-- `report_hash` = SHA-256 of the canonical JSON (sorted keys, no spaces) of: report_id, application_id, vendor_id, lender_id, consent_id, score, score_band, confidence, factors, limitations, model_version, created_at.
-- `signature_reference` = `<key_id>:<base64 Ed25519 signature over the hex hash string>`. A lender recomputes the hash and checks the signature with the public key, with no call to TrustCred needed for integrity.
-
-**verification_and_activity_logs.csv** - `log_id, timestamp, event_type, actor_type, actor_id, vendor_id, application_id, report_id, consent_id, outcome, details`
-- Covers 33 applications (all revocation cases first), not every application.
-- `report_verification_attempt` outcomes: `valid`, `valid_but_consent_withdrawn`, `valid_but_consent_expired`, `hash_mismatch`.
+### Underwriting Decision Bands
+- **Strong ($\ge 75$ points)**: Approved for requested micro-credit.
+- **Moderate ($55 - 74$ points)**: Conditional approval with reduced credit limit.
+- **Limited ($35 - 54$ points)**: High risk; requires collateral or guarantor.
+- **Insufficient ($< 35$ points)**: Underwriting rejection. Vendors flagged with non-genuine turnover are capped strictly into this band.
