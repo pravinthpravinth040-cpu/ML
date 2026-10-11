@@ -2,12 +2,13 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>TrustCred - Vendor App</title>
+<link rel="stylesheet" href="css/bot.css">
 <style>
 :root{--bg:#f4f6fb;--card:#fff;--tx:#14213d;--mut:#5b6785;--pri:#2457d6;--ok:#17924f;--wa:#d98a00;--bad:#d03c3c;--bd:#e2e7f2}
 @media(prefers-color-scheme:dark){:root:not([data-t=l]){--bg:#0e1424;--card:#182037;--tx:#eef2ff;--mut:#a2aed0;--pri:#6c93ff;--ok:#3fd184;--wa:#f2b13a;--bad:#ff7a7a;--bd:#2a3556}}
 :root[data-t=d]{--bg:#0e1424;--card:#182037;--tx:#eef2ff;--mut:#a2aed0;--pri:#6c93ff;--ok:#3fd184;--wa:#f2b13a;--bad:#ff7a7a;--bd:#2a3556}
 *{box-sizing:border-box;margin:0}html,body{height:100%}
-body{background:var(--bg);color:var(--tx);font:16px/1.45 Inter,system-ui,sans-serif;display:flex;justify-content:center}
+body{background:var(--bg);color:var(--tx);font:16px/1.6 'Noto Sans Tamil',Inter,system-ui,sans-serif;display:flex;justify-content:center}
 #app{width:100%;max-width:430px;height:100%;display:flex;flex-direction:column;background:var(--bg);position:relative}
 main{flex:1;overflow-y:auto;padding:calc(16px + env(safe-area-inset-top,0px)) 16px 16px}
 .card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:16px;margin-bottom:14px}
@@ -26,69 +27,477 @@ button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid 
 .bar{height:10px;border-radius:9px;background:var(--bd);overflow:hidden;margin:6px 0 2px}.bar i{display:block;height:100%;border-radius:9px}
 .tog{display:flex;align-items:center;justify-content:space-between;min-height:48px;border-bottom:1px solid var(--bd)}
 .tog input{width:24px;height:24px;accent-color:var(--pri)}
-.big{font-size:26px;font-weight:800}.lang{background:none;border:1px solid var(--bd);color:var(--tx);border-radius:99px;min-height:36px;padding:0 12px;font:600 13px inherit;cursor:pointer}
+.big{font-size:26px;font-weight:800}.lang{background:none;border:1px solid var(--bd);color:var(--tx);border-radius:99px;min-height:48px;padding:0 14px;font:600 14px inherit;cursor:pointer}
+.step-card{background:var(--card);border:2px solid var(--bd);border-radius:18px;padding:16px;margin-bottom:12px;transition:border-color .2s,box-shadow .2s}
+.step-card.active-step{border-color:var(--pri);box-shadow:0 0 0 3px rgba(36,87,214,0.25)}
+.step-tts-btn{min-height:48px;min-width:48px;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--tx);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:18px}
+.tts-ctrls{position:sticky;top:0;z-index:10;background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:14px;margin-bottom:14px;box-shadow:0 4px 14px rgba(0,0,0,0.06)}
+.speed-group{display:flex;gap:6px;align-items:center;margin-top:10px}
+.speed-btn{flex:1;min-height:48px;border-radius:12px;border:1px solid var(--bd);background:transparent;color:var(--tx);font:600 14px inherit;cursor:pointer}
+.speed-btn.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+.both-sub{color:var(--mut);font-size:13px;display:block;margin-top:4px;font-weight:400;line-height:1.45}
 @media(prefers-reduced-motion:no-preference){.bar i{transition:width .6s}.scr{animation:f .25s}@keyframes f{from{opacity:0;transform:translateY(6px)}}}
 </style></head><body><div id="app"><main id="m" aria-live="polite"></main><nav id="nav" hidden></nav></div>
 <script>
 const DATA=[{"vendor_id":"V001","loan_amount_requested":60000,"total_receipts":384193.9,"total_expenses":41919.62,"net_cashflow":342274.28,"unique_customers":1143,"txn_count":1150,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":132912.61,"2026-08":132423.68,"2026-09":118857.61}},{"vendor_id":"V002","loan_amount_requested":50000,"total_receipts":435371.99,"total_expenses":34061.27,"net_cashflow":401310.72,"unique_customers":1128,"txn_count":1138,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":149569.57,"2026-08":153179.42,"2026-09":132623.0}},{"vendor_id":"V003","loan_amount_requested":60000,"total_receipts":268245.22,"total_expenses":38051.63,"net_cashflow":230193.59,"unique_customers":1139,"txn_count":1145,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":91834.44,"2026-08":93529.68,"2026-09":82881.1}},{"vendor_id":"V004","loan_amount_requested":30000,"total_receipts":232004.26,"total_expenses":48494.61,"net_cashflow":183509.65,"unique_customers":1141,"txn_count":1147,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":80384.81,"2026-08":80038.13,"2026-09":71581.32}},{"vendor_id":"V005","loan_amount_requested":60000,"total_receipts":155761.76,"total_expenses":41506.52,"net_cashflow":114255.24,"unique_customers":1170,"txn_count":1179,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":53845.72,"2026-08":53270.42,"2026-09":48645.62}},{"vendor_id":"V006","loan_amount_requested":30000,"total_receipts":168752.27,"total_expenses":37088.31,"net_cashflow":131663.96,"unique_customers":1187,"txn_count":1192,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":58501.09,"2026-08":57853.02,"2026-09":52398.16}},{"vendor_id":"V007","loan_amount_requested":75000,"total_receipts":125204.67,"total_expenses":31190.47,"net_cashflow":94014.2,"unique_customers":1209,"txn_count":1218,"reciprocal_transfer_share":1.0,"monthly_receipts":{"2026-07":42811.04,"2026-08":43067.57,"2026-09":39326.06}},{"vendor_id":"V008","loan_amount_requested":40000,"total_receipts":122224.45,"total_expenses":36647.83,"net_cashflow":85576.62,"unique_customers":1182,"txn_count":1190,"reciprocal_transfer_share":1.0,"monthly_receipts":{"2026-07":41388.31,"2026-08":42369.77,"2026-09":38466.37}},{"vendor_id":"V009","loan_amount_requested":60000,"total_receipts":114231.51,"total_expenses":42901.19,"net_cashflow":71330.32,"unique_customers":1159,"txn_count":1169,"reciprocal_transfer_share":1.0,"monthly_receipts":{"2026-07":38706.14,"2026-08":40853.24,"2026-09":34672.13}},{"vendor_id":"V010","loan_amount_requested":30000,"total_receipts":210037.78,"total_expenses":43239.37,"net_cashflow":166798.41,"unique_customers":1196,"txn_count":1201,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":73597.64,"2026-08":70490.98,"2026-09":65949.16}},{"vendor_id":"V011","loan_amount_requested":75000,"total_receipts":204257.25,"total_expenses":39130.24,"net_cashflow":165127.01,"unique_customers":1169,"txn_count":1176,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":71198.16,"2026-08":70112.49,"2026-09":62946.6}},{"vendor_id":"V012","loan_amount_requested":60000,"total_receipts":523055.62,"total_expenses":40889.16,"net_cashflow":482166.46,"unique_customers":1219,"txn_count":1222,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":182136.83,"2026-08":180050.88,"2026-09":160867.91}},{"vendor_id":"V013","loan_amount_requested":50000,"total_receipts":211902.05,"total_expenses":31927.02,"net_cashflow":179975.03,"unique_customers":1209,"txn_count":1215,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":73549.95,"2026-08":73451.67,"2026-09":64900.43}},{"vendor_id":"V014","loan_amount_requested":40000,"total_receipts":399985.06,"total_expenses":50868.48,"net_cashflow":349116.58,"unique_customers":1130,"txn_count":1135,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":138838.71,"2026-08":137825.93,"2026-09":123320.42}},{"vendor_id":"V015","loan_amount_requested":30000,"total_receipts":232147.61,"total_expenses":38259.43,"net_cashflow":193888.18,"unique_customers":1135,"txn_count":1143,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":79520.77,"2026-08":79619.39,"2026-09":73007.45}},{"vendor_id":"V016","loan_amount_requested":75000,"total_receipts":426654.66,"total_expenses":32298.79,"net_cashflow":394355.87,"unique_customers":1132,"txn_count":1149,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":150758.84,"2026-08":146529.47,"2026-09":129366.35}},{"vendor_id":"V017","loan_amount_requested":30000,"total_receipts":230164.1,"total_expenses":31268.51,"net_cashflow":198895.59,"unique_customers":1144,"txn_count":1154,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":80342.84,"2026-08":79129.44,"2026-09":70691.82}},{"vendor_id":"V018","loan_amount_requested":30000,"total_receipts":160465.8,"total_expenses":43412.95,"net_cashflow":117052.85,"unique_customers":1185,"txn_count":1193,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":53366.14,"2026-08":55911.7,"2026-09":51187.96}},{"vendor_id":"V019","loan_amount_requested":60000,"total_receipts":358301.02,"total_expenses":35292.22,"net_cashflow":323008.8,"unique_customers":1131,"txn_count":1136,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":122489.73,"2026-08":124091.34,"2026-09":111719.95}},{"vendor_id":"V020","loan_amount_requested":60000,"total_receipts":255958.33,"total_expenses":39345.36,"net_cashflow":216612.97,"unique_customers":1145,"txn_count":1152,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":88139.55,"2026-08":87921.51,"2026-09":79897.27}},{"vendor_id":"V021","loan_amount_requested":30000,"total_receipts":121475.25,"total_expenses":33427.31,"net_cashflow":88047.94,"unique_customers":1181,"txn_count":1195,"reciprocal_transfer_share":1.0,"monthly_receipts":{"2026-07":42489.66,"2026-08":40688.06,"2026-09":38297.53}},{"vendor_id":"V022","loan_amount_requested":50000,"total_receipts":132995.86,"total_expenses":40739.95,"net_cashflow":92255.91,"unique_customers":1167,"txn_count":1173,"reciprocal_transfer_share":1.0,"monthly_receipts":{"2026-07":45578.2,"2026-08":46348.38,"2026-09":41069.28}},{"vendor_id":"V023","loan_amount_requested":75000,"total_receipts":497663.17,"total_expenses":31059.33,"net_cashflow":466603.84,"unique_customers":1175,"txn_count":1180,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":171825.01,"2026-08":170697.47,"2026-09":155140.69}},{"vendor_id":"V024","loan_amount_requested":75000,"total_receipts":159882.9,"total_expenses":38483.46,"net_cashflow":121399.44,"unique_customers":1187,"txn_count":1195,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":55387.1,"2026-08":53501.87,"2026-09":50993.93}},{"vendor_id":"V025","loan_amount_requested":60000,"total_receipts":202356.27,"total_expenses":40499.87,"net_cashflow":161856.4,"unique_customers":1135,"txn_count":1148,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":70713.25,"2026-08":67668.34,"2026-09":63974.68}},{"vendor_id":"V026","loan_amount_requested":50000,"total_receipts":454734.27,"total_expenses":41470.25,"net_cashflow":413264.02,"unique_customers":1184,"txn_count":1194,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":158605.17,"2026-08":159393.28,"2026-09":136735.82}},{"vendor_id":"V027","loan_amount_requested":30000,"total_receipts":280767.59,"total_expenses":32755.98,"net_cashflow":248011.61,"unique_customers":1114,"txn_count":1123,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":96531.5,"2026-08":98009.15,"2026-09":86226.94}},{"vendor_id":"V028","loan_amount_requested":60000,"total_receipts":203971.15,"total_expenses":40945.36,"net_cashflow":163025.79,"unique_customers":1211,"txn_count":1222,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":69408.25,"2026-08":70050.49,"2026-09":64512.41}},{"vendor_id":"V029","loan_amount_requested":40000,"total_receipts":238801.27,"total_expenses":31485.18,"net_cashflow":207316.09,"unique_customers":1168,"txn_count":1177,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":82960.14,"2026-08":83337.7,"2026-09":72503.43}},{"vendor_id":"V030","loan_amount_requested":75000,"total_receipts":340737.6,"total_expenses":42221.96,"net_cashflow":298515.64,"unique_customers":1209,"txn_count":1217,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":115194.29,"2026-08":117905.03,"2026-09":107638.28}},{"vendor_id":"V031","loan_amount_requested":60000,"total_receipts":338759.26,"total_expenses":41386.63,"net_cashflow":297372.63,"unique_customers":1055,"txn_count":1063,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":115787.17,"2026-08":116196.07,"2026-09":106776.02}},{"vendor_id":"V032","loan_amount_requested":60000,"total_receipts":449187.79,"total_expenses":34167.59,"net_cashflow":415020.2,"unique_customers":1197,"txn_count":1206,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":154904.0,"2026-08":160673.33,"2026-09":133610.46}},{"vendor_id":"V033","loan_amount_requested":75000,"total_receipts":177721.54,"total_expenses":35765.45,"net_cashflow":141956.09,"unique_customers":1142,"txn_count":1149,"reciprocal_transfer_share":1.0,"monthly_receipts":{"2026-07":62769.97,"2026-08":60842.99,"2026-09":54108.58}},{"vendor_id":"V034","loan_amount_requested":40000,"total_receipts":166384.08,"total_expenses":33431.87,"net_cashflow":132952.21,"unique_customers":1196,"txn_count":1203,"reciprocal_transfer_share":1.0,"monthly_receipts":{"2026-07":58034.25,"2026-08":57317.81,"2026-09":51032.02}},{"vendor_id":"V035","loan_amount_requested":40000,"total_receipts":211519.43,"total_expenses":43351.01,"net_cashflow":168168.42,"unique_customers":1185,"txn_count":1190,"reciprocal_transfer_share":1.0,"monthly_receipts":{"2026-07":71955.34,"2026-08":74902.83,"2026-09":64661.26}},{"vendor_id":"V036","loan_amount_requested":40000,"total_receipts":140698.32,"total_expenses":48441.8,"net_cashflow":92256.52,"unique_customers":1151,"txn_count":1160,"reciprocal_transfer_share":1.0,"monthly_receipts":{"2026-07":50808.56,"2026-08":47053.09,"2026-09":42836.67}},{"vendor_id":"V037","loan_amount_requested":30000,"total_receipts":454465.46,"total_expenses":46974.17,"net_cashflow":407491.29,"unique_customers":1081,"txn_count":1086,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":154343.88,"2026-08":156125.2,"2026-09":143996.38}},{"vendor_id":"V038","loan_amount_requested":40000,"total_receipts":286284.52,"total_expenses":38563.97,"net_cashflow":247720.55,"unique_customers":1165,"txn_count":1169,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":98143.36,"2026-08":98733.89,"2026-09":89407.27}},{"vendor_id":"V039","loan_amount_requested":60000,"total_receipts":293517.24,"total_expenses":37068.01,"net_cashflow":256449.23,"unique_customers":1130,"txn_count":1134,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":99210.71,"2026-08":100540.09,"2026-09":93766.44}},{"vendor_id":"V040","loan_amount_requested":30000,"total_receipts":477581.8,"total_expenses":47038.76,"net_cashflow":430543.04,"unique_customers":1167,"txn_count":1172,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":160820.76,"2026-08":167164.41,"2026-09":149596.63}}];
-const TX={en:{hi:"Hello",score:"Your Trust Score",of:"out of 100",inc:"Money in",exp:"Money out",net:"You kept",cf:"Cash flow",loan:"Loan",me:"Me",home:"Home",login:"Choose your vendor ID",go:"Continue",demo:"Demo score from your payment history. It is not a credit score.",warn:"Please check",warnT:"Money moved back and forth between your account and another vendor. This is not counted as real sales and lowers your score.",why:"Why this score",req:"Loan amount",mon:"Months to repay",emi:"Monthly instalment",cov:"Your monthly savings cover it",good:"Comfortable",ok:"Manageable",risk:"Risky",share:"Share with a lender",shareT:"You decide what a lender can see. You can stop sharing any time.",stop:"Stop sharing everything",stopped:"Sharing stopped. No lender can see your data.",out:"Log out",tips:"How to improve",ill:"Illustrative: flat 20% a year interest."},
-ta:{hi:"வணக்கம்",score:"உங்கள் நம்பிக்கை மதிப்பெண்",of:"100-க்கு",inc:"வரவு",exp:"செலவு",net:"மிச்சம்",cf:"பணப்புழக்கம்",loan:"கடன்",me:"நான்",home:"முகப்பு",login:"உங்கள் வியாபாரி ஐடியைத் தேர்வு செய்யவும்",go:"தொடரவும்",demo:"உங்கள் பணப் பரிவர்த்தனைகளின் மாதிரி மதிப்பெண். இது கடன் மதிப்பெண் அல்ல.",warn:"கவனிக்கவும்",warnT:"உங்கள் கணக்கிற்கும் மற்றொரு வியாபாரிக்கும் இடையே பணம் முன்னும் பின்னும் சென்றுள்ளது. இது உண்மையான விற்பனையாகக் கணக்கிடப்படாது; மதிப்பெண்ணைக் குறைக்கும்.",why:"இந்த மதிப்பெண் ஏன்",req:"கடன் தொகை",mon:"திருப்பிச் செலுத்தும் மாதங்கள்",emi:"மாதத் தவணை",cov:"உங்கள் மாத மிச்சம் இதை ஈடுசெய்யும்",good:"வசதி",ok:"சமாளிக்கலாம்",risk:"ஆபத்து",share:"கடன் வழங்குநருடன் பகிர",shareT:"கடன் வழங்குநர் எதைப் பார்க்கலாம் என்பதை நீங்களே தீர்மானிக்கிறீர்கள். எப்போது வேண்டுமானாலும் நிறுத்தலாம்.",stop:"எல்லா பகிர்வையும் நிறுத்து",stopped:"பகிர்வு நிறுத்தப்பட்டது. எந்த கடன் வழங்குநரும் உங்கள் தரவைப் பார்க்க முடியாது.",out:"வெளியேறு",tips:"மேம்படுத்தும் வழிகள்",ill:"எடுத்துக்காட்டு: ஆண்டுக்கு 20% வட்டி."}};
-let S={lang:"en",vid:null,tab:"home",amt:null,mths:12,share:{r:1,e:1,m:1,c:0},stopped:false};
-try{S.lang=localStorage.getItem("lang")||"en"}catch(e){}
-const t=k=>TX[S.lang][k], inr=n=>"₹"+Math.round(n).toLocaleString("en-IN"), $=id=>document.getElementById(id);
+const TX={
+  en:{
+    hi:"Hello",score:"Your Trust Score",of:"out of 100",inc:"Money in",exp:"Money out",net:"You kept",cf:"Cash flow",loan:"Loan",me:"Me",home:"Home",aiNav:"AI",login:"Choose your vendor ID",go:"Continue",demo:"Demo score from your payment history. It is not a credit score.",warn:"Please check",warnT:"Money moved back and forth between your account and another vendor. This is not counted as real sales and lowers your score.",why:"Why this score",req:"Loan amount",mon:"Months to repay",emi:"Monthly instalment",cov:"Your monthly savings cover it",good:"Comfortable",ok:"Manageable",risk:"Risky",share:"Share with a lender",shareT:"You decide what a lender can see. You can stop sharing any time.",stop:"Stop sharing everything",stopped:"Sharing stopped. No lender can see your data.",out:"Log out",tips:"How to improve",ill:"Illustrative: flat 20% a year interest.",
+    aiCardTitle:"How does the AI decide my score?",aiCardSub:"Simple explanation with voice audio",aiEntryBtn:"Understand AI & Listen",
+    aiTitle:"Understand AI",aiSub:"How your score is calculated in 6 simple steps",
+    listenAll:"🔊 Listen to all 6 steps",pause:"⏸ Pause",resume:"▶ Resume",stop:"⏹ Stop",
+    speaking:"Speaking step",paused:"Audio paused",ready:"Ready to listen",speed:"Speed",slow:"Slow 0.8x",norm:"Normal 1x",fast:"Fast 1.2x",playStep:"Listen to step",
+    myExample:"Your own real example",readScore:"🔊 Read my score",
+    notTitle:"What the AI does NOT do",
+    not1:"Does not read your private SMS or messages",
+    not2:"Does not see or track your GPS location",
+    not3:"Does not make loan decisions alone (a human decides)",
+    not4:"Does not guess or predict if you will repay",
+    taVoiceMissing:"Tamil voice is not installed. Open Settings > Language > Text-to-speech to install it.",
+    diagP:"UPI Payments",diagC:"5 AI Checks",diagS:"Score / 100",
+    f1:"Steady income",f2:"Can repay",f3:"Low costs",f4:"Many customers",f5:"Genuine sales"
+  },
+  ta:{
+    hi:"வணக்கம்",score:"உங்கள் நம்பிக்கை மதிப்பெண்",of:"100-க்கு",inc:"வரவு",exp:"செலவு",net:"மிச்சம்",cf:"பணப்புழக்கம்",loan:"கடன்",me:"நான்",home:"முகப்பு",aiNav:"AI",login:"உங்கள் வியாபாரி ஐடியைத் தேர்வு செய்யவும்",go:"தொடரவும்",demo:"உங்கள் பணப் பரிவர்த்தனைகளின் மாதிரி மதிப்பெண். இது கடன் மதிப்பெண் அல்ல.",warn:"கவனிக்கவும்",warnT:"உங்கள் கணக்கிற்கும் மற்றொரு வியாபாரிக்கும் இடையே பணம் முன்னும் பின்னும் சென்றுள்ளது. இது உண்மையான விற்பனையாகக் கணக்கிடப்படாது; மதிப்பெண்ணைக் குறைக்கும்.",why:"இந்த மதிப்பெண் ஏன்",req:"கடன் தொகை",mon:"திருப்பிச் செலுத்தும் மாதங்கள்",emi:"மாதத் தவணை",cov:"உங்கள் மாத மிச்சம் இதை ஈடுசெய்யும்",good:"வசதி",ok:"சமாளிக்கலாம்",risk:"ஆபத்து",share:"கடன் வழங்குநருடன் பகிர",shareT:"கடன் வழங்குநர் எதைப் பார்க்கலாம் என்பதை நீங்களே தீர்மானிக்கிறீர்கள். எப்போது வேண்டுமானாலும் நிறுத்தலாம்.",stop:"எல்லா பகிர்வையும் நிறுத்து",stopped:"பகிர்வு நிறுத்தப்பட்டது. எந்த கடன் வழங்குநரும் உங்கள் தரவைப் பார்க்க முடியாது.",out:"வெளியேறு",tips:"மேம்படுத்தும் வழிகள்",ill:"எடுத்துக்காட்டு: ஆண்டுக்கு 20% வட்டி.",
+    aiCardTitle:"AI எனது மதிப்பெண்ணை எப்படி தீர்மானிக்கிறது?",aiCardSub:"குரல் வழியே மிக எளிய விளக்கம்",aiEntryBtn:"AI விளக்கம் (கேளுங்கள்)",
+    aiTitle:"AI விளக்கம்",aiSub:"6 எளிய படிகளில் மதிப்பெண் விளக்கம்",
+    listenAll:"🔊 6 படிகளையும் கேளுங்கள்",pause:"⏸ நிறுத்து",resume:"▶ தொடர்",stop:"⏹ நிறுத்து",
+    speaking:"படி படிக்கிறது",paused:"ஒலி இடைநிறுத்தப்பட்டது",ready:"கேட்கத் தயார்",speed:"வேகம்",slow:"மெதுவாக 0.8x",norm:"சாதாரணம் 1x",fast:"வேகமாக 1.2x",playStep:"இந்த படியைக் கேளுங்கள்",
+    myExample:"உங்கள் சொந்த உண்மை உதாரணம்",readScore:"🔊 எனது மதிப்பெண்ணைக் கூறு",
+    notTitle:"AI எதையெல்லாம் செய்யாது",
+    not1:"உங்கள் தனிப்பட்ட SMS அல்லது செய்திகளைப் படிக்காது",
+    not2:"உங்கள் இருப்பிடத்தை (GPS) பார்க்கவோ கண்காணிக்கவோ செய்யாது",
+    not3:"தனியாக முடிவெடுக்காது (கடன் நிறுவன மனிதரே இறுதி முடிவு எடுப்பார்)",
+    not4:"நீங்கள் திருப்பிச் செலுத்துவீர்களா என ஊகிக்காது",
+    taVoiceMissing:"உங்கள் மொபைலில் தமிழ் குரல் வசதி இல்லை. Settings > Language > Text-to-speech பகுதிக்குச் சென்று தமிழ் குரலை நிறுவவும்.",
+    diagP:"UPI வரவுகள்",diagC:"5 AI சோதனைகள்",diagS:"மதிப்பெண் / 100",
+    f1:"சீரான வருமானம்",f2:"திருப்பிச் செலுத்தும் திறன்",f3:"குறைந்த செலவு",f4:"அதிக வாடிக்கையாளர்கள்",f5:"உண்மையான விற்பனை"
+  }
+};
+const STEPS=[
+  {icon:"📱",titleEn:"Your payments are the proof",titleTa:"உங்கள் வரவுகளே சான்று",en:"The app looks at the UPI payments your customers made to you. It does not need a bank history or a credit card.",ta:"உங்கள் வாடிக்கையாளர்கள் செய்த UPI வரவுகளை மட்டுமே இந்த செயலி பார்க்கிறது. வங்கி வரலாறோ கிரெடிட் கார்டோ தேவையில்லை."},
+  {icon:"🔍",titleEn:"AI looks for patterns",titleTa:"AI விற்பனை முறையைக் கவனிக்கிறது",en:"The AI counts how much came in, how much went out, and how steady your sales are from week to week.",ta:"மொத்த வரவு, மொத்த செலவு மற்றும் வாரந்தோறும் வியாபாரம் எவ்வளவு சீராக உள்ளது என்பதை AI கணக்கிடுகிறது."},
+  {icon:"⚖️",titleEn:"Five things are checked",titleTa:"5 விஷயங்கள் சரிபார்க்கப்படுகின்றன",en:"Five things are checked: steady income, ability to repay, low costs, many customers, genuine sales. Together they make 100 points.",ta:"சீரான வருமானம், திருப்பிச் செலுத்தும் திறன், குறைந்த செலவு, அதிக வாடிக்கையாளர்கள், உண்மையான விற்பனை ஆகிய 5 விஷயங்களைச் சேர்த்து 100 மதிப்பெண் வழங்கப்படுகிறது."},
+  {icon:"🚫",titleEn:"Fake sales are caught",titleTa:"போலி விற்பனை கண்டுபிடிக்கப்படும்",en:"If money only moves back and forth between two vendors, it is not a real sale. The AI does not count it and your score goes down.",ta:"இரண்டு வியாபாரிகளுக்கு இடையே பணம் முன்னும் பின்னும் மட்டுமே சுழன்றால் அது உண்மையான விற்பனை அல்ல. AI அதைக் கணக்கில் கொள்ளாது, மதிப்பெண்ணும் குறையும்."},
+  {icon:"🤝",titleEn:"The score is a guide, not a verdict",titleTa:"மதிப்பெண் வழிகாட்டி மட்டுமே, தீர்ப்பு அல்ல",en:"It does not say you will or will not repay. A person at the lender makes the final decision.",ta:"நீங்கள் கடன் கட்டமாட்டீர்கள் என்று இது தீர்ப்பளிக்காது. கடன் நிறுவனத்தில் உள்ள ஒரு மனிதரே இறுதி முடிவை எடுப்பார்."},
+  {icon:"🔒",titleEn:"You are in control",titleTa:"முழுக் கட்டுப்பாடு உங்களிடம் உள்ளது",en:"You choose what a lender can see and can stop sharing any time.",ta:"கடன் கொடுப்பவர் எதைப் பார்க்கலாம் என்பதை நீங்களே முடிவு செய்கிறீர்கள், எப்போது வேண்டுமானாலும் பகிர்வை நிறுத்தலாம்."}
+];
+let S={lang:"en",vid:null,tab:"home",amt:null,mths:12,share:{r:1,e:1,m:1,c:0},stopped:false,rate:1.0};
+try{const l=localStorage.getItem("lang");if(l&&["en","ta","both"].includes(l))S.lang=l;}catch(e){}
+const t=k=>{
+  if(S.lang==="both"){
+    const ta=TX.ta[k],en=TX.en[k];
+    if(ta&&en&&ta!==en)return `${ta} <span class="both-sub">/ ${en}</span>`;
+    return ta||en||k;
+  }
+  return (TX[S.lang]&&TX[S.lang][k])||TX.en[k]||k;
+};
+const inr=n=>"₹"+Math.round(n).toLocaleString("en-IN"), $=id=>document.getElementById(id);
+const lgLabel=()=>S.lang=="en"?"தமிழ்":S.lang=="ta"?"Both (தமிழ்+EN)":"English";
 const days={"2026-07":31,"2026-08":31,"2026-09":28}, MN={"2026-07":"Jul","2026-08":"Aug","2026-09":"Sep"};
+const fKeys=["f1","f2","f3","f4","f5"];
+
+function tDesc(i, x, v, r){
+  const er = v.total_expenses/v.total_receipts;
+  const dEn = [
+    `Daily sales changed ${(r.cv*100).toFixed(0)}% between months.`,
+    `Monthly savings ${inr(r.mNet)} cover a ${inr(r.emi)} instalment ${r.cover.toFixed(1)}x.`,
+    `Expenses were ${(er*100).toFixed(0)}% of sales.`,
+    `${v.unique_customers.toLocaleString("en-IN")} different customers paid you.`,
+    v.reciprocal_transfer_share>0?"Money moving between vendors was found.":"No back-and-forth transfers found."
+  ][i];
+  const dTa = [
+    `மாதங்களுக்கிடையே தினசரி விற்பனை ${(r.cv*100).toFixed(0)}% மாறியுள்ளது.`,
+    `மாத மிச்சம் ${inr(r.mNet)}, தவணை ${inr(r.emi)}-ஐ விட ${r.cover.toFixed(1)} மடங்கு அதிகம்.`,
+    `செலவு விற்பனையில் ${(er*100).toFixed(0)}% ஆக உள்ளது.`,
+    `${v.unique_customers.toLocaleString("en-IN")} வெவ்வேறு வாடிக்கையாளர்கள் பணம் செலுத்தினர்.`,
+    v.reciprocal_transfer_share>0?"வியாபாரிகளிடையே பணம் சுழல்வது கண்டறியப்பட்டது.":"பணம் முன்னும் பின்னும் சுழலவில்லை."
+  ][i];
+  if(S.lang==="ta") return dTa;
+  if(S.lang==="both") return `${dTa}<span class="both-sub">${dEn}</span>`;
+  return dEn;
+}
+
 function calc(v,amt,mths){
- const d=Object.keys(days).map(k=>v.monthly_receipts[k]/days[k]),avg=d.reduce((a,b)=>a+b)/3;
- const cv=Math.sqrt(d.reduce((a,b)=>a+(b-avg)**2,0)/3)/avg, mNet=v.net_cashflow/3;
- const emi=amt*(1+0.2*mths/12)/mths, cover=mNet/emi, er=v.total_expenses/v.total_receipts;
- const f=[["Steady income",25,25*(1-Math.min(cv,.3)/.3),"Daily sales changed "+(cv*100).toFixed(0)+"% between months."],
- ["Can repay",30,30*Math.min(Math.max(cover,0)/3,1),"Monthly savings "+inr(mNet)+" cover a "+inr(emi)+" instalment "+cover.toFixed(1)+"x."],
- ["Low costs",15,15*(1-Math.min(Math.max((er-.1)/.5,0),1)),"Expenses were "+(er*100).toFixed(0)+"% of sales."],
- ["Many customers",15,15*Math.min(v.unique_customers/1000,1),v.unique_customers.toLocaleString("en-IN")+" different customers paid you."],
- ["Genuine sales",15,15*(1-v.reciprocal_transfer_share),v.reciprocal_transfer_share>0?"Money moving between vendors was found.":"No back-and-forth transfers found."]];
- let sc=Math.round(f.reduce((a,x)=>a+x[2],0)); if(v.reciprocal_transfer_share>0) sc=Math.min(sc,40);
- return {f,sc,emi,cover,mNet,cv};
+  const d=Object.keys(days).map(k=>v.monthly_receipts[k]/days[k]),avg=d.reduce((a,b)=>a+b)/3;
+  const cv=Math.sqrt(d.reduce((a,b)=>a+(b-avg)**2,0)/3)/avg, mNet=v.net_cashflow/3;
+  const emi=amt*(1+0.2*mths/12)/mths, cover=mNet/emi, er=v.total_expenses/v.total_receipts;
+  const f=[["Steady income",25,25*(1-Math.min(cv,.3)/.3),"Daily sales changed "+(cv*100).toFixed(0)+"% between months."],
+  ["Can repay",30,30*Math.min(Math.max(cover,0)/3,1),"Monthly savings "+inr(mNet)+" cover a "+inr(emi)+" instalment "+cover.toFixed(1)+"x."],
+  ["Low costs",15,15*(1-Math.min(Math.max((er-.1)/.5,0),1)),"Expenses were "+(er*100).toFixed(0)+"% of sales."],
+  ["Many customers",15,15*Math.min(v.unique_customers/1000,1),v.unique_customers.toLocaleString("en-IN")+" different customers paid you."],
+  ["Genuine sales",15,15*(1-v.reciprocal_transfer_share),v.reciprocal_transfer_share>0?"Money moving between vendors was found.":"No back-and-forth transfers found."]];
+  let sc=Math.round(f.reduce((a,x)=>a+x[2],0)); if(v.reciprocal_transfer_share>0) sc=Math.min(sc,40);
+  return {f,sc,emi,cover,mNet,cv};
 }
 const band=s=>s>=75?["Strong",'var(--ok)']:s>=55?["Good",'var(--ok)']:s>=35?["Fair",'var(--wa)']:["Low",'var(--bad)'];
 const V=()=>DATA.find(x=>x.vendor_id===S.vid);
 function gauge(s){const c=band(s)[1],r=64,L=Math.PI*r,o=L*(1-s/100);
  return `<svg class="gauge" width="170" height="104" viewBox="0 0 170 104" role="img" aria-label="${s} out of 100"><path d="M21 90A64 64 0 0 1 149 90" fill="none" stroke="var(--bd)" stroke-width="14" stroke-linecap="round"/><path d="M21 90A64 64 0 0 1 149 90" fill="none" stroke="${c}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${L}" stroke-dashoffset="${o}"/><text x="85" y="82" text-anchor="middle" font-size="34" font-weight="800" fill="var(--tx)">${s}</text></svg>`}
+
 function login(){$("nav").hidden=true;
- $("m").innerHTML=`<div class="scr" style="padding-top:8vh"><div style="font-size:48px">🤝</div><h1>TrustCred</h1><p class="mut" style="margin:6px 0 24px">${S.lang=="en"?"Your daily sales are your credit history.":"உங்கள் தினசரி விற்பனையே உங்கள் கடன் வரலாறு."}</p><label class="mut" for="vs">${t("login")}</label><select id="vs">${DATA.map(x=>`<option>${x.vendor_id}</option>`).join("")}</select><div style="height:14px"></div><button class="btn" id="go">${t("go")}</button><div style="height:14px"></div><button class="lang" id="lg">${S.lang=="en"?"தமிழ்":"English"}</button><div style="height:16px"></div><a href="index.html" class="mut" style="text-decoration:none;font-size:13px;display:inline-block">🏢 Switch to Underwriter Dashboard</a></div>`;
+ $("m").innerHTML=`<div class="scr" style="padding-top:8vh"><div style="font-size:48px">🤝</div><h1>TrustCred</h1><p class="mut" style="margin:6px 0 24px">${S.lang=="en"?"Your daily sales are your credit history.":"உங்கள் தினசரி விற்பனையே உங்கள் கடன் வரலாறு."}</p><label class="mut" for="vs">${t("login")}</label><select id="vs">${DATA.map(x=>`<option>${x.vendor_id}</option>`).join("")}</select><div style="height:14px"></div><button class="btn" id="go">${t("go")}</button><div style="height:14px"></div><button class="lang" id="lg">${lgLabel()}</button><div style="height:16px"></div><a href="index.html" class="mut" style="text-decoration:none;font-size:13px;display:inline-block">🏢 Switch to Underwriter Dashboard</a></div>`;
  $("go").onclick=()=>{S.vid=$("vs").value;S.amt=V().loan_amount_requested;S.tab="home";S.stopped=false;render()};
  $("lg").onclick=toggleLang}
-function toggleLang(){S.lang=S.lang=="en"?"ta":"en";try{localStorage.setItem("lang",S.lang)}catch(e){};render()}
-function nav(){const n=$("nav");n.hidden=false;const it=[["home","🏠",t("home")],["cf","📊",t("cf")],["loan","💰",t("loan")],["me","👤",t("me")]];
+
+function toggleLang(){stopAudio();S.lang=S.lang=="en"?"ta":S.lang=="ta"?"both":"en";try{localStorage.setItem("lang",S.lang)}catch(e){}render()}
+
+function nav(){const n=$("nav");n.hidden=false;const it=[["home","🏠",t("home")],["ai","🤖",t("aiNav")],["cf","📊",t("cf")],["loan","💰",t("loan")],["me","👤",t("me")]];
  n.innerHTML=it.map(i=>`<button data-k="${i[0]}" class="${S.tab==i[0]?"on":""}" aria-label="${i[2]}"><span>${i[1]}</span>${i[2]}</button>`).join("");
- n.querySelectorAll("button").forEach(b=>b.onclick=()=>{S.tab=b.dataset.k;render()})}
+ n.querySelectorAll("button").forEach(b=>b.onclick=()=>{stopAudio();S.tab=b.dataset.k;render()})}
+
 function home(v){const r=calc(v,S.amt,S.mths),b=band(r.sc);
  const al=v.reciprocal_transfer_share>0?`<div class="alert" role="alert"><b>⚠ ${t("warn")}</b><p class="mut">${t("warnT")}</p></div>`:"";
- return `<div class="row" style="margin-bottom:14px"><div><p class="mut">${t("hi")},</p><h1>${v.vendor_id}</h1></div><button class="lang" id="lg">${S.lang=="en"?"தமிழ்":"English"}</button></div>${al}
+ return `<div class="row" style="margin-bottom:14px"><div><p class="mut">${t("hi")},</p><h1>${v.vendor_id}</h1></div><button class="lang" id="lg">${lgLabel()}</button></div>${al}
  <div class="card" style="text-align:center"><p class="mut">${t("score")}</p>${gauge(r.sc)}<span class="badge" style="background:${b[1]}">${b[0]}</span><p class="mut" style="margin-top:8px">${t("of")}</p></div>
+ <div class="card" style="border:2px solid var(--pri);background:linear-gradient(180deg,var(--card),rgba(36,87,214,0.06));text-align:left">
+  <div class="row" style="align-items:flex-start">
+    <div style="font-size:32px;line-height:1">🤖</div>
+    <div style="flex:1">
+      <h2 style="margin:0 0 4px;font-size:16px">${t("aiCardTitle")}</h2>
+      <p class="mut" style="font-size:13px;margin:0">${t("aiCardSub")}</p>
+    </div>
+  </div>
+  <button class="btn" id="open-ai" style="margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px" aria-label="${t("aiEntryBtn")}">
+    <span style="font-size:20px">🔊</span><span>${t("aiEntryBtn")}</span>
+  </button>
+ </div>
  <div class="row" style="gap:10px;margin-bottom:14px">${[[t("inc"),v.total_receipts,"var(--ok)"],[t("exp"),v.total_expenses,"var(--bad)"],[t("net"),v.net_cashflow,"var(--pri)"]].map(x=>`<div class="card" style="flex:1;margin:0;padding:12px"><p class="mut" style="font-size:12px">${x[0]}</p><b style="color:${x[2]};font-size:15px">${inr(x[1])}</b></div>`).join("")}</div>
- <div class="card"><h2>${t("why")}</h2>${r.f.map(x=>{const p=x[2]/x[1];return `<div style="margin-bottom:10px"><div class="row"><b style="font-size:14px">${x[0]}</b><span class="mut">${x[2].toFixed(0)}/${x[1]}</span></div><div class="bar"><i style="width:${p*100}%;background:${p>.7?"var(--ok)":p>.4?"var(--wa)":"var(--bad)"}"></i></div><p class="mut" style="font-size:13px">${x[3]}</p></div>`}).join("")}<p class="mut" style="font-size:12px">${t("demo")}</p></div>`}
+ <div class="card"><h2>${t("why")}</h2>${r.f.map((x,i)=>{const p=x[2]/x[1];return `<div style="margin-bottom:10px"><div class="row"><b style="font-size:14px">${t(fKeys[i])}</b><span class="mut">${x[2].toFixed(0)}/${x[1]}</span></div><div class="bar"><i style="width:${p*100}%;background:${p>.7?"var(--ok)":p>.4?"var(--wa)":"var(--bad)"}"></i></div><p class="mut" style="font-size:13px">${tDesc(i,x,v,r)}</p></div>`}).join("")}<p class="mut" style="font-size:12px">${t("demo")}</p></div>`}
+
+function aiDiagram(){
+  const p=S.lang=="ta"?"UPI வரவுகள்":S.lang=="both"?"வரவு / Payments":"UPI Payments";
+  const c=S.lang=="ta"?"5 AI சோதனைகள்":S.lang=="both"?"5 AI சோதனைகள் / Checks":"5 AI Checks";
+  const s=S.lang=="ta"?"100 மதிப்பெண்":S.lang=="both"?"மதிப்பெண் / Score":"Score / 100";
+  return `<svg viewBox="0 0 340 76" width="100%" style="display:block;margin:6px 0" role="img" aria-label="Payments to AI to Score diagram">
+    <defs><marker id="arr" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 8 5 L 0 9 z" fill="var(--pri)"/></marker></defs>
+    <rect x="2" y="8" width="94" height="60" rx="10" fill="var(--card)" stroke="var(--bd)" stroke-width="2"/>
+    <text x="49" y="32" text-anchor="middle" font-size="18">📲</text>
+    <text x="49" y="52" text-anchor="middle" font-size="10" font-weight="700" fill="var(--tx)">${p}</text>
+    <line x1="98" y1="38" x2="116" y2="38" stroke="var(--pri)" stroke-width="2" marker-end="url(#arr)"/>
+    <rect x="120" y="8" width="100" height="60" rx="10" fill="var(--card)" stroke="var(--pri)" stroke-width="2"/>
+    <text x="170" y="32" text-anchor="middle" font-size="18">🤖</text>
+    <text x="170" y="52" text-anchor="middle" font-size="10" font-weight="700" fill="var(--tx)">${c}</text>
+    <line x1="222" y1="38" x2="240" y2="38" stroke="var(--pri)" stroke-width="2" marker-end="url(#arr)"/>
+    <rect x="244" y="8" width="94" height="60" rx="10" fill="var(--card)" stroke="var(--ok)" stroke-width="2"/>
+    <text x="291" y="32" text-anchor="middle" font-size="18">💯</text>
+    <text x="291" y="52" text-anchor="middle" font-size="10" font-weight="700" fill="var(--tx)">${s}</text>
+  </svg>`;
+}
+
+function ai(v){
+  const r = calc(v, S.amt, S.mths);
+  const exEn = `You kept ${inr(v.net_cashflow)} in 3 months. Your 5 factors: Steady income (${r.f[0][2].toFixed(0)}/25), Can repay (${r.f[1][2].toFixed(0)}/30), Low costs (${r.f[2][2].toFixed(0)}/15), Many customers (${r.f[3][2].toFixed(0)}/15), Genuine sales (${r.f[4][2].toFixed(0)}/15). Total score: ${r.sc} out of 100.`;
+  const exTa = `3 மாதங்களில் உங்கள் மிச்சம் ${inr(v.net_cashflow)}. உங்கள் 5 காரணிகள்: சீரான வருமானம் (${r.f[0][2].toFixed(0)}/25), திருப்பிச் செலுத்தும் திறன் (${r.f[1][2].toFixed(0)}/30), குறைந்த செலவு (${r.f[2][2].toFixed(0)}/15), அதிக வாடிக்கையாளர்கள் (${r.f[3][2].toFixed(0)}/15), உண்மையான விற்பனை (${r.f[4][2].toFixed(0)}/15). மொத்த மதிப்பெண்: 100-க்கு ${r.sc}.`;
+  const exBody = S.lang=="ta"?`<p style="font-size:14px;line-height:1.6">${exTa}</p>`:S.lang=="both"?`<p style="font-size:14px;line-height:1.6;font-weight:600">${exTa}</p><p class="both-sub">${exEn}</p>`:`<p style="font-size:14px;line-height:1.6">${exEn}</p>`;
+
+  return `<div class="row" style="margin-bottom:14px"><div><h1>${t("aiTitle")}</h1><p class="mut">${t("aiSub")}</p></div><button class="lang" id="lg">${lgLabel()}</button></div>
+  <div id="ta-voice-alert" class="alert" role="alert" hidden>
+    <b>⚠ ${t("warn")}</b>
+    <p style="margin:4px 0 0;font-size:14px">${TX.ta.taVoiceMissing}</p>
+    <p class="mut" style="font-size:13px;margin-top:4px">${TX.en.taVoiceMissing}</p>
+  </div>
+  <div class="tts-ctrls">
+    <button class="btn" id="btn-listen-all" style="min-height:52px;display:flex;align-items:center;justify-content:center;gap:8px" aria-label="${t("listenAll")}">
+      <span style="font-size:20px">🔊</span><span>${t("listenAll")}</span>
+    </button>
+    <div class="row" style="margin-top:10px;gap:8px">
+      <button class="btn ghost" id="btn-pause" style="flex:1" disabled>${t("pause")}</button>
+      <button class="btn ghost" id="btn-stop" style="flex:1" disabled>${t("stop")}</button>
+    </div>
+    <div class="row" style="margin-top:10px;align-items:center">
+      <span class="mut" style="font-size:13px" id="tts-status">${t("ready")}</span>
+      <span class="mut" style="font-size:12px">${t("speed")}:</span>
+    </div>
+    <div class="speed-group">
+      <button class="speed-btn ${S.rate===0.8?"on":""}" data-r="0.8" id="spd-08" aria-label="${t("slow")}">${t("slow")}</button>
+      <button class="speed-btn ${S.rate===1.0?"on":""}" data-r="1.0" id="spd-10" aria-label="${t("norm")}">${t("norm")}</button>
+      <button class="speed-btn ${S.rate===1.2?"on":""}" data-r="1.2" id="spd-12" aria-label="${t("fast")}">${t("fast")}</button>
+    </div>
+  </div>
+  <div class="card">${aiDiagram()}</div>
+  ${STEPS.map((s,i)=>{
+    const title = S.lang=="ta"?s.titleTa:S.lang=="both"?`${s.titleTa}<span class="both-sub">/ ${s.titleEn}</span>`:s.titleEn;
+    const body = S.lang=="ta"?`<p>${s.ta}</p>`:S.lang=="both"?`<p style="font-weight:600">${s.ta}</p><p class="both-sub">${s.en}</p>`:`<p>${s.en}</p>`;
+    return `<div class="step-card" id="step-card-${i}">
+      <div class="row" style="align-items:flex-start">
+        <div style="font-size:32px;line-height:1">${s.icon}</div>
+        <div style="flex:1">
+          <div class="row" style="margin-bottom:4px">
+            <span class="badge" style="background:var(--pri);font-size:11px;padding:2px 8px">${S.lang=="ta"?"படி "+(i+1):S.lang=="both"?"படி/Step "+(i+1):"Step "+(i+1)}</span>
+            <button class="step-tts-btn" data-step="${i}" aria-label="${t("playStep")} ${i+1}">🔊</button>
+          </div>
+          <h2 style="font-size:16px;margin:6px 0 4px">${title}</h2>
+          <div style="font-size:14px;line-height:1.6">${body}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join("")}
+  <div class="card" style="border:2px solid var(--pri)">
+    <div class="row" style="margin-bottom:8px">
+      <h2>${t("myExample")}</h2>
+      <span class="badge" style="background:var(--ok)">${v.vendor_id}</span>
+    </div>
+    ${exBody}
+    <div style="height:12px"></div>
+    <button class="btn ghost" id="btn-read-score" style="min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px" aria-label="${t("readScore")}">
+      <span style="font-size:18px">🔊</span><span>${t("readScore")}</span>
+    </button>
+  </div>
+  <div class="card" style="border-left:5px solid var(--bad)">
+    <h2>${t("notTitle")}</h2>
+    <ul style="list-style:none;padding:0;margin:8px 0 0;font-size:14px;line-height:1.7">
+      <li style="margin-bottom:6px">❌ ${t("not1")}</li>
+      <li style="margin-bottom:6px">❌ ${t("not2")}</li>
+      <li style="margin-bottom:6px">❌ ${t("not3")}</li>
+      <li>❌ ${t("not4")}</li>
+    </ul>
+  </div>`;
+}
+
 function cf(v){const ks=Object.keys(days),vals=ks.map(k=>v.monthly_receipts[k]),mx=Math.max(...vals);
  return `<h1 style="margin-bottom:14px">${t("cf")}</h1><div class="card"><h2>${t("inc")} (Jul – Sep 28)</h2><svg viewBox="0 0 300 150" width="100%" role="img" aria-label="Monthly sales">${vals.map((x,i)=>{const h=x/mx*100;return `<rect x="${30+i*90}" y="${115-h}" width="60" height="${h}" rx="8" fill="var(--pri)"/><text x="${60+i*90}" y="${108-h}" text-anchor="middle" font-size="11" fill="var(--tx)">${inr(x/1000)}k</text><text x="${60+i*90}" y="138" text-anchor="middle" font-size="12" fill="var(--mut)">${MN[ks[i]]}</text>`}).join("")}</svg><p class="mut" style="font-size:12px">Sep covers 28 days only.</p></div>
  <div class="card">${[[t("inc"),v.total_receipts],[t("exp"),v.total_expenses],[t("net"),v.net_cashflow],["Customers",v.unique_customers,1],["Payments received",v.txn_count,1]].map(x=>`<div class="tog"><span>${x[0]}</span><b>${x[2]?x[1].toLocaleString("en-IN"):inr(x[1])}</b></div>`).join("")}</div>`}
+
 function loan(v){const r=calc(v,S.amt,S.mths),c=r.cover>=2?["good","var(--ok)"]:r.cover>=1?["ok","var(--wa)"]:["risk","var(--bad)"];
  return `<h1 style="margin-bottom:14px">${t("loan")}</h1><div class="card"><div class="row"><label for="a">${t("req")}</label><b id="av">${inr(S.amt)}</b></div><input id="a" type="range" min="10000" max="100000" step="5000" value="${S.amt}"><div class="row" style="margin-top:12px"><label for="mo">${t("mon")}</label><b id="mv">${S.mths}</b></div><input id="mo" type="range" min="6" max="24" step="3" value="${S.mths}"></div>
  <div class="card" style="text-align:center"><p class="mut">${t("emi")}</p><p class="big" id="ev">${inr(r.emi)}</p><p class="mut" id="cv">${t("cov")} ${r.cover.toFixed(1)}x</p><span class="badge" id="cb" style="background:${c[1]}">${t(c[0])}</span><p class="mut" style="font-size:12px;margin-top:8px">${t("ill")}</p></div>
  <div class="card"><h2>${t("tips")}</h2><p class="mut">• Take UPI payments from many customers.<br>• Keep sales steady through the month.<br>• Do not move money back and forth with other vendors.</p></div>`}
+
 function me(v){const o=[["r","Score report"],["e","Reasons for the score"],["m","Monthly summary"],["c","Payment documents"]];
  return `<h1 style="margin-bottom:14px">${t("me")} · ${v.vendor_id}</h1><div class="card"><h2>${t("share")}</h2><p class="mut" style="margin-bottom:6px">${t("shareT")}</p>${S.stopped?`<p class="alert" style="border-left-color:var(--ok)">✔ ${t("stopped")}</p>`:o.map(x=>`<label class="tog">${x[1]}<input type="checkbox" data-s="${x[0]}" ${S.share[x[0]]?"checked":""}></label>`).join("")+`<div style="height:12px"></div><button class="btn ghost" id="st">${t("stop")}</button>`}</div><button class="btn ghost" id="lo">${t("out")}</button><div style="height:12px"></div><a href="index.html" class="btn ghost" style="text-decoration:none;display:flex;align-items:center;justify-content:center">🏢 Underwriter Dashboard</a>`}
+
+// Speech & TTS Engine
+let ttsState="idle", activeStep=-1, ttsQueue=[], audioEl=null, audioFilesAvailable=false, audioChecked=false;
+
+function prepareSpeechText(text, lang){
+  if(!text) return "";
+  let clean = text.replace(/<[^>]+>/g, " ");
+  if(lang==="ta"){
+    clean = clean.replace(/₹\s*([0-9,]+)/g, "$1 ரூபாய் ");
+    clean = clean.replace(/₹/g, "ரூபாய் ");
+    clean = clean.replace(/%/g, " சதவீதம்");
+  } else {
+    clean = clean.replace(/₹\s*([0-9,]+)/g, "$1 rupees ");
+    clean = clean.replace(/₹/g, "rupees ");
+    clean = clean.replace(/%/g, " percent");
+  }
+  return clean.replace(/\s+/g, " ").trim();
+}
+
+function getScoreSpeechSentence(v, lang){
+  const r = calc(v, S.amt||v.loan_amount_requested, S.mths||12);
+  const isSteady = (r.f[0][2]/r.f[0][1]) >= 0.7;
+  const lowCost = (r.f[2][2]/r.f[2][1]) >= 0.7;
+  const canRepay = (r.f[1][2]/r.f[1][1]) >= 0.7;
+  const manyCust = (r.f[3][2]/r.f[3][1]) >= 0.7;
+  const isGenuine = v.reciprocal_transfer_share === 0;
+  if(lang==="ta"){
+    let reasons = [];
+    if(isSteady) reasons.push("உங்கள் வருமானம் நிலையாக உள்ளது");
+    if(lowCost) reasons.push("செலவு குறைவாக உள்ளது");
+    if(canRepay && reasons.length < 2) reasons.push("திருப்பிச் செலுத்தும் திறன் நன்றாக உள்ளது");
+    if(manyCust && reasons.length < 2) reasons.push("வாடிக்கையாளர்கள் அதிகமாக உள்ளனர்");
+    if(!isGenuine) reasons = ["பரிவர்த்தனைகளில் கவனம் தேவை"];
+    const reasonText = reasons.length ? reasons.join(", ") : "வியாபாரம் இயல்பாக உள்ளது";
+    return `உங்கள் நம்பிக்கை மதிப்பெண் 100-க்கு ${r.sc}. ${reasonText}.`;
+  } else {
+    let reasons = [];
+    if(isSteady) reasons.push("your income is steady");
+    if(lowCost) reasons.push("your costs are low");
+    if(canRepay && reasons.length < 2) reasons.push("your repayment ability is strong");
+    if(manyCust && reasons.length < 2) reasons.push("you have many customers");
+    if(!isGenuine) reasons = ["warning: money moved back and forth with other vendors"];
+    const reasonText = reasons.length ? reasons.join(" and ") : "your sales are active";
+    return `Your Trust Score is ${r.sc} out of 100. ${reasonText.charAt(0).toUpperCase() + reasonText.slice(1)}.`;
+  }
+}
+
+async function checkAudioFiles(){
+  if(audioChecked) return audioFilesAvailable;
+  try{const res = await fetch("audio/ta/step1.mp3", {method:"HEAD"}); audioFilesAvailable = res.ok;}
+  catch(e){audioFilesAvailable = false;}
+  audioChecked = true;
+  return audioFilesAvailable;
+}
+
+function getVoicesList(){
+  return (typeof window!=="undefined"&&window.speechSynthesis)?window.speechSynthesis.getVoices():[];
+}
+if(typeof window!=="undefined"&&window.speechSynthesis){
+  window.speechSynthesis.onvoiceschanged=()=>{getVoicesList()};
+}
+
+function getVoice(lang){
+  const vs = getVoicesList();
+  if(lang==="ta"){
+    return vs.find(v=>v.lang==="ta-IN"||v.lang==="ta_IN") || vs.find(v=>v.lang&&v.lang.toLowerCase().startsWith("ta"));
+  }
+  return vs.find(v=>v.lang==="en-IN"||v.lang==="en_IN") || vs.find(v=>v.lang&&v.lang.toLowerCase().startsWith("en"));
+}
+
+function hasTamilVoice(){ return !!getVoice("ta"); }
+
+function stopAudio(){
+  ttsQueue = []; activeStep = -1; ttsState = "idle";
+  if(typeof window!=="undefined"&&window.speechSynthesis){ window.speechSynthesis.cancel(); }
+  if(audioEl){ audioEl.pause(); audioEl.currentTime = 0; }
+  const m = $("m"); if(m) m.setAttribute("aria-live", "polite");
+  highlightStep(-1);
+  updateTtsUi();
+}
+
+function pauseAudio(){
+  if(ttsState!=="playing") return;
+  ttsState = "paused";
+  if(audioEl && !audioEl.paused){ audioEl.pause(); }
+  else if(window.speechSynthesis && window.speechSynthesis.speaking){ window.speechSynthesis.pause(); }
+  updateTtsUi();
+}
+
+function resumeAudio(){
+  if(ttsState!=="paused") return;
+  ttsState = "playing";
+  if(audioEl && audioEl.src && audioEl.currentTime > 0){ audioEl.play().catch(()=>{}); }
+  else if(window.speechSynthesis && window.speechSynthesis.paused){ window.speechSynthesis.resume(); }
+  updateTtsUi();
+}
+
+function highlightStep(idx){
+  document.querySelectorAll(".step-card").forEach((c,i)=>{ c.classList.toggle("active-step", i===idx); });
+  if(idx>=0){
+    const el = $("step-card-"+idx);
+    const reduced = window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if(el && !reduced){ el.scrollIntoView({behavior:"smooth",block:"center"}); }
+  }
+}
+
+function updateTtsUi(){
+  const statusEl = $("tts-status"), pauseBtn = $("btn-pause"), stopBtn = $("btn-stop");
+  if(pauseBtn){
+    pauseBtn.textContent = ttsState==="paused" ? t("resume") : t("pause");
+    pauseBtn.disabled = ttsState==="idle";
+  }
+  if(stopBtn) stopBtn.disabled = ttsState==="idle";
+  if(statusEl){
+    if(ttsState==="playing") statusEl.textContent = `${t("speaking")} ${activeStep>=0?(activeStep+1)+"/6":""}`;
+    else if(ttsState==="paused") statusEl.textContent = t("paused");
+    else statusEl.textContent = t("ready");
+  }
+}
+
+function setSpeed(rate){
+  S.rate = rate;
+  if(audioEl) audioEl.playbackRate = rate;
+  document.querySelectorAll(".speed-btn").forEach(b=>{
+    b.classList.toggle("on", parseFloat(b.dataset.r) === rate);
+  });
+}
+
+async function playNextInQueue(){
+  if(!ttsQueue.length){ stopAudio(); return; }
+  const item = ttsQueue.shift();
+  activeStep = item.stepIdx;
+  ttsState = "playing";
+  highlightStep(activeStep);
+  updateTtsUi();
+  const m = $("m"); if(m) m.setAttribute("aria-live", "off");
+
+  const useAudio = await checkAudioFiles();
+  if(useAudio && activeStep >= 0){
+    if(!audioEl){ audioEl = new Audio(); }
+    audioEl.src = `audio/${item.lang}/step${activeStep+1}.mp3`;
+    audioEl.playbackRate = S.rate;
+    audioEl.onended = () => { playNextInQueue(); };
+    audioEl.onerror = () => { speakFallbackText(item); };
+    audioEl.play().catch(() => speakFallbackText(item));
+  } else {
+    speakFallbackText(item);
+  }
+}
+
+function speakFallbackText(item){
+  if(item.lang==="ta" && !hasTamilVoice()){
+    const alertEl = $("ta-voice-alert");
+    if(alertEl) alertEl.hidden = false;
+    setTimeout(() => { playNextInQueue(); }, 1500);
+    return;
+  }
+  const u = new SpeechSynthesisUtterance(prepareSpeechText(item.text, item.lang));
+  u.lang = item.lang==="ta" ? "ta-IN" : "en-IN";
+  const v = getVoice(item.lang);
+  if(v) u.voice = v;
+  u.rate = S.rate;
+  u.onend = () => { playNextInQueue(); };
+  u.onerror = () => { playNextInQueue(); };
+  window.speechSynthesis.speak(u);
+}
+
+function playStep(idx){
+  stopAudio();
+  const alertEl = $("ta-voice-alert"); if(alertEl) alertEl.hidden = true;
+  const s = STEPS[idx];
+  if(S.lang==="ta"){ ttsQueue.push({stepIdx:idx, lang:"ta", text:s.titleTa + ". " + s.ta}); }
+  else if(S.lang==="en"){ ttsQueue.push({stepIdx:idx, lang:"en", text:s.titleEn + ". " + s.en}); }
+  else {
+    ttsQueue.push({stepIdx:idx, lang:"ta", text:s.titleTa + ". " + s.ta});
+    ttsQueue.push({stepIdx:idx, lang:"en", text:s.titleEn + ". " + s.en});
+  }
+  playNextInQueue();
+}
+
+function playAll(){
+  stopAudio();
+  const alertEl = $("ta-voice-alert"); if(alertEl) alertEl.hidden = true;
+  STEPS.forEach((s, idx)=>{
+    if(S.lang==="ta"){ ttsQueue.push({stepIdx:idx, lang:"ta", text:s.titleTa + ". " + s.ta}); }
+    else if(S.lang==="en"){ ttsQueue.push({stepIdx:idx, lang:"en", text:s.titleEn + ". " + s.en}); }
+    else {
+      ttsQueue.push({stepIdx:idx, lang:"ta", text:s.titleTa + ". " + s.ta});
+      ttsQueue.push({stepIdx:idx, lang:"en", text:s.titleEn + ". " + s.en});
+    }
+  });
+  playNextInQueue();
+}
+
+function speakMyScore(v){
+  stopAudio();
+  const alertEl = $("ta-voice-alert"); if(alertEl) alertEl.hidden = true;
+  if(S.lang==="ta"){ ttsQueue.push({stepIdx:-1, lang:"ta", text:getScoreSpeechSentence(v,"ta")}); }
+  else if(S.lang==="en"){ ttsQueue.push({stepIdx:-1, lang:"en", text:getScoreSpeechSentence(v,"en")}); }
+  else {
+    ttsQueue.push({stepIdx:-1, lang:"ta", text:getScoreSpeechSentence(v,"ta")});
+    ttsQueue.push({stepIdx:-1, lang:"en", text:getScoreSpeechSentence(v,"en")});
+  }
+  playNextInQueue();
+}
+
+document.addEventListener("visibilitychange", ()=>{ if(document.hidden) stopAudio(); });
+window.addEventListener("pagehide", stopAudio);
+
 function render(){if(!S.vid)return login();nav();const v=V();
- $("m").innerHTML=`<div class="scr">${{home,cf,loan,me}[S.tab](v)}</div>`;$("m").scrollTop=0;
+ $("m").innerHTML=`<div class="scr">${{home,ai,cf,loan,me}[S.tab](v)}</div>`;$("m").scrollTop=0;
  const lg=$("lg");if(lg)lg.onclick=toggleLang;
+ const oai=$("open-ai");if(oai)oai.onclick=()=>{stopAudio();S.tab="ai";render()};
+ if(S.tab=="ai"){
+   $("btn-listen-all").onclick = playAll;
+   $("btn-pause").onclick = () => { if(ttsState==="paused") resumeAudio(); else pauseAudio(); };
+   $("btn-stop").onclick = stopAudio;
+   document.querySelectorAll(".speed-btn").forEach(b => b.onclick = () => setSpeed(parseFloat(b.dataset.r)));
+   document.querySelectorAll(".step-tts-btn").forEach(b => b.onclick = () => playStep(parseInt(b.dataset.step, 10)));
+   $("btn-read-score").onclick = () => speakMyScore(v);
+ }
  if(S.tab=="loan"){const upd=()=>{S.amt=+$("a").value;S.mths=+$("mo").value;const r=calc(v,S.amt,S.mths),c=r.cover>=2?["good","var(--ok)"]:r.cover>=1?["ok","var(--wa)"]:["risk","var(--bad)"];
   $("av").textContent=inr(S.amt);$("mv").textContent=S.mths;$("ev").textContent=inr(r.emi);$("cv").textContent=t("cov")+" "+r.cover.toFixed(1)+"x";$("cb").textContent=t(c[0]);$("cb").style.background=c[1]};$("a").oninput=upd;$("mo").oninput=upd}
  if(S.tab=="me"){
   document.querySelectorAll("[data-s]").forEach(i=>i.onchange=()=>S.share[i.dataset.s]=i.checked?1:0);
-  const st=$("st");if(st)st.onclick=()=>{S.stopped=true;render()};$("lo").onclick=()=>{S.vid=null;render()
-
-  }
+  const st=$("st");if(st)st.onclick=()=>{S.stopped=true;render()};$("lo").onclick=()=>{stopAudio();S.vid=null;render()}
+ }
 }
-}
+window.TrustCred = { DATA, S, calc, V, inr, t, TX, render, stopAudio };
 render();
+
 </script>
+<script src="js/bot.js"></script>
 </body>
 </html>
