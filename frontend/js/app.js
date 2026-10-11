@@ -13,14 +13,17 @@
 
   // State
   const state = {
-    vendors: [],            // Unified vendor objects
+    vendors: [],            // Unified vendor objects (dataset + manual)
+    datasetVendors: [],     // Base 40 dataset vendors
     filteredVendors: [],    // Currently displayed after filter/search/sort
     selectedVendor: null,   // Vendor currently inspected in drawer
     compareVendors: [],     // Array of up to 3 vendor IDs
     searchQuery: '',
     filterBand: 'all',
     filterStatus: 'all',
+    filterSource: 'all',    // 'all', 'dataset', 'manual'
     sortBy: 'score_desc',
+    includeManualInTotals: false,
     theme: 'dark',
     simulatorVendor: null,
     isScoresCsvLoaded: false
@@ -224,10 +227,18 @@
       };
     });
 
+    state.datasetVendors = [...state.vendors];
+    combineVendors();
+
     showLoadingSkeleton(false);
     updateSummaryStats();
     populateCompareDropdowns();
     applyFiltersAndRender();
+  }
+
+  function combineVendors() {
+    const manualList = window.TrustCredManual ? window.TrustCredManual.getManualVendors() : [];
+    state.vendors = [...state.datasetVendors, ...manualList];
   }
 
   // =========================================================================
@@ -235,11 +246,12 @@
   // =========================================================================
 
   function updateSummaryStats() {
-    const totalVendors = state.vendors.length;
-    const totalLoanRequested = state.vendors.reduce((acc, v) => acc + (Number(v.loan_amount_requested) || 0), 0);
-    const flaggedCount = state.vendors.filter(v => v.scoreDetails.is_flagged).length;
+    const statsVendors = state.includeManualInTotals ? state.vendors : state.datasetVendors;
+    const totalVendors = statsVendors.length;
+    const totalLoanRequested = statsVendors.reduce((acc, v) => acc + (Number(v.loan_amount_requested) || 0), 0);
+    const flaggedCount = statsVendors.filter(v => v.scoreDetails.is_flagged).length;
     const avgScore = totalVendors > 0
-      ? Math.round(state.vendors.reduce((acc, v) => acc + v.scoreDetails.score, 0) / totalVendors)
+      ? Math.round(statsVendors.reduce((acc, v) => acc + v.scoreDetails.score, 0) / totalVendors)
       : 0;
 
     const totalVendorsEl = document.getElementById('statTotalVendors');
@@ -283,6 +295,13 @@
     // Filter by score band
     if (state.filterBand !== 'all') {
       result = result.filter(v => v.scoreDetails.band === state.filterBand);
+    }
+
+    // Filter by data source (dataset vs manual)
+    if (state.filterSource === 'dataset') {
+      result = result.filter(v => !v.is_manual);
+    } else if (state.filterSource === 'manual') {
+      result = result.filter(v => v.is_manual);
     }
 
     // Filter by genuineness status
@@ -374,8 +393,10 @@
             <td>
               <div class="vendor-id-badge">
                 <strong>${v.vendor_id}</strong>
-                ${d.is_demo_score ? '<span class="demo-tag" title="Demo calculated score">demo</span>' : ''}
+                ${v.is_manual ? '<span class="badge--manual">Manual</span>' : ''}
+                ${d.is_demo_score && !v.is_manual ? '<span class="demo-tag" title="Demo calculated score">demo</span>' : ''}
               </div>
+              ${v.is_manual ? '<div style="margin-top:2px;"><span class="tag-unverified">Manually entered - not verified</span></div>' : ''}
             </td>
             <td>
               <div class="score-pill-container">
@@ -411,7 +432,7 @@
           <div class="vendor-mobile-card ${isFlagged ? 'vendor-mobile-card--flagged' : ''}" data-vendor-id="${v.vendor_id}">
             <div class="card-header-row">
               <div class="card-id-meta">
-                <span class="card-vendor-id">${v.vendor_id}</span>
+                <span class="card-vendor-id">${v.vendor_id} ${v.is_manual ? '<span class="badge--manual">Manual</span>' : ''}</span>
                 <span class="score-badge ${getBandBadgeClass(d.band)}">${d.score}/100</span>
               </div>
               <div>
@@ -420,6 +441,7 @@
                   : '<span class="flag-pill flag-pill--success">✓ Genuine</span>'}
               </div>
             </div>
+            ${v.is_manual ? '<div style="margin-bottom:6px;"><span class="tag-unverified">Manually entered - not verified</span></div>' : ''}
             <div class="card-metrics-grid">
               <div class="metric-item">
                 <span class="metric-label">Receipts</span>
@@ -545,7 +567,34 @@
     document.getElementById('drawerScoreValue').textContent = d.score;
     document.getElementById('drawerScoreBandBadge').textContent = `${d.band.toUpperCase()}`;
     document.getElementById('drawerScoreBandBadge').className = `score-badge ${getBandBadgeClass(d.band)}`;
-    document.getElementById('drawerConfidenceBadge').textContent = `${Math.round(d.confidence * 100)}% Model Confidence`;
+
+    // Confidence and Manual Tag Handling
+    const manualTag = document.getElementById('drawerManualTag');
+    const editBtn = document.getElementById('editManualVendorBtn');
+    const deleteBtn = document.getElementById('deleteManualVendorBtn');
+
+    if (vendor.is_manual) {
+      if (manualTag) manualTag.classList.remove('hidden');
+      if (editBtn) {
+        editBtn.classList.remove('hidden');
+        editBtn.onclick = () => {
+          closeVendorDrawer();
+          window.TrustCredManual?.openManualEntryDrawer(vendor);
+        };
+      }
+      if (deleteBtn) {
+        deleteBtn.classList.remove('hidden');
+        deleteBtn.onclick = () => {
+          window.TrustCredManual?.deleteManualVendor(vendor.vendor_id);
+        };
+      }
+      document.getElementById('drawerConfidenceBadge').textContent = `${Math.round(d.confidence * 100)}% Confidence (Manual Entry)`;
+    } else {
+      if (manualTag) manualTag.classList.add('hidden');
+      if (editBtn) editBtn.classList.add('hidden');
+      if (deleteBtn) deleteBtn.classList.add('hidden');
+      document.getElementById('drawerConfidenceBadge').textContent = `${Math.round(d.confidence * 100)}% Model Confidence`;
+    }
 
     // Circular gauge animation
     const circle = document.getElementById('scoreGaugeCircle');
@@ -934,6 +983,24 @@
       });
     }
 
+    // Filter source
+    const filterSource = document.getElementById('filterSource');
+    if (filterSource) {
+      filterSource.addEventListener('change', (e) => {
+        state.filterSource = e.target.value;
+        applyFiltersAndRender();
+      });
+    }
+
+    // Include manual checkbox
+    const chkIncludeManual = document.getElementById('chkIncludeManual');
+    if (chkIncludeManual) {
+      chkIncludeManual.addEventListener('change', (e) => {
+        state.includeManualInTotals = e.target.checked;
+        updateSummaryStats();
+      });
+    }
+
     // Reset filters
     const resetBtn = document.getElementById('resetFiltersBtn');
     if (resetBtn) {
@@ -941,10 +1008,12 @@
         state.searchQuery = '';
         state.filterBand = 'all';
         state.filterStatus = 'all';
+        state.filterSource = 'all';
         state.sortBy = 'score_desc';
         if (searchInput) searchInput.value = '';
         if (filterBand) filterBand.value = 'all';
         if (filterStatus) filterStatus.value = 'all';
+        if (filterSource) filterSource.value = 'all';
         if (sortBy) sortBy.value = 'score_desc';
         applyFiltersAndRender();
       });
@@ -1022,6 +1091,19 @@
       }
     });
   }
+
+  // Expose global app API for manual controller
+  window.TrustCredApp = {
+    getAllVendors: () => state.vendors,
+    onManualVendorsChanged: () => {
+      combineVendors();
+      updateSummaryStats();
+      populateCompareDropdowns();
+      applyFiltersAndRender();
+    },
+    openVendorDrawer,
+    closeVendorDrawer
+  };
 
   // =========================================================================
   // INITIALIZE APPLICATION

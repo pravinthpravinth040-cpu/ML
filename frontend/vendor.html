@@ -81,7 +81,14 @@ function render(){if(!S.vid)return login();nav();const v=V();
  const lg=$("lg");if(lg)lg.onclick=toggleLang;
  if(S.tab=="loan"){const upd=()=>{S.amt=+$("a").value;S.mths=+$("mo").value;const r=calc(v,S.amt,S.mths),c=r.cover>=2?["good","var(--ok)"]:r.cover>=1?["ok","var(--wa)"]:["risk","var(--bad)"];
   $("av").textContent=inr(S.amt);$("mv").textContent=S.mths;$("ev").textContent=inr(r.emi);$("cv").textContent=t("cov")+" "+r.cover.toFixed(1)+"x";$("cb").textContent=t(c[0]);$("cb").style.background=c[1]};$("a").oninput=upd;$("mo").oninput=upd}
- if(S.tab=="me"){document.querySelectorAll("[data-s]").forEach(i=>i.onchange=()=>S.share[i.dataset.s]=i.checked?1:0);
-  const st=$("st");if(st)st.onclick=()=>{S.stopped=true;render()};$("lo").onclick=()=>{S.vid=null;render()}}}
+ if(S.tab=="me"){
+  document.querySelectorAll("[data-s]").forEach(i=>i.onchange=()=>S.share[i.dataset.s]=i.checked?1:0);
+  const st=$("st");if(st)st.onclick=()=>{S.stopped=true;render()};$("lo").onclick=()=>{S.vid=null;render()
+
+  }
+}
+}
 render();
-</script></body></html>
+</script>
+</body>
+</html>

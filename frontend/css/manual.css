@@ -1,0 +1,345 @@
+/*
+ * TrustCred AI - Manual Vendor Entry Styles (css/manual.css)
+ * ==========================================================
+ * Modular stylesheet for manual vendor creation, transaction ingestion,
+ * validation alerts, live preview, and management toasts.
+ */
+
+/* 1. Floating Action Button on Mobile */
+.fab-manual-btn {
+  display: none;
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.45);
+  font-size: 28px;
+  font-weight: 300;
+  cursor: pointer;
+  z-index: 90;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s;
+}
+
+.fab-manual-btn:hover {
+  transform: scale(1.08);
+  background: var(--color-primary-hover);
+}
+
+.fab-manual-btn:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+@media (max-width: 768px) {
+  .fab-manual-btn {
+    display: flex;
+  }
+}
+
+/* 2. Manual Drawer / Full Screen on Mobile */
+.manual-drawer {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  max-width: 680px;
+  height: 100vh;
+  background-color: var(--bg-card);
+  box-shadow: var(--shadow-xl);
+  z-index: 102;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  transition: right var(--transition-smooth);
+}
+
+.manual-drawer.drawer--open {
+  right: 0;
+}
+
+@media (max-width: 700px) {
+  .manual-drawer {
+    max-width: 100%;
+    border-radius: 0;
+  }
+}
+
+/* 3. Form Tabs (Quick vs Transaction) */
+.form-tab-nav {
+  display: flex;
+  gap: var(--space-2);
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: var(--space-5);
+  padding-bottom: 2px;
+}
+
+.form-tab-btn {
+  flex: 1;
+  min-height: 44px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.925rem;
+  padding: 8px 12px;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.form-tab-btn.tab--active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.form-tab-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+/* 4. Live Score Preview Banner */
+.manual-score-preview {
+  background: var(--bg-card-subtle);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-5);
+}
+
+.preview-badge-group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.preview-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: var(--color-primary-subtle);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary-border);
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+}
+
+/* 5. Field Validation Styles */
+.form-group-relative {
+  position: relative;
+  margin-bottom: var(--space-4);
+}
+
+.form-input.is-invalid, .form-select.is-invalid {
+  border-color: var(--color-danger);
+  background-color: var(--color-danger-bg);
+}
+
+.form-input.is-warning {
+  border-color: var(--color-warning);
+}
+
+.field-error-text {
+  color: var(--color-danger);
+  font-size: 0.8rem;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.field-warning-text {
+  color: var(--color-warning);
+  font-size: 0.8rem;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.field-hint {
+  font-size: 0.775rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.grid-3-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+@media (max-width: 540px) {
+  .grid-3-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 6. CSV Transaction Ingestion Styles */
+.csv-textarea {
+  width: 100%;
+  min-height: 140px;
+  font-family: monospace;
+  font-size: 0.85rem;
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 10px;
+  resize: vertical;
+}
+
+.csv-textarea:focus {
+  border-color: var(--color-primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.csv-preview-table-wrap {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-3);
+  font-size: 0.8rem;
+}
+
+.csv-preview-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.csv-preview-table th, .csv-preview-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border-light);
+  text-align: left;
+}
+
+.csv-preview-table th {
+  background: var(--bg-card-subtle);
+  font-weight: 600;
+  color: var(--text-muted);
+  position: sticky;
+  top: 0;
+}
+
+.csv-error-summary {
+  background: var(--color-danger-bg);
+  border: 1px solid var(--color-danger-border);
+  color: var(--color-danger);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  margin-top: var(--space-3);
+  font-size: 0.825rem;
+}
+
+/* 7. Badges and Tags for Manual Vendors */
+.badge--manual {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  background-color: #8B5CF6;
+  color: #FFFFFF;
+  border-radius: var(--radius-full);
+  margin-left: 6px;
+}
+
+.tag-unverified {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning);
+  border: 1px solid var(--color-warning-border);
+  border-radius: var(--radius-md);
+}
+
+/* 8. Undo Toast Notification */
+.undo-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background-color: #1E293B;
+  color: #F8FAFC;
+  padding: 12px 20px;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  z-index: 200;
+  opacity: 0;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  min-width: 300px;
+  max-width: 90vw;
+  border: 1px solid #334155;
+}
+
+.undo-toast.toast--visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.undo-toast-btn {
+  background: var(--color-primary);
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  min-height: 36px;
+}
+
+.undo-toast-btn:hover {
+  filter: brightness(1.1);
+}
+
+/* 9. Management Controls Bar */
+.manual-management-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+}
+
+.manual-action-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Print styling support for manual verification tag */
+@media print {
+  .tag-unverified {
+    border: 1pt solid #000 !important;
+    color: #000 !important;
+    background: transparent !important;
+  }
+  .fab-manual-btn, .undo-toast, .manual-drawer {
+    display: none !important;
+  }
+}

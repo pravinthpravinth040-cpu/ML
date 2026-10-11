@@ -8,6 +8,7 @@
   
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/manual.css">
   
   <!-- Chart.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -194,10 +195,24 @@
 
         <!-- Filter Toolbar -->
         <div class="filter-toolbar-card">
-          <div class="filter-grid">
+          <div class="filter-grid" style="grid-template-columns: 2.2fr 1.1fr 1fr 1fr 1fr auto;">
             <div class="form-group">
               <label for="vendorSearchInput" class="form-label">Search by Vendor ID or Amount</label>
-              <input type="search" id="vendorSearchInput" class="form-input" placeholder="e.g. V007 or 75000..." autocomplete="off">
+              <div style="display: flex; gap: var(--space-2);">
+                <input type="search" id="vendorSearchInput" class="form-input" style="flex: 1;" placeholder="e.g. V007, M001..." autocomplete="off">
+                <button id="btnOpenManualEntry" class="btn btn--primary" type="button" style="white-space: nowrap;" title="Add vendor manually">
+                  + Add Vendor
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="filterSource" class="form-label">Data Source</label>
+              <select id="filterSource" class="form-select">
+                <option value="all">All Sources</option>
+                <option value="dataset">Dataset (40)</option>
+                <option value="manual">Manual Entry Only</option>
+              </select>
             </div>
 
             <div class="form-group">
@@ -238,9 +253,26 @@
             </div>
           </div>
 
-          <div class="filter-status-row">
-            <span id="filterLiveCount" aria-live="polite">Showing all 40 vendors.</span>
-            <span>Click any vendor row or card to inspect cash flow breakdown</span>
+          <div class="filter-status-row" style="flex-wrap: wrap; gap: var(--space-3);">
+            <div style="display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap;">
+              <span id="filterLiveCount" aria-live="polite">Showing all 40 vendors.</span>
+              <label style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-primary); font-size: 0.825rem;">
+                <input type="checkbox" id="chkIncludeManual" style="width: 16px; height: 16px; accent-color: var(--color-primary);">
+                Include manual vendors in portfolio totals
+              </label>
+            </div>
+            <div style="display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap;">
+              <button id="btnExportManualJson" type="button" class="btn btn--subtle btn--sm" title="Export manual vendors as JSON">
+                ⬇ Export JSON
+              </button>
+              <button id="btnExportManualCsv" type="button" class="btn btn--subtle btn--sm" title="Export manual vendors as CSV">
+                ⬇ Export CSV
+              </button>
+              <button id="btnImportManualJson" type="button" class="btn btn--secondary btn--sm" title="Import manual vendors from JSON file">
+                ⬆ Import JSON
+              </button>
+              <input type="file" id="manualImportFileInput" accept=".json" class="hidden">
+            </div>
           </div>
         </div>
 
@@ -478,12 +510,19 @@
     </div>
 
     <div class="drawer-header">
-      <div class="drawer-header-left">
+      <div class="drawer-header-left" style="flex-wrap: wrap; gap: var(--space-2);">
         <h3 id="drawerVendorId" class="drawer-vendor-title">V001</h3>
         <span id="drawerScoreBandBadge" class="score-badge badge--strong">STRONG</span>
         <span id="drawerConfidenceBadge" class="confidence-label">95% Confidence</span>
+        <span id="drawerManualTag" class="tag-unverified hidden">Manually entered - not verified</span>
       </div>
-      <div style="display: flex; gap: var(--space-2);">
+      <div style="display: flex; gap: var(--space-2); flex-wrap: wrap;">
+        <button id="editManualVendorBtn" type="button" class="btn btn--subtle btn--sm hidden" aria-label="Edit manual vendor">
+          ✏️ Edit
+        </button>
+        <button id="deleteManualVendorBtn" type="button" class="btn btn--secondary btn--sm text-danger hidden" aria-label="Delete manual vendor">
+          🗑️ Delete
+        </button>
         <button id="printReportBtn" type="button" class="btn btn--secondary btn--sm" aria-label="Print or download report">
           <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
           Print Report
@@ -612,7 +651,198 @@
   </aside>
 
   <!-- =========================================================================
-       9. FOOTER
+       9. MANUAL VENDOR ENTRY DRAWER & FLOATING ACTION BUTTON
+       ========================================================================= -->
+  <aside id="manualEntryDrawer" class="drawer manual-drawer" aria-labelledby="manualDrawerTitle" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="drawer-header">
+      <div class="drawer-header-left">
+        <h3 id="manualDrawerTitle" class="drawer-vendor-title">Add Vendor Manually</h3>
+      </div>
+      <div style="display: flex; gap: var(--space-2);">
+        <button id="btnLoadSampleManual" type="button" class="btn btn--subtle btn--sm" title="Populate form with realistic demo data">
+          💡 Load Sample
+        </button>
+        <button id="closeManualDrawerBtn" type="button" class="btn btn--secondary btn--sm" aria-label="Close manual drawer">
+          &times;
+        </button>
+      </div>
+    </div>
+
+    <div class="drawer-body">
+      <!-- Live Score Preview Banner -->
+      <div class="manual-score-preview" aria-live="polite">
+        <div>
+          <div style="display: flex; align-items: center; gap: var(--space-2);">
+            <span style="font-size: 0.825rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">
+              Estimated Score
+            </span>
+            <span class="preview-tag">Live Preview</span>
+          </div>
+          <div id="manPreviewScore" style="font-size: 1.75rem; font-weight: 800; color: var(--text-primary); margin-top: 2px;">
+            --
+          </div>
+        </div>
+        <div>
+          <span id="manPreviewBand" class="status-badge status-badge--neutral">Awaiting input</span>
+        </div>
+      </div>
+
+      <!-- Mode Selector Tabs -->
+      <div class="form-tab-nav" role="tablist">
+        <button type="button" id="tabBtnQuick" class="form-tab-btn tab--active" role="tab" aria-selected="true">
+          ⚡ Quick Entry
+        </button>
+        <button type="button" id="tabBtnTxns" class="form-tab-btn" role="tab" aria-selected="false">
+          📄 Transaction CSV (Advanced)
+        </button>
+      </div>
+
+      <!-- Manual Entry Form -->
+      <form id="manualVendorForm" novalidate>
+        <!-- Common Top Fields -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-4);">
+          <div class="form-group-relative">
+            <label for="manVendorId" class="form-label">Vendor ID / Name *</label>
+            <input type="text" id="manVendorId" class="form-input" placeholder="e.g. M001 or Ramesh Tea" maxlength="30" required autocomplete="off">
+            <span class="field-hint">Max 30 chars. Must be unique.</span>
+          </div>
+
+          <div class="form-group-relative">
+            <label for="manLoanAmount" class="form-label">Loan Requested (₹) *</label>
+            <input type="number" id="manLoanAmount" class="form-input" placeholder="50000" min="10000" max="100000" step="5000" inputmode="numeric" required>
+            <span class="field-hint">₹10,000 to ₹1,00,000</span>
+          </div>
+        </div>
+
+        <!-- Mode 1: Quick Entry Panel -->
+        <div id="panelQuickEntry">
+          <!-- 3-Month Sales -->
+          <div style="margin-bottom: var(--space-4);">
+            <label class="form-label" style="display: block; margin-bottom: 6px;">Monthly Sales / Receipts (₹) *</label>
+            <div class="grid-3-col">
+              <div class="form-group-relative">
+                <input type="number" id="manSalesM1" class="form-input" placeholder="Jul (e.g. 140000)" min="0" max="10000000" inputmode="numeric" required>
+                <span class="field-hint">Month 1 (Jul)</span>
+              </div>
+              <div class="form-group-relative">
+                <input type="number" id="manSalesM2" class="form-input" placeholder="Aug (e.g. 145000)" min="0" max="10000000" inputmode="numeric" required>
+                <span class="field-hint">Month 2 (Aug)</span>
+              </div>
+              <div class="form-group-relative">
+                <input type="number" id="manSalesM3" class="form-input" placeholder="Sep (e.g. 135000)" min="0" max="10000000" inputmode="numeric" required>
+                <span class="field-hint">Month 3 (Sep)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3-Month Expenses -->
+          <div style="margin-bottom: var(--space-4);">
+            <label class="form-label" style="display: block; margin-bottom: 6px;">Monthly Supplier Expenses (₹) *</label>
+            <div class="grid-3-col">
+              <div class="form-group-relative">
+                <input type="number" id="manExpM1" class="form-input" placeholder="Jul (e.g. 25000)" min="0" max="10000000" inputmode="numeric" required>
+                <span class="field-hint">Month 1 (Jul)</span>
+              </div>
+              <div class="form-group-relative">
+                <input type="number" id="manExpM2" class="form-input" placeholder="Aug (e.g. 28000)" min="0" max="10000000" inputmode="numeric" required>
+                <span class="field-hint">Month 2 (Aug)</span>
+              </div>
+              <div class="form-group-relative">
+                <input type="number" id="manExpM3" class="form-input" placeholder="Sep (e.g. 26000)" min="0" max="10000000" inputmode="numeric" required>
+                <span class="field-hint">Month 3 (Sep)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Operational Volumes -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-4);">
+            <div class="form-group-relative">
+              <label for="manCustomers" class="form-label">Unique Customers *</label>
+              <input type="number" id="manCustomers" class="form-input" placeholder="e.g. 350" min="1" step="1" inputmode="numeric" required>
+              <span class="field-hint">Distinct buyers</span>
+            </div>
+
+            <div class="form-group-relative">
+              <label for="manTxnCount" class="form-label">Total Payments Received</label>
+              <input type="number" id="manTxnCount" class="form-input" placeholder="Optional (e.g. 420)" min="1" step="1" inputmode="numeric">
+              <span class="field-hint">Defaults to footfall</span>
+            </div>
+          </div>
+
+          <!-- Inter-Vendor Transfers -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); margin-bottom: var(--space-4);">
+            <div class="form-group-relative">
+              <label for="manTransferOut" class="form-label">Transfers Sent to Other Vendors (₹)</label>
+              <input type="number" id="manTransferOut" class="form-input" placeholder="0" min="0" max="10000000" inputmode="numeric">
+              <span class="field-hint">Vendor-to-vendor out</span>
+            </div>
+
+            <div class="form-group-relative">
+              <label for="manTransferIn" class="form-label">Transfers Received from Vendors (₹)</label>
+              <input type="number" id="manTransferIn" class="form-input" placeholder="0" min="0" max="10000000" inputmode="numeric">
+              <span class="field-hint">Vendor-to-vendor in</span>
+            </div>
+          </div>
+
+          <!-- Circular Transfers Question -->
+          <div class="form-group-relative" style="margin-bottom: var(--space-6);">
+            <label for="manCircularFlag" class="form-label">
+              Does the vendor send money back and forth with another vendor? *
+            </label>
+            <select id="manCircularFlag" class="form-select">
+              <option value="no">No — All movements are genuine retail customer payments</option>
+              <option value="maybe">Not sure — Some reciprocal transfers observed</option>
+              <option value="yes">Yes — Frequent reciprocal transfers with peer accounts</option>
+            </select>
+            <span class="field-hint">Yes flags turnover and reduces score per underwriting rules.</span>
+          </div>
+        </div>
+
+        <!-- Mode 2: Transaction CSV Panel -->
+        <div id="panelTxnEntry" class="hidden">
+          <div class="form-group-relative" style="margin-bottom: var(--space-4);">
+            <label for="manCsvInput" class="form-label">Paste UPI Transaction CSV Rows *</label>
+            <textarea id="manCsvInput" class="csv-textarea" placeholder="date,from_account,to_account,amount,type&#10;2026-07-01,C1001,M001,250.00,customer_payment&#10;2026-07-02,M001,SUP10,1200.00,expense"></textarea>
+            <span class="field-hint">Columns: date, from_account, to_account, amount, type (customer_payment | expense | transfer)</span>
+          </div>
+
+          <div style="margin-bottom: var(--space-4);">
+            <button type="button" id="btnParseCsvPreview" class="btn btn--secondary btn--sm">
+              🔍 Parse & Preview Transactions
+            </button>
+          </div>
+
+          <div id="csvPreviewContainer"></div>
+        </div>
+
+        <!-- Submit & Cancel Actions -->
+        <div style="display: flex; gap: var(--space-3); padding-top: var(--space-4); border-top: 1px solid var(--border-light);">
+          <button type="submit" id="btnSaveManualVendor" class="btn btn--primary" style="flex: 1;">
+            Calculate Score & Save
+          </button>
+          <button type="button" id="cancelManualBtn" class="btn btn--secondary">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </aside>
+
+  <!-- Mobile Floating Action Button -->
+  <button id="fabAddManual" class="fab-manual-btn" type="button" aria-label="Add vendor manually" title="Add vendor manually">
+    +
+  </button>
+
+  <!-- Undo Toast Notification -->
+  <div id="manualUndoToast" class="undo-toast" role="alert" aria-live="assertive">
+    <span id="manualUndoText" style="flex: 1; font-size: 0.9rem;">Vendor deleted.</span>
+    <button id="manualUndoBtn" class="undo-toast-btn" type="button">
+      Undo (5s)
+    </button>
+  </div>
+
+  <!-- =========================================================================
+       10. FOOTER
        ========================================================================= -->
   <footer class="app-footer">
     <div class="container footer-inner">
@@ -629,6 +859,7 @@
   <script src="js/data.js"></script>
   <script src="js/score.js"></script>
   <script src="js/charts.js"></script>
+  <script src="js/manual.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
