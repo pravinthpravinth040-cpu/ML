@@ -5,11 +5,11 @@
     "errors": [],
     "warnings": [],
     "txn_null_counts": {
-      "to_account": 0,
       "txn_id": 0,
-      "amount": 0,
       "from_account": 0,
       "type": 0,
+      "amount": 0,
+      "to_account": 0,
       "date": 0
     },
     "duplicate_txn_ids": 0,
@@ -73,21 +73,21 @@
         ]
       ],
       "top_feature_importances": {
-        "transfer_share_of_receipts": 0.1841559998117031,
-        "transfer_out_volume": 0.1761151138716356,
-        "transfer_volume": 0.17133533133533135,
-        "transfer_in_volume": 0.15406844156269442,
-        "reciprocal_transfer_share": 0.11679607256837998,
-        "receipts_per_cust": 0.05677531219960005,
-        "repayment_coverage": 0.049718276063467105,
-        "monthly_receipts": 0.0370498317274929,
-        "monthly_net_cash_flow": 0.02457431457431457,
-        "expense_to_receipt_ratio": 0.012513361906910292,
-        "top_customer_concentration": 0.005436933436933436,
-        "weekly_receipt_cv": 0.004627308175695277,
-        "monthly_expenses": 0.00398521791735711,
-        "unique_customers": 0.002848484848484848,
-        "repeat_customer_share": 0.0
+        "reciprocal_transfer_share": 0.189013628628002,
+        "transfer_out_volume": 0.16400308621167517,
+        "transfer_share_of_receipts": 0.16223897166228457,
+        "transfer_volume": 0.15024507417145458,
+        "transfer_in_volume": 0.1466909819324599,
+        "monthly_receipts": 0.04979220410886525,
+        "repayment_coverage": 0.04247581357042127,
+        "receipts_per_cust": 0.03458397673998025,
+        "expense_to_receipt_ratio": 0.024725032375700007,
+        "monthly_net_cash_flow": 0.022289182885151335,
+        "unique_customers": 0.004393025208615252,
+        "top_customer_concentration": 0.0033387588164100032,
+        "weekly_receipt_cv": 0.0028045574057844,
+        "monthly_expenses": 0.001766598288259963,
+        "repeat_customer_share": 0.0016391079949362156
       }
     }
   },

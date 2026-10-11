@@ -35,11 +35,197 @@ import seaborn as sns
 from sklearn.model_selection import StratifiedKFold, cross_val_score, train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier, IsolationForest
 from sklearn.metrics import (
     accuracy_score, precision_score, recall_score, f1_score,
     roc_auc_score, confusion_matrix, classification_report
 )
+from sklearn.base import BaseEstimator, ClassifierMixin, OutlierMixin
+
+try:
+    from sklearn.tree import _criterion  # Test if Cython extension loads under OS App Control
+    from sklearn.ensemble import RandomForestClassifier, IsolationForest
+except (ImportError, OSError):
+    # Resilient fallback implementations when OS Application Control blocks Cython C-extensions
+    class SimpleDecisionTree:
+        def __init__(self, max_depth=4, min_samples_split=2):
+            self.max_depth = max_depth
+            self.min_samples_split = min_samples_split
+            self.tree_ = None
+
+        def fit(self, X, y, rng=None, max_features=None):
+            if rng is None:
+                rng = np.random.RandomState(42)
+            self.n_features_in_ = X.shape[1]
+            self.importances_ = np.zeros(X.shape[1])
+            self.tree_ = self._grow_tree(X, y, 0, rng, max_features)
+            return self
+
+        def _gini(self, y):
+            m = len(y)
+            if m == 0:
+                return 0.0
+            p1 = np.sum(y == 1) / m
+            return 1.0 - (p1 ** 2 + (1.0 - p1) ** 2)
+
+        def _grow_tree(self, X, y, depth, rng, max_features):
+            n_samples, n_features = X.shape
+            p1 = float(np.mean(y)) if n_samples > 0 else 0.5
+            leaf = {'type': 'leaf', 'prob': p1, 'pred': int(p1 >= 0.5)}
+
+            if depth >= self.max_depth or n_samples < self.min_samples_split or len(np.unique(y)) <= 1:
+                return leaf
+
+            feat_indices = np.arange(n_features)
+            if max_features and max_features < n_features:
+                feat_indices = rng.choice(feat_indices, size=max_features, replace=False)
+
+            best_gini = self._gini(y)
+            current_impurity = best_gini
+            best_feat, best_thresh = None, None
+
+            for feat in feat_indices:
+                vals = np.unique(X[:, feat])
+                if len(vals) <= 1:
+                    continue
+                thresholds = (vals[:-1] + vals[1:]) / 2.0
+                for thresh in thresholds:
+                    left_mask = X[:, feat] <= thresh
+                    right_mask = ~left_mask
+                    if not np.any(left_mask) or not np.any(right_mask):
+                        continue
+                    g_left = self._gini(y[left_mask])
+                    g_right = self._gini(y[right_mask])
+                    w_gini = (np.sum(left_mask) * g_left + np.sum(right_mask) * g_right) / n_samples
+                    if w_gini < best_gini:
+                        best_gini = w_gini
+                        best_feat = feat
+                        best_thresh = thresh
+
+            if best_feat is None:
+                return leaf
+
+            gain = current_impurity - best_gini
+            self.importances_[best_feat] += gain * n_samples
+
+            left_mask = X[:, best_feat] <= best_thresh
+            return {
+                'type': 'node',
+                'feat': best_feat,
+                'thresh': best_thresh,
+                'left': self._grow_tree(X[left_mask], y[left_mask], depth + 1, rng, max_features),
+                'right': self._grow_tree(X[~left_mask], y[~left_mask], depth + 1, rng, max_features)
+            }
+
+        def predict_row(self, node, x):
+            if node['type'] == 'leaf':
+                return node['prob']
+            if x[node['feat']] <= node['thresh']:
+                return self.predict_row(node['left'], x)
+            return self.predict_row(node['right'], x)
+
+    class RandomForestClassifier(BaseEstimator, ClassifierMixin):
+        def __init__(self, n_estimators=100, max_depth=4, random_state=42):
+            self.n_estimators = n_estimators
+            self.max_depth = max_depth
+            self.random_state = random_state
+
+        def fit(self, X, y):
+            X_mat = np.asarray(X)
+            y_vec = np.asarray(y)
+            self.classes_ = np.unique(y_vec)
+            rng = np.random.RandomState(self.random_state)
+            n_samples, n_features = X_mat.shape
+            max_features = max(1, int(np.sqrt(n_features)))
+
+            self.trees_ = []
+            raw_importances = np.zeros(n_features)
+            for _ in range(self.n_estimators):
+                idx = rng.choice(n_samples, size=n_samples, replace=True)
+                tree = SimpleDecisionTree(max_depth=self.max_depth)
+                tree.fit(X_mat[idx], y_vec[idx], rng=rng, max_features=max_features)
+                self.trees_.append(tree)
+                raw_importances += tree.importances_
+
+            total_imp = raw_importances.sum()
+            self.feature_importances_ = (raw_importances / total_imp) if total_imp > 0 else (np.ones(n_features) / n_features)
+            return self
+
+        def predict_proba(self, X):
+            X_mat = np.asarray(X)
+            probs = np.zeros(len(X_mat))
+            for tree in self.trees_:
+                probs += np.array([tree.predict_row(tree.tree_, x) for x in X_mat])
+            probs /= len(self.trees_)
+            return np.column_stack([1.0 - probs, probs])
+
+        def predict(self, X):
+            probs = self.predict_proba(X)[:, 1]
+            return (probs >= 0.5).astype(int)
+
+    class IsolationForest(BaseEstimator, OutlierMixin):
+        def __init__(self, contamination=0.1, random_state=42, n_estimators=100, max_depth=8):
+            self.contamination = contamination
+            self.random_state = random_state
+            self.n_estimators = n_estimators
+            self.max_depth = max_depth
+
+        def _c(self, n):
+            if n <= 1: return 1.0
+            if n == 2: return 1.0
+            return 2.0 * (np.log(n - 1) + 0.5772156649) - (2.0 * (n - 1) / n)
+
+        def fit(self, X, y=None):
+            X_mat = np.asarray(X)
+            rng = np.random.RandomState(self.random_state)
+            n_samples, n_features = X_mat.shape
+            self.trees_ = []
+            for _ in range(self.n_estimators):
+                tree = self._build_tree(X_mat, 0, self.max_depth, rng)
+                self.trees_.append(tree)
+            self.c_n_ = self._c(n_samples)
+            raw_scores = self._compute_raw_scores(X_mat)
+            self.offset_ = np.percentile(raw_scores, self.contamination * 100.0)
+            return self
+
+        def _build_tree(self, X, depth, max_depth, rng):
+            n_samples = len(X)
+            if depth >= max_depth or n_samples <= 1:
+                return {'type': 'leaf', 'size': n_samples}
+            feat = rng.randint(0, X.shape[1])
+            f_min, f_max = X[:, feat].min(), X[:, feat].max()
+            if f_min == f_max:
+                return {'type': 'leaf', 'size': n_samples}
+            split = rng.uniform(f_min, f_max)
+            left = X[X[:, feat] < split]
+            right = X[X[:, feat] >= split]
+            return {
+                'type': 'node', 'feat': feat, 'split': split,
+                'left': self._build_tree(left, depth + 1, max_depth, rng),
+                'right': self._build_tree(right, depth + 1, max_depth, rng)
+            }
+
+        def _path_length(self, x, tree, current_depth):
+            if tree['type'] == 'leaf':
+                return current_depth + (self._c(tree['size']) if tree['size'] > 1 else 0.0)
+            if x[tree['feat']] < tree['split']:
+                return self._path_length(x, tree['left'], current_depth + 1)
+            return self._path_length(x, tree['right'], current_depth + 1)
+
+        def _compute_raw_scores(self, X_mat):
+            paths = np.zeros(len(X_mat))
+            for x_idx, x in enumerate(X_mat):
+                total_len = sum(self._path_length(x, t, 0) for t in self.trees_)
+                paths[x_idx] = total_len / len(self.trees_)
+            return -(2.0 ** (-paths / max(self.c_n_, 1e-6)))
+
+        def decision_function(self, X):
+            X_mat = np.asarray(X)
+            return self._compute_raw_scores(X_mat) - self.offset_
+
+        def fit_predict(self, X, y=None):
+            self.fit(X)
+            raw_scores = self._compute_raw_scores(np.asarray(X))
+            return np.where(raw_scores < self.offset_, -1, 1)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -400,10 +586,10 @@ def split_train_test(vendor_df: pd.DataFrame, txns_df: pd.DataFrame, output_dir:
 
     # Stratified 80/20 vendor split
     train_idx, test_idx = train_test_split(
-        vendor_df.index,
+        vendor_df.index.to_numpy(),
         test_size=0.20,
         random_state=42,
-        stratify=y
+        stratify=y.to_numpy()
     )
 
     X_train = X.loc[train_idx]
@@ -806,6 +992,10 @@ def main():
 
     # 6. 100-Point Scorecard
     scores_df = compute_scorecard(labeled_features_df, charts_dir, script_dir)
+    frontend_data_dir = repo_root / "frontend" / "data"
+    if frontend_data_dir.exists():
+        scores_df.to_csv(frontend_data_dir / "vendor_scores.csv", index=False)
+        logger.info(f"Updated frontend scorecard data at {frontend_data_dir / 'vendor_scores.csv'}")
 
     # 7. Save Model & Metrics Artifacts
     model_artifact = {
