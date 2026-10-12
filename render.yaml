@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: trustcred-ai
+    env: static
+    buildCommand: ""
+    staticPublishPath: .
+    routes:
+      - type: rewrite
+        source: /
+        destination: /frontend/index.html
+      - type: rewrite
+        source: /vendor
+        destination: /frontend/vendor.html
