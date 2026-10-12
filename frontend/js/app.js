@@ -24,7 +24,7 @@
     filterSource: 'all',    // 'all', 'dataset', 'manual'
     sortBy: 'score_desc',
     includeManualInTotals: false,
-    theme: 'dark',
+    theme: 'light',
     simulatorVendor: null,
     isScoresCsvLoaded: false
   };
@@ -873,50 +873,16 @@
   // =========================================================================
 
   function initTheme() {
-    let savedTheme = 'dark';
+    state.theme = 'light';
+    document.documentElement.removeAttribute('data-theme');
     try {
-      savedTheme = localStorage.getItem('trustcred-theme');
-    } catch (e) {
-      console.warn('localStorage not accessible for theme persistence');
-    }
-
-    if (!savedTheme) {
-      savedTheme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-    }
-
-    setTheme(savedTheme);
-
-    const themeToggleBtn = document.getElementById('themeToggleBtn');
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener('click', () => {
-        const next = state.theme === 'dark' ? 'light' : 'dark';
-        setTheme(next);
-      });
-    }
+      localStorage.removeItem('trustcred-theme');
+    } catch (e) {}
   }
 
   function setTheme(t) {
-    state.theme = t;
-    document.documentElement.setAttribute('data-theme', t);
-    try {
-      localStorage.setItem('trustcred-theme', t);
-    } catch (e) {}
-
-    const icon = document.getElementById('themeToggleIcon');
-    const label = document.getElementById('themeToggleLabel');
-    if (icon && label) {
-      if (t === 'dark') {
-        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />';
-        label.textContent = 'Light Mode';
-      } else {
-        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />';
-        label.textContent = 'Dark Mode';
-      }
-    }
-
-    if (window.TrustCredCharts) {
-      window.TrustCredCharts.refreshThemes(state.selectedVendor);
-    }
+    state.theme = 'light';
+    document.documentElement.removeAttribute('data-theme');
   }
 
   function showLoadingSkeleton(show) {

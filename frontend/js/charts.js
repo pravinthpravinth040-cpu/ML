@@ -22,19 +22,18 @@ const TrustCredCharts = (function() {
    * Determine current chart theme colors based on html theme attribute.
    */
   function getThemeColors() {
-    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     return {
-      textColor: isDark ? '#E2E8F0' : '#1E293B',
-      mutedColor: isDark ? '#94A3B8' : '#64748B',
-      gridColor: isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.06)',
-      cardBg: isDark ? '#1E293B' : '#FFFFFF',
-      primary: '#6366F1',
-      primaryLight: isDark ? 'rgba(99, 102, 241, 0.25)' : 'rgba(99, 102, 241, 0.15)',
-      emerald: '#10B981',
-      emeraldLight: isDark ? 'rgba(16, 185, 129, 0.25)' : 'rgba(16, 185, 129, 0.15)',
-      rose: '#F43F5E',
-      roseLight: isDark ? 'rgba(244, 63, 94, 0.25)' : 'rgba(244, 63, 94, 0.15)',
-      amber: '#F59E0B'
+      textColor: '#0F172A',
+      mutedColor: '#64748B',
+      gridColor: '#F1F5F9',
+      cardBg: '#FFFFFF',
+      primary: '#2563EB',
+      primaryLight: 'rgba(37, 99, 235, 0.08)',
+      emerald: '#059669',
+      emeraldLight: 'rgba(5, 150, 105, 0.12)',
+      rose: '#E11D48',
+      roseLight: 'rgba(225, 29, 72, 0.12)',
+      amber: '#D97706'
     };
   }
 

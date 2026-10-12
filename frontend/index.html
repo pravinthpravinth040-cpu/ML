@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,37 +22,26 @@
     <div class="container nav-inner">
       <a href="#heroSection" class="brand-wrap" aria-label="TrustCred AI Home">
         <div class="brand-icon" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             <path d="m9 12 2 2 4-4"/>
           </svg>
         </div>
         <div class="brand-text">
-          <h1>TrustCred AI <span class="brand-pill">UPI Flow ML</span></h1>
+          <span class="brand-name">TrustCred</span>
+          <span class="brand-tag">AI Underwriting</span>
         </div>
       </a>
 
-      <nav aria-label="Main Navigation">
-        <ul class="nav-links">
-          <li><a href="#heroSection" class="nav-link">Overview</a></li>
-          <li><a href="#vendorsSection" class="nav-link">Vendors Directory</a></li>
-          <li><a href="#simulatorSection" class="nav-link">Loan Simulator</a></li>
-          <li><a href="#compareSection" class="nav-link">Compare</a></li>
-          <li><a href="#methodologySection" class="nav-link">Methodology</a></li>
-        </ul>
-      </nav>
-
       <div class="nav-actions">
-        <span id="dataSourceBadge" class="status-badge status-badge--neutral">Loading Data...</span>
-        <a href="vendor.html" class="btn btn--subtle btn--sm" style="text-decoration: none;" title="Open Vendor Mobile Experience">
-          📱 Vendor App
+        <div class="status-indicator-wrap">
+          <span class="status-dot"></span>
+          <span id="dataSourceBadge" class="status-badge-text">ML Scorecard Active</span>
+        </div>
+        <a href="vendor.html" class="btn btn--subtle btn--sm" target="_blank" title="Open Vendor Mobile Experience">
+          <span>Vendor Portal</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         </a>
-        <button id="themeToggleBtn" class="theme-toggle-btn" type="button" aria-label="Toggle light or dark display mode">
-          <svg id="themeToggleIcon" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-          </svg>
-          <span id="themeToggleLabel">Light Mode</span>
-        </button>
       </div>
     </div>
   </header>
@@ -60,41 +49,37 @@
   <main id="main">
 
     <!-- =========================================================================
-         2. HERO SECTION
+         2. MINIMAL STARTUP HERO SECTION
          ========================================================================= -->
     <section id="heroSection" class="hero-section" aria-labelledby="heroTitle">
-      <div class="container">
+      <div class="hero-container">
         <div class="hero-badge-wrap">
           <span class="hero-pill">
-            <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
-            </svg>
-            Cash-Flow Underwriting Engine • Zero Bureau Reliance
+            <span class="hero-pill-sparkle">✨</span>
+            AI Cash-Flow Underwriting &bull; Zero Bureau Reliance
           </span>
         </div>
-        <h2 id="heroTitle" class="hero-title">
-          Credit Underwriting a Lender Can Trust,<br>
-          <span class="hero-gradient-text">Powered by UPI Transaction Evidence</span>
-        </h2>
+        <h1 id="heroTitle" class="hero-title">
+          Explainable credit scoring backed by real transaction velocity.
+        </h1>
         <p class="hero-subtitle">
-          Small vendors with no formal credit bureau history get an explainable cash-flow assessment.
-          Identifies genuine merchant turnover and flags accounts inflated by circular round-tripping transfers.
+          Automate loan risk assessment for micro-merchants with no formal credit history. Evaluates authentic retail turnover and flags circular round-tripping transfers in seconds.
         </p>
         <div class="hero-cta-group">
-          <button id="heroCheckVendorBtn" class="btn btn--primary" type="button">
+          <button id="heroCheckVendorBtn" class="btn btn--primary btn--lg" type="button">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            Check a Vendor Assessment
+            <span>Explore 40 Merchants</span>
           </button>
-          <a href="#simulatorSection" class="btn btn--secondary">
+          <a href="#simulatorSection" class="btn btn--secondary btn--lg">
             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
               <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
               <line x1="8" y1="21" x2="16" y2="21"></line>
               <line x1="12" y1="17" x2="12" y2="21"></line>
             </svg>
-            Simulate Debt Coverage
+            <span>Debt Simulator</span>
           </a>
         </div>
       </div>
@@ -195,17 +180,23 @@
 
         <!-- Filter Toolbar -->
         <div class="filter-toolbar-card">
-          <div class="filter-grid" style="grid-template-columns: 2.2fr 1.1fr 1fr 1fr 1fr auto;">
-            <div class="form-group">
-              <label for="vendorSearchInput" class="form-label">Search by Vendor ID or Amount</label>
-              <div style="display: flex; gap: var(--space-2);">
-                <input type="search" id="vendorSearchInput" class="form-input" style="flex: 1;" placeholder="e.g. V007, M001..." autocomplete="off">
-                <button id="btnOpenManualEntry" class="btn btn--primary" type="button" style="white-space: nowrap;" title="Add vendor manually">
-                  + Add Vendor
-                </button>
-              </div>
+          <!-- Top Row: Full-width search bar + Add Merchant button -->
+          <div class="toolbar-top-row">
+            <div class="search-input-wrap">
+              <svg class="search-icon" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="search" id="vendorSearchInput" class="form-input search-input" placeholder="Search by Vendor ID (e.g. V007, M001) or loan amount..." autocomplete="off">
             </div>
+            <button id="btnOpenManualEntry" class="btn btn--primary" type="button" title="Add vendor assessment manually">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>Add Merchant</span>
+            </button>
+          </div>
 
+          <!-- Filters Row: Clean responsive grid of selects + Reset button -->
+          <div class="toolbar-filters-row">
             <div class="form-group">
               <label for="filterSource" class="form-label">Data Source</label>
               <select id="filterSource" class="form-select">
@@ -236,7 +227,7 @@
             </div>
 
             <div class="form-group">
-              <label for="sortVendorsBy" class="form-label">Sort Vendors</label>
+              <label for="sortVendorsBy" class="form-label">Sort By</label>
               <select id="sortVendorsBy" class="form-select">
                 <option value="score_desc">Score: High to Low</option>
                 <option value="score_asc">Score: Low to High</option>
@@ -246,30 +237,32 @@
               </select>
             </div>
 
-            <div class="form-group" style="justify-content: flex-end;">
-              <button id="resetFiltersBtn" type="button" class="btn btn--secondary" style="height: 44px;">
+            <div class="form-group form-group--action">
+              <label class="form-label">&nbsp;</label>
+              <button id="resetFiltersBtn" type="button" class="btn btn--secondary" title="Reset all active filters">
                 Reset
               </button>
             </div>
           </div>
 
-          <div class="filter-status-row" style="flex-wrap: wrap; gap: var(--space-3);">
-            <div style="display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap;">
-              <span id="filterLiveCount" aria-live="polite">Showing all 40 vendors.</span>
-              <label style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-primary); font-size: 0.825rem;">
-                <input type="checkbox" id="chkIncludeManual" style="width: 16px; height: 16px; accent-color: var(--color-primary);">
-                Include manual vendors in portfolio totals
+          <!-- Meta Row: Live Count and Data Management Actions -->
+          <div class="filter-status-row">
+            <div class="meta-left">
+              <span id="filterLiveCount" class="meta-live-count" aria-live="polite">Showing all 40 vendors.</span>
+              <label class="meta-checkbox-label">
+                <input type="checkbox" id="chkIncludeManual" class="custom-checkbox">
+                <span>Include manual vendors in portfolio totals</span>
               </label>
             </div>
-            <div style="display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap;">
-              <button id="btnExportManualJson" type="button" class="btn btn--subtle btn--sm" title="Export manual vendors as JSON">
-                ⬇ Export JSON
+            <div class="meta-actions">
+              <button id="btnExportManualCsv" type="button" class="btn btn--ghost btn--sm" title="Export manual vendors as CSV">
+                Export CSV
               </button>
-              <button id="btnExportManualCsv" type="button" class="btn btn--subtle btn--sm" title="Export manual vendors as CSV">
-                ⬇ Export CSV
+              <button id="btnExportManualJson" type="button" class="btn btn--ghost btn--sm" title="Export manual vendors as JSON">
+                Export JSON
               </button>
               <button id="btnImportManualJson" type="button" class="btn btn--secondary btn--sm" title="Import manual vendors from JSON file">
-                ⬆ Import JSON
+                Import JSON
               </button>
               <input type="file" id="manualImportFileInput" accept=".json" class="hidden">
             </div>
