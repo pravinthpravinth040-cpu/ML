@@ -3,7 +3,7 @@
 > **Empirical UPI-flow underwriting for unbanked micro-merchants and street vendors with zero credit bureau history.**  
 > Unmasks circular round-tripping transfers, evaluates authentic debt servicing capacity, and delivers an objective 100-point explainable scorecard.
 
-![TrustCred AI Underwriter Dashboard](docs/images/lender_dashboard_ui.jpg)
+![TrustCred AI Underwriter Dashboard](docs/images/lender_dashboard_ui.png)
 
 ---
 
@@ -204,7 +204,7 @@ c:\Users\dhanu\Documents\PROJECTS\SRI SAKTHI HACKTHON/
 │   ├── pseudo-label-rules.md          # Fraud rules, thresholds & Isolation Forest audit
 │   ├── dataset-audit.md               # Complete audit report verifying dataset integrity
 │   └── images/                        # Visual architecture, fraud flows & ML performance figures
-│       ├── lender_dashboard_ui.jpg    # Interactive Underwriter UI preview
+│       ├── lender_dashboard_ui.png    # Interactive Underwriter UI preview (Minimal Startup Hero)
 │       ├── system_architecture_hld.jpg# High-Level Design (HLD) architecture diagram
 │       ├── architecture_schematic_handdrawn.jpg # Hand-drawn architecture schematic overview
 │       ├── circular_flow_fraud.jpg    # Genuine vs circular transfer mechanics

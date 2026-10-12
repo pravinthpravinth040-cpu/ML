@@ -1,66 +1,503 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>TrustCred - Vendor App</title>
-<link rel="stylesheet" href="css/bot.css">
-<style>
-:root{--bg:#f8fafc;--card:#ffffff;--tx:#0f172a;--mut:#64748b;--pri:#2563eb;--ok:#059669;--wa:#d97706;--bad:#e11d48;--bd:#e2e8f0}
-*{box-sizing:border-box;margin:0}html,body{height:100%}
-body{background:var(--bg);color:var(--tx);font:16px/1.6 'Noto Sans Tamil',Inter,system-ui,sans-serif;display:flex;justify-content:center}
-#app{width:100%;max-width:430px;height:100%;display:flex;flex-direction:column;background:var(--bg);position:relative}
-main{flex:1;overflow-y:auto;padding:calc(16px + env(safe-area-inset-top,0px)) 16px 16px}
-.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:16px;margin-bottom:14px}
-h1{font-size:22px}h2{font-size:17px;margin-bottom:8px}.mut{color:var(--mut);font-size:14px}
-.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.btn{min-height:48px;border:0;border-radius:14px;background:var(--pri);color:#fff;font:600 16px inherit;width:100%;padding:12px;cursor:pointer}
-.btn.ghost{background:transparent;color:var(--pri);border:1px solid var(--pri)}
-select,input[type=range]{width:100%;min-height:48px;font:16px inherit;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:8px}
-input[type=range]{padding:0;accent-color:var(--pri)}
-nav{display:flex;background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0px)}
-nav button{flex:1;min-height:60px;border:0;background:none;color:var(--mut);font:600 12px inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer}
-nav button span{font-size:22px}nav button.on{color:var(--pri)}
-button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--pri);outline-offset:2px}
-.gauge{display:block;margin:4px auto}.badge{display:inline-block;padding:4px 12px;border-radius:99px;font-weight:700;font-size:14px;color:#fff}
-.alert{border-left:5px solid var(--bad);background:var(--card);border-radius:12px;padding:12px;margin-bottom:14px;border:1px solid var(--bd);border-left:5px solid var(--bad)}
-.bar{height:10px;border-radius:9px;background:var(--bd);overflow:hidden;margin:6px 0 2px}.bar i{display:block;height:100%;border-radius:9px}
-.tog{display:flex;align-items:center;justify-content:space-between;min-height:48px;border-bottom:1px solid var(--bd)}
-.tog input{width:24px;height:24px;accent-color:var(--pri)}
-.big{font-size:26px;font-weight:800}.lang{background:none;border:1px solid var(--bd);color:var(--tx);border-radius:99px;min-height:48px;padding:0 14px;font:600 14px inherit;cursor:pointer}
-.step-card{background:var(--card);border:2px solid var(--bd);border-radius:18px;padding:16px;margin-bottom:12px;transition:border-color .2s,box-shadow .2s}
-.step-card.active-step{border-color:var(--pri);box-shadow:0 0 0 3px rgba(36,87,214,0.25)}
-.step-tts-btn{min-height:48px;min-width:48px;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--tx);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:18px}
-.tts-ctrls{position:sticky;top:0;z-index:10;background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:14px;margin-bottom:14px;box-shadow:0 4px 14px rgba(0,0,0,0.06)}
-.speed-group{display:flex;gap:6px;align-items:center;margin-top:10px}
-.speed-btn{flex:1;min-height:48px;border-radius:12px;border:1px solid var(--bd);background:transparent;color:var(--tx);font:600 14px inherit;cursor:pointer}
-.speed-btn.on{background:var(--pri);color:#fff;border-color:var(--pri)}
-.both-sub{color:var(--mut);font-size:13px;display:block;margin-top:4px;font-weight:400;line-height:1.45}
-@media(prefers-reduced-motion:no-preference){.bar i{transition:width .6s}.scr{animation:f .25s}@keyframes f{from{opacity:0;transform:translateY(6px)}}}
-</style></head><body><div id="app"><main id="m" aria-live="polite"></main><nav id="nav" hidden></nav></div>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>TrustCred — Vendor Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/bot.css">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --card-bg: #ffffff;
+      --border: #f1f5f9;
+      --border-strong: #e2e8f0;
+      --tx: #0f172a;
+      --tx-mut: #64748b;
+      --tx-subtle: #94a3b8;
+      --pri: #2563eb;
+      --pri-light: #eff6ff;
+      --pri-hover: #1d4ed8;
+      --ok: #059669;
+      --ok-light: #ecfdf5;
+      --wa: #d97706;
+      --wa-light: #fffbeb;
+      --bad: #e11d48;
+      --bad-light: #fff1f2;
+      --ig-gradient: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      --fintech-gradient: linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      --shadow-card: 0 2px 12px -2px rgba(15, 23, 42, 0.05);
+      --shadow-elevated: 0 10px 25px -4px rgba(15, 23, 42, 0.08);
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; background: #f1f5f9; color: var(--tx); font-family: 'Plus Jakarta Sans', 'Noto Sans Tamil', system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
+    body { display: flex; justify-content: center; align-items: stretch; }
+
+    #app {
+      width: 100%;
+      max-width: 440px;
+      height: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--surface);
+      position: relative;
+      box-shadow: 0 0 40px rgba(0,0,0,0.06);
+    }
+
+    /* Top Instagram-Style Header */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: calc(12px + env(safe-area-inset-top, 0px)) 16px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .app-header-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--tx);
+    }
+    .brand-logo-text {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: var(--fintech-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Instagram-Style Story Highlights */
+    .stories-row {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      background: #fafafa;
+      scrollbar-width: none;
+    }
+    .stories-row::-webkit-scrollbar { display: none; }
+    .story-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: 0;
+      font-family: inherit;
+    }
+    .story-ring {
+      width: 58px;
+      height: 58px;
+      border-radius: var(--radius-full);
+      padding: 2.5px;
+      background: var(--border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .story-item.active .story-ring {
+      background: var(--fintech-gradient);
+    }
+    .story-ring:active { transform: scale(0.92); }
+    .story-avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: var(--radius-full);
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      border: 2px solid var(--surface);
+    }
+    .story-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--tx-mut);
+      max-width: 62px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .story-item.active .story-title {
+      color: var(--pri);
+      font-weight: 700;
+    }
+
+    /* Main Scrollable Canvas */
+    main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+      background: #fbfcfd;
+    }
+
+    /* Instagram-Style Feed Cards */
+    .ig-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-card);
+      transition: border-color 0.15s ease;
+    }
+    .ig-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+    .ig-card-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .ig-avatar-sm {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-full);
+      background: var(--pri-light);
+      color: var(--pri);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      border: 1.5px solid rgba(37, 99, 235, 0.2);
+    }
+    .ig-user-name { font-size: 14px; font-weight: 700; color: var(--tx); line-height: 1.2; }
+    .ig-user-sub { font-size: 12px; color: var(--tx-mut); }
+
+    /* Typography & Utilities */
+    h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+    h2 { font-size: 16px; font-weight: 700; letter-spacing: -0.2px; margin-bottom: 6px; }
+    .mut { color: var(--tx-mut); font-size: 13.5px; line-height: 1.5; }
+    .row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+
+    /* Pills & Badges */
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+    .badge-pill--ok { background: var(--ok-light); color: var(--ok); }
+    .badge-pill--wa { background: var(--wa-light); color: var(--wa); }
+    .badge-pill--bad { background: var(--bad-light); color: var(--bad); }
+
+    .lang-pill-btn {
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      color: var(--tx);
+      border-radius: var(--radius-full);
+      min-height: 34px;
+      padding: 0 12px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+    .lang-pill-btn:hover { background: #f8fafc; border-color: var(--tx-mut); }
+
+    /* Buttons */
+    .btn {
+      min-height: 46px;
+      border: 0;
+      border-radius: var(--radius-md);
+      background: var(--pri);
+      color: #fff;
+      font: 600 15px inherit;
+      width: 100%;
+      padding: 10px 16px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.15s ease;
+    }
+    .btn:hover { background: var(--pri-hover); transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn.ghost {
+      background: var(--surface);
+      color: var(--tx);
+      border: 1px solid var(--border-strong);
+    }
+    .btn.ghost:hover { background: #f8fafc; border-color: var(--tx-mut); }
+    .btn.primary-gradient {
+      background: var(--fintech-gradient);
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+    }
+
+    /* Metric Grid (Instagram Stories Profile Stats Style) */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .stat-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 10px;
+      text-align: center;
+    }
+    .stat-label { font-size: 11.5px; font-weight: 600; color: var(--tx-mut); margin-bottom: 2px; }
+    .stat-val { font-size: 15px; font-weight: 800; color: var(--tx); }
+
+    /* Sliders & Inputs */
+    select, input[type=range] {
+      width: 100%;
+      min-height: 44px;
+      font: 15px inherit;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--tx);
+      padding: 8px 12px;
+      outline: none;
+    }
+    select:focus { border-color: var(--pri); ring: 2px var(--pri-light); }
+    input[type=range] {
+      padding: 0;
+      accent-color: var(--pri);
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: var(--radius-full);
+      border: 0;
+    }
+
+    /* Bottom Instagram Navigation Bar */
+    nav#nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 440px;
+      height: calc(60px + env(safe-area-inset-bottom, 0px));
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      z-index: 50;
+    }
+    nav#nav button {
+      flex: 1;
+      height: 100%;
+      border: 0;
+      background: none;
+      color: var(--tx-subtle);
+      font: 600 11px inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      cursor: pointer;
+      transition: color 0.15s ease;
+    }
+    nav#nav button svg { width: 22px; height: 22px; stroke-width: 2; transition: transform 0.15s ease; }
+    nav#nav button.on { color: var(--pri); font-weight: 700; }
+    nav#nav button.on svg { stroke-width: 2.5; transform: scale(1.08); }
+
+    /* Alert Banner */
+    .alert-banner {
+      background: var(--bad-light);
+      border: 1px solid rgba(225, 29, 72, 0.2);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .alert-banner b { color: var(--bad); font-size: 13.5px; }
+    .alert-banner p { color: #9f1239; font-size: 12.5px; margin-top: 2px; }
+
+    /* Progress Bar */
+    .bar { height: 8px; border-radius: var(--radius-full); background: #e2e8f0; overflow: hidden; margin: 6px 0 3px; }
+    .bar i { display: block; height: 100%; border-radius: var(--radius-full); }
+
+    /* Toggle Switches */
+    .tog {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 48px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .tog input { width: 20px; height: 20px; accent-color: var(--pri); }
+
+    /* TTS Controls */
+    .tts-ctrls {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-elevated);
+    }
+    .speed-group { display: flex; gap: 6px; align-items: center; margin-top: 8px; }
+    .speed-btn {
+      flex: 1;
+      min-height: 36px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: #f8fafc;
+      color: var(--tx);
+      font: 600 12.5px inherit;
+      cursor: pointer;
+    }
+    .speed-btn.on { background: var(--pri); color: #fff; border-color: var(--pri); }
+
+    .step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-card);
+      transition: all 0.2s ease;
+    }
+    .step-card.active-step {
+      border-color: var(--pri);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+      background: var(--pri-light);
+    }
+    .step-tts-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--tx);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.15s ease;
+    }
+    .step-tts-btn:hover { background: var(--pri-light); color: var(--pri); border-color: var(--pri); }
+
+    .both-sub { color: var(--tx-mut); font-size: 12.5px; display: block; margin-top: 3px; font-weight: 400; line-height: 1.4; }
+  </style>
+</head>
+<body>
+
+<div id="app">
+  <!-- Sticky Instagram Header -->
+  <header class="app-header" id="appHeader" hidden>
+    <a href="#" class="app-header-brand" id="hdrBrand">
+      <span class="brand-logo-text">TrustCred</span>
+    </a>
+    <div class="header-actions">
+      <button class="lang-pill-btn" id="hdrLangBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+        <span id="hdrLangText">தமிழ்</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Instagram Story Highlights Row -->
+  <div class="stories-row" id="storiesBar" hidden>
+    <button class="story-item active" data-tab="home">
+      <div class="story-ring"><div class="story-avatar">🎯</div></div>
+      <span class="story-title">Score</span>
+    </button>
+    <button class="story-item" data-tab="ai">
+      <div class="story-ring"><div class="story-avatar">🤖</div></div>
+      <span class="story-title">AI Voice</span>
+    </button>
+    <button class="story-item" data-tab="cf">
+      <div class="story-ring"><div class="story-avatar">📊</div></div>
+      <span class="story-title">Cash Flow</span>
+    </button>
+    <button class="story-item" data-tab="loan">
+      <div class="story-ring"><div class="story-avatar">💰</div></div>
+      <span class="story-title">Loan Sim</span>
+    </button>
+    <button class="story-item" data-tab="me">
+      <div class="story-ring"><div class="story-avatar">🛡️</div></div>
+      <span class="story-title">Privacy</span>
+    </button>
+  </div>
+
+  <main id="m" aria-live="polite"></main>
+  <nav id="nav" hidden></nav>
+</div>
+
 <script>
 const DATA=[{"vendor_id":"V001","loan_amount_requested":60000,"total_receipts":384193.9,"total_expenses":41919.62,"net_cashflow":342274.28,"unique_customers":1143,"txn_count":1150,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":132912.61,"2026-08":132423.68,"2026-09":118857.61}},{"vendor_id":"V002","loan_amount_requested":50000,"total_receipts":435371.99,"total_expenses":34061.27,"net_cashflow":401310.72,"unique_customers":1128,"txn_count":1138,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":149569.57,"2026-08":153179.42,"2026-09":132623.0}},{"vendor_id":"V003","loan_amount_requested":60000,"total_receipts":268245.22,"total_expenses":38051.63,"net_cashflow":230193.59,"unique_customers":1139,"txn_count":1145,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":91834.44,"2026-08":93529.68,"2026-09":82881.1}},{"vendor_id":"V004","loan_amount_requested":30000,"total_receipts":232004.26,"total_expenses":48494.61,"net_cashflow":183509.65,"unique_customers":1141,"txn_count":1147,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":80384.81,"2026-08":80038.13,"2026-09":71581.32}},{"vendor_id":"V005","loan_amount_requested":60000,"total_receipts":155761.76,"total_expenses":41506.52,"net_cashflow":114255.24,"unique_customers":1170,"txn_count":1179,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":53845.72,"2026-08":53270.42,"2026-09":48645.62}},{"vendor_id":"V006","loan_amount_requested":30000,"total_receipts":168752.27,"total_expenses":37088.31,"net_cashflow":131663.96,"unique_customers":1187,"txn_count":1192,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":58501.09,"2026-08":57853.02,"2026-09":52398.16}},{"vendor_id":"V007","loan_amount_requested":75000,"total_receipts":125204.67,"total_expenses":31190.47,"net_cashflow":94014.2,"unique_customers":1209,"txn_count":1218,"reciprocal_transfer_share":1.0,"monthly_receipts":{"2026-07":42811.04,"2026-08":43067.57,"2026-09":39326.06}},{"vendor_id":"V008","loan_amount_requested":40000,"total_receipts":122224.45,"total_expenses":36647.83,"net_cashflow":85576.62,"unique_customers":1182,"txn_count":1190,"reciprocal_transfer_share":1.0,"monthly_receipts":{"2026-07":41388.31,"2026-08":42369.77,"2026-09":38466.37}},{"vendor_id":"V009","loan_amount_requested":60000,"total_receipts":114231.51,"total_expenses":42901.19,"net_cashflow":71330.32,"unique_customers":1159,"txn_count":1169,"reciprocal_transfer_share":1.0,"monthly_receipts":{"2026-07":38706.14,"2026-08":40853.24,"2026-09":34672.13}},{"vendor_id":"V010","loan_amount_requested":30000,"total_receipts":210037.78,"total_expenses":43239.37,"net_cashflow":166798.41,"unique_customers":1196,"txn_count":1201,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":73597.64,"2026-08":70490.98,"2026-09":65949.16}},{"vendor_id":"V011","loan_amount_requested":75000,"total_receipts":204257.25,"total_expenses":39130.24,"net_cashflow":165127.01,"unique_customers":1169,"txn_count":1176,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":71198.16,"2026-08":70112.49,"2026-09":62946.6}},{"vendor_id":"V012","loan_amount_requested":60000,"total_receipts":523055.62,"total_expenses":40889.16,"net_cashflow":482166.46,"unique_customers":1219,"txn_count":1222,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":182136.83,"2026-08":180050.88,"2026-09":160867.91}},{"vendor_id":"V013","loan_amount_requested":50000,"total_receipts":211902.05,"total_expenses":31927.02,"net_cashflow":179975.03,"unique_customers":1209,"txn_count":1215,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":73549.95,"2026-08":73451.67,"2026-09":64900.43}},{"vendor_id":"V014","loan_amount_requested":40000,"total_receipts":399985.06,"total_expenses":50868.48,"net_cashflow":349116.58,"unique_customers":1130,"txn_count":1135,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":138838.71,"2026-08":137825.93,"2026-09":123320.42}},{"vendor_id":"V015","loan_amount_requested":30000,"total_receipts":232147.61,"total_expenses":38259.43,"net_cashflow":193888.18,"unique_customers":1135,"txn_count":1143,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":79520.77,"2026-08":79619.39,"2026-09":73007.45}},{"vendor_id":"V016","loan_amount_requested":75000,"total_receipts":426654.66,"total_expenses":32298.79,"net_cashflow":394355.87,"unique_customers":1132,"txn_count":1149,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":150758.84,"2026-08":146529.47,"2026-09":129366.35}},{"vendor_id":"V017","loan_amount_requested":30000,"total_receipts":230164.1,"total_expenses":31268.51,"net_cashflow":198895.59,"unique_customers":1144,"txn_count":1154,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":80342.84,"2026-08":79129.44,"2026-09":70691.82}},{"vendor_id":"V018","loan_amount_requested":30000,"total_receipts":160465.8,"total_expenses":43412.95,"net_cashflow":117052.85,"unique_customers":1185,"txn_count":1193,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":53366.14,"2026-08":55911.7,"2026-09":51187.96}},{"vendor_id":"V019","loan_amount_requested":60000,"total_receipts":358301.02,"total_expenses":35292.22,"net_cashflow":323008.8,"unique_customers":1131,"txn_count":1136,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":122489.73,"2026-08":124091.34,"2026-09":111719.95}},{"vendor_id":"V020","loan_amount_requested":60000,"total_receipts":255958.33,"total_expenses":39345.36,"net_cashflow":216612.97,"unique_customers":1145,"txn_count":1152,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":88139.55,"2026-08":87921.51,"2026-09":79897.27}},{"vendor_id":"V021","loan_amount_requested":30000,"total_receipts":121475.25,"total_expenses":33427.31,"net_cashflow":88047.94,"unique_customers":1181,"txn_count":1195,"reciprocal_transfer_share":1.0,"monthly_receipts":{"2026-07":42489.66,"2026-08":40688.06,"2026-09":38297.53}},{"vendor_id":"V022","loan_amount_requested":50000,"total_receipts":132995.86,"total_expenses":40739.95,"net_cashflow":92255.91,"unique_customers":1167,"txn_count":1173,"reciprocal_transfer_share":1.0,"monthly_receipts":{"2026-07":45578.2,"2026-08":46348.38,"2026-09":41069.28}},{"vendor_id":"V023","loan_amount_requested":75000,"total_receipts":497663.17,"total_expenses":31059.33,"net_cashflow":466603.84,"unique_customers":1175,"txn_count":1180,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":171825.01,"2026-08":170697.47,"2026-09":155140.69}},{"vendor_id":"V024","loan_amount_requested":75000,"total_receipts":159882.9,"total_expenses":38483.46,"net_cashflow":121399.44,"unique_customers":1187,"txn_count":1195,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":55387.1,"2026-08":53501.87,"2026-09":50993.93}},{"vendor_id":"V025","loan_amount_requested":60000,"total_receipts":202356.27,"total_expenses":40499.87,"net_cashflow":161856.4,"unique_customers":1135,"txn_count":1148,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":70713.25,"2026-08":67668.34,"2026-09":63974.68}},{"vendor_id":"V026","loan_amount_requested":50000,"total_receipts":454734.27,"total_expenses":41470.25,"net_cashflow":413264.02,"unique_customers":1184,"txn_count":1194,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":158605.17,"2026-08":159393.28,"2026-09":136735.82}},{"vendor_id":"V027","loan_amount_requested":30000,"total_receipts":280767.59,"total_expenses":32755.98,"net_cashflow":248011.61,"unique_customers":1114,"txn_count":1123,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":96531.5,"2026-08":98009.15,"2026-09":86226.94}},{"vendor_id":"V028","loan_amount_requested":60000,"total_receipts":203971.15,"total_expenses":40945.36,"net_cashflow":163025.79,"unique_customers":1211,"txn_count":1222,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":69408.25,"2026-08":70050.49,"2026-09":64512.41}},{"vendor_id":"V029","loan_amount_requested":40000,"total_receipts":238801.27,"total_expenses":31485.18,"net_cashflow":207316.09,"unique_customers":1168,"txn_count":1177,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":82960.14,"2026-08":83337.7,"2026-09":72503.43}},{"vendor_id":"V030","loan_amount_requested":75000,"total_receipts":340737.6,"total_expenses":42221.96,"net_cashflow":298515.64,"unique_customers":1209,"txn_count":1217,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":115194.29,"2026-08":117905.03,"2026-09":107638.28}},{"vendor_id":"V031","loan_amount_requested":60000,"total_receipts":338759.26,"total_expenses":41386.63,"net_cashflow":297372.63,"unique_customers":1055,"txn_count":1063,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":115787.17,"2026-08":116196.07,"2026-09":106776.02}},{"vendor_id":"V032","loan_amount_requested":60000,"total_receipts":449187.79,"total_expenses":34167.59,"net_cashflow":415020.2,"unique_customers":1197,"txn_count":1206,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":154904.0,"2026-08":160673.33,"2026-09":133610.46}},{"vendor_id":"V033","loan_amount_requested":75000,"total_receipts":177721.54,"total_expenses":35765.45,"net_cashflow":141956.09,"unique_customers":1142,"txn_count":1149,"reciprocal_transfer_share":1.0,"monthly_receipts":{"2026-07":62769.97,"2026-08":60842.99,"2026-09":54108.58}},{"vendor_id":"V034","loan_amount_requested":40000,"total_receipts":166384.08,"total_expenses":33431.87,"net_cashflow":132952.21,"unique_customers":1196,"txn_count":1203,"reciprocal_transfer_share":1.0,"monthly_receipts":{"2026-07":58034.25,"2026-08":57317.81,"2026-09":51032.02}},{"vendor_id":"V035","loan_amount_requested":40000,"total_receipts":211519.43,"total_expenses":43351.01,"net_cashflow":168168.42,"unique_customers":1185,"txn_count":1190,"reciprocal_transfer_share":1.0,"monthly_receipts":{"2026-07":71955.34,"2026-08":74902.83,"2026-09":64661.26}},{"vendor_id":"V036","loan_amount_requested":40000,"total_receipts":140698.32,"total_expenses":48441.8,"net_cashflow":92256.52,"unique_customers":1151,"txn_count":1160,"reciprocal_transfer_share":1.0,"monthly_receipts":{"2026-07":50808.56,"2026-08":47053.09,"2026-09":42836.67}},{"vendor_id":"V037","loan_amount_requested":30000,"total_receipts":454465.46,"total_expenses":46974.17,"net_cashflow":407491.29,"unique_customers":1081,"txn_count":1086,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":154343.88,"2026-08":156125.2,"2026-09":143996.38}},{"vendor_id":"V038","loan_amount_requested":40000,"total_receipts":286284.52,"total_expenses":38563.97,"net_cashflow":247720.55,"unique_customers":1165,"txn_count":1169,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":98143.36,"2026-08":98733.89,"2026-09":89407.27}},{"vendor_id":"V039","loan_amount_requested":60000,"total_receipts":293517.24,"total_expenses":37068.01,"net_cashflow":256449.23,"unique_customers":1130,"txn_count":1134,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":99210.71,"2026-08":100540.09,"2026-09":93766.44}},{"vendor_id":"V040","loan_amount_requested":30000,"total_receipts":477581.8,"total_expenses":47038.76,"net_cashflow":430543.04,"unique_customers":1167,"txn_count":1172,"reciprocal_transfer_share":0,"monthly_receipts":{"2026-07":160820.76,"2026-08":167164.41,"2026-09":149596.63}}];
+
 const TX={
   en:{
-    hi:"Hello",score:"Your Trust Score",of:"out of 100",inc:"Money in",exp:"Money out",net:"You kept",cf:"Cash flow",loan:"Loan",me:"Me",home:"Home",aiNav:"AI",login:"Choose your vendor ID",go:"Continue",demo:"Demo score from your payment history. It is not a credit score.",warn:"Please check",warnT:"Money moved back and forth between your account and another vendor. This is not counted as real sales and lowers your score.",why:"Why this score",req:"Loan amount",mon:"Months to repay",emi:"Monthly instalment",cov:"Your monthly savings cover it",good:"Comfortable",ok:"Manageable",risk:"Risky",share:"Share with a lender",shareT:"You decide what a lender can see. You can stop sharing any time.",stop:"Stop sharing everything",stopped:"Sharing stopped. No lender can see your data.",out:"Log out",tips:"How to improve",ill:"Illustrative: flat 20% a year interest.",
-    aiCardTitle:"How does the AI decide my score?",aiCardSub:"Simple explanation with voice audio",aiEntryBtn:"Understand AI & Listen",
-    aiTitle:"Understand AI",aiSub:"How your score is calculated in 6 simple steps",
+    hi:"Hello",score:"Trust Score",of:"out of 100",inc:"Money in",exp:"Money out",net:"You kept",cf:"Cash flow",loan:"Loan",me:"Me",home:"Home",aiNav:"AI",login:"Choose your vendor ID",go:"Continue to App",demo:"Score calculated transparently from verified UPI transactions.",warn:"Verification Alert",warnT:"Money moved back and forth between your account and another vendor. This is not counted as real sales and lowers your score.",why:"Why this score",req:"Loan requested",mon:"Repayment tenure",emi:"Monthly instalment",cov:"Monthly net cashflow coverage",good:"Comfortable",ok:"Manageable",risk:"Risky",share:"Share with a lender",shareT:"You decide what a lender can see. You can stop sharing any time.",stop:"Revoke lender access",stopped:"Sharing stopped. No lender can view your data.",out:"Log out",tips:"Underwriting Tips",ill:"Illustrative: flat 20% p.a. interest.",
+    aiCardTitle:"How does AI calculate my score?",aiCardSub:"Tap for full spoken explanation in audio",aiEntryBtn:"Listen to Voice Breakdown",
+    aiTitle:"AI Explanation",aiSub:"Your 100-point score explained in 6 simple steps",
     listenAll:"🔊 Listen to all 6 steps",pause:"⏸ Pause",resume:"▶ Resume",stop:"⏹ Stop",
-    speaking:"Speaking step",paused:"Audio paused",ready:"Ready to listen",speed:"Speed",slow:"Slow 0.8x",norm:"Normal 1x",fast:"Fast 1.2x",playStep:"Listen to step",
-    myExample:"Your own real example",readScore:"🔊 Read my score",
+    speaking:"Speaking step",paused:"Audio paused",ready:"Ready to listen",speed:"Speed",slow:"Slow 0.8x",norm:"Normal 1x",fast:"Fast 1.2x",playStep:"Listen",
+    myExample:"Your Live Profile Example",readScore:"🔊 Read my score aloud",
     notTitle:"What the AI does NOT do",
-    not1:"Does not read your private SMS or messages",
-    not2:"Does not see or track your GPS location",
-    not3:"Does not make loan decisions alone (a human decides)",
-    not4:"Does not guess or predict if you will repay",
-    taVoiceMissing:"Tamil voice is not installed. Open Settings > Language > Text-to-speech to install it.",
-    diagP:"UPI Payments",diagC:"5 AI Checks",diagS:"Score / 100",
+    not1:"Does not read private messages or SMS",
+    not2:"Does not track or record your GPS location",
+    not3:"Does not issue credit decisions alone (a human underwriter reviews)",
+    not4:"Does not guess or speculate if you will repay",
+    taVoiceMissing:"Tamil voice TTS not installed. Please enable Tamil speech in your device settings.",
+    diagP:"UPI Receipts",diagC:"5 AI Pillars",diagS:"Score / 100",
     f1:"Steady income",f2:"Can repay",f3:"Low costs",f4:"Many customers",f5:"Genuine sales"
   },
   ta:{
-    hi:"வணக்கம்",score:"உங்கள் நம்பிக்கை மதிப்பெண்",of:"100-க்கு",inc:"வரவு",exp:"செலவு",net:"மிச்சம்",cf:"பணப்புழக்கம்",loan:"கடன்",me:"நான்",home:"முகப்பு",aiNav:"AI",login:"உங்கள் வியாபாரி ஐடியைத் தேர்வு செய்யவும்",go:"தொடரவும்",demo:"உங்கள் பணப் பரிவர்த்தனைகளின் மாதிரி மதிப்பெண். இது கடன் மதிப்பெண் அல்ல.",warn:"கவனிக்கவும்",warnT:"உங்கள் கணக்கிற்கும் மற்றொரு வியாபாரிக்கும் இடையே பணம் முன்னும் பின்னும் சென்றுள்ளது. இது உண்மையான விற்பனையாகக் கணக்கிடப்படாது; மதிப்பெண்ணைக் குறைக்கும்.",why:"இந்த மதிப்பெண் ஏன்",req:"கடன் தொகை",mon:"திருப்பிச் செலுத்தும் மாதங்கள்",emi:"மாதத் தவணை",cov:"உங்கள் மாத மிச்சம் இதை ஈடுசெய்யும்",good:"வசதி",ok:"சமாளிக்கலாம்",risk:"ஆபத்து",share:"கடன் வழங்குநருடன் பகிர",shareT:"கடன் வழங்குநர் எதைப் பார்க்கலாம் என்பதை நீங்களே தீர்மானிக்கிறீர்கள். எப்போது வேண்டுமானாலும் நிறுத்தலாம்.",stop:"எல்லா பகிர்வையும் நிறுத்து",stopped:"பகிர்வு நிறுத்தப்பட்டது. எந்த கடன் வழங்குநரும் உங்கள் தரவைப் பார்க்க முடியாது.",out:"வெளியேறு",tips:"மேம்படுத்தும் வழிகள்",ill:"எடுத்துக்காட்டு: ஆண்டுக்கு 20% வட்டி.",
-    aiCardTitle:"AI எனது மதிப்பெண்ணை எப்படி தீர்மானிக்கிறது?",aiCardSub:"குரல் வழியே மிக எளிய விளக்கம்",aiEntryBtn:"AI விளக்கம் (கேளுங்கள்)",
+    hi:"வணக்கம்",score:"நம்பிக்கை மதிப்பெண்",of:"100-க்கு",inc:"வரவு",exp:"செலவு",net:"மிச்சம்",cf:"பணப்புழக்கம்",loan:"கடன்",me:"நான்",home:"முகப்பு",aiNav:"AI",login:"உங்கள் வியாபாரி ஐடியைத் தேர்வு செய்யவும்",go:"தொடரவும்",demo:"உண்மையான UPI பணப் பரிவர்த்தனைகளின் மாதிரி மதிப்பெண்.",warn:"கவனிக்கவும்",warnT:"உங்கள் கணக்கிற்கும் மற்றொரு வியாபாரிக்கும் இடையே பணம் முன்னும் பின்னும் சென்றுள்ளது. இது உண்மையான விற்பனையாகக் கணக்கிடப்படாது; மதிப்பெண்ணைக் குறைக்கும்.",why:"இந்த மதிப்பெண் ஏன்",req:"கடன் தொகை",mon:"திருப்பிச் செலுத்தும் கால அளவு",emi:"மாதத் தவணை",cov:"மாத மிச்சம் ஈடுசெய்யும் அளவு",good:"வசதி",ok:"சமாளிக்கலாம்",risk:"ஆபத்து",share:"கடன் வழங்குநருடன் பகிர",shareT:"கடன் வழங்குநர் எதைப் பார்க்கலாம் என்பதை நீங்களே தீர்மானிக்கிறீர்கள். எப்போது வேண்டுமானாலும் நிறுத்தலாம்.",stop:"எல்லா பகிர்வையும் நிறுத்து",stopped:"பகிர்வு நிறுத்தப்பட்டது. எந்த கடன் வழங்குநரும் உங்கள் தரவைப் பார்க்க முடியாது.",out:"வெளியேறு",tips:"மேம்படுத்தும் வழிகள்",ill:"எடுத்துக்காட்டு: ஆண்டுக்கு 20% வட்டி.",
+    aiCardTitle:"AI எனது மதிப்பெண்ணை எப்படி தீர்மானிக்கிறது?",aiCardSub:"குரல் வழியே மிக எளிய விளக்கம்",aiEntryBtn:"AI குரல் விளக்கம் (கேளுங்கள்)",
     aiTitle:"AI விளக்கம்",aiSub:"6 எளிய படிகளில் மதிப்பெண் விளக்கம்",
     listenAll:"🔊 6 படிகளையும் கேளுங்கள்",pause:"⏸ நிறுத்து",resume:"▶ தொடர்",stop:"⏹ நிறுத்து",
-    speaking:"படி படிக்கிறது",paused:"ஒலி இடைநிறுத்தப்பட்டது",ready:"கேட்கத் தயார்",speed:"வேகம்",slow:"மெதுவாக 0.8x",norm:"சாதாரணம் 1x",fast:"வேகமாக 1.2x",playStep:"இந்த படியைக் கேளுங்கள்",
+    speaking:"படி படிக்கிறது",paused:"ஒலி இடைநிறுத்தப்பட்டது",ready:"கேட்கத் தயார்",speed:"வேகம்",slow:"மெதுவாக 0.8x",norm:"சாதாரணம் 1x",fast:"வேகமாக 1.2x",playStep:"கேளுங்கள்",
     myExample:"உங்கள் சொந்த உண்மை உதாரணம்",readScore:"🔊 எனது மதிப்பெண்ணைக் கூறு",
     notTitle:"AI எதையெல்லாம் செய்யாது",
     not1:"உங்கள் தனிப்பட்ட SMS அல்லது செய்திகளைப் படிக்காது",
@@ -72,6 +509,7 @@ const TX={
     f1:"சீரான வருமானம்",f2:"திருப்பிச் செலுத்தும் திறன்",f3:"குறைந்த செலவு",f4:"அதிக வாடிக்கையாளர்கள்",f5:"உண்மையான விற்பனை"
   }
 };
+
 const STEPS=[
   {icon:"📱",titleEn:"Your payments are the proof",titleTa:"உங்கள் வரவுகளே சான்று",en:"The app looks at the UPI payments your customers made to you. It does not need a bank history or a credit card.",ta:"உங்கள் வாடிக்கையாளர்கள் செய்த UPI வரவுகளை மட்டுமே இந்த செயலி பார்க்கிறது. வங்கி வரலாறோ கிரெடிட் கார்டோ தேவையில்லை."},
   {icon:"🔍",titleEn:"AI looks for patterns",titleTa:"AI விற்பனை முறையைக் கவனிக்கிறது",en:"The AI counts how much came in, how much went out, and how steady your sales are from week to week.",ta:"மொத்த வரவு, மொத்த செலவு மற்றும் வாரந்தோறும் வியாபாரம் எவ்வளவு சீராக உள்ளது என்பதை AI கணக்கிடுகிறது."},
@@ -80,8 +518,10 @@ const STEPS=[
   {icon:"🤝",titleEn:"The score is a guide, not a verdict",titleTa:"மதிப்பெண் வழிகாட்டி மட்டுமே, தீர்ப்பு அல்ல",en:"It does not say you will or will not repay. A person at the lender makes the final decision.",ta:"நீங்கள் கடன் கட்டமாட்டீர்கள் என்று இது தீர்ப்பளிக்காது. கடன் நிறுவனத்தில் உள்ள ஒரு மனிதரே இறுதி முடிவை எடுப்பார்."},
   {icon:"🔒",titleEn:"You are in control",titleTa:"முழுக் கட்டுப்பாடு உங்களிடம் உள்ளது",en:"You choose what a lender can see and can stop sharing any time.",ta:"கடன் கொடுப்பவர் எதைப் பார்க்கலாம் என்பதை நீங்களே முடிவு செய்கிறீர்கள், எப்போது வேண்டுமானாலும் பகிர்வை நிறுத்தலாம்."}
 ];
+
 let S={lang:"en",vid:null,tab:"home",amt:null,mths:12,share:{r:1,e:1,m:1,c:0},stopped:false,rate:1.0};
 try{const l=localStorage.getItem("lang");if(l&&["en","ta","both"].includes(l))S.lang=l;}catch(e){}
+
 const t=k=>{
   if(S.lang==="both"){
     const ta=TX.ta[k],en=TX.en[k];
@@ -90,6 +530,7 @@ const t=k=>{
   }
   return (TX[S.lang]&&TX[S.lang][k])||TX.en[k]||k;
 };
+
 const inr=n=>"₹"+Math.round(n).toLocaleString("en-IN"), $=id=>document.getElementById(id);
 const lgLabel=()=>S.lang=="en"?"தமிழ்":S.lang=="ta"?"Both (தமிழ்+EN)":"English";
 const days={"2026-07":31,"2026-08":31,"2026-09":28}, MN={"2026-07":"Jul","2026-08":"Aug","2026-09":"Sep"};
@@ -120,48 +561,214 @@ function calc(v,amt,mths){
   const d=Object.keys(days).map(k=>v.monthly_receipts[k]/days[k]),avg=d.reduce((a,b)=>a+b)/3;
   const cv=Math.sqrt(d.reduce((a,b)=>a+(b-avg)**2,0)/3)/avg, mNet=v.net_cashflow/3;
   const emi=amt*(1+0.2*mths/12)/mths, cover=mNet/emi, er=v.total_expenses/v.total_receipts;
-  const f=[["Steady income",25,25*(1-Math.min(cv,.3)/.3),"Daily sales changed "+(cv*100).toFixed(0)+"% between months."],
-  ["Can repay",30,30*Math.min(Math.max(cover,0)/3,1),"Monthly savings "+inr(mNet)+" cover a "+inr(emi)+" instalment "+cover.toFixed(1)+"x."],
-  ["Low costs",15,15*(1-Math.min(Math.max((er-.1)/.5,0),1)),"Expenses were "+(er*100).toFixed(0)+"% of sales."],
-  ["Many customers",15,15*Math.min(v.unique_customers/1000,1),v.unique_customers.toLocaleString("en-IN")+" different customers paid you."],
-  ["Genuine sales",15,15*(1-v.reciprocal_transfer_share),v.reciprocal_transfer_share>0?"Money moving between vendors was found.":"No back-and-forth transfers found."]];
+  const f=[
+    ["Steady income",25,25*(1-Math.min(cv,.3)/.3),"Daily sales changed "+(cv*100).toFixed(0)+"% between months."],
+    ["Can repay",30,30*Math.min(Math.max(cover,0)/3,1),"Monthly savings "+inr(mNet)+" cover a "+inr(emi)+" instalment "+cover.toFixed(1)+"x."],
+    ["Low costs",15,15*(1-Math.min(Math.max((er-.1)/.5,0),1)),"Expenses were "+(er*100).toFixed(0)+"% of sales."],
+    ["Many customers",15,15*Math.min(v.unique_customers/1000,1),v.unique_customers.toLocaleString("en-IN")+" different customers paid you."],
+    ["Genuine sales",15,15*(1-v.reciprocal_transfer_share),v.reciprocal_transfer_share>0?"Money moving between vendors was found.":"No back-and-forth transfers found."]
+  ];
   let sc=Math.round(f.reduce((a,x)=>a+x[2],0)); if(v.reciprocal_transfer_share>0) sc=Math.min(sc,40);
   return {f,sc,emi,cover,mNet,cv};
 }
-const band=s=>s>=75?["Strong",'var(--ok)']:s>=55?["Good",'var(--ok)']:s>=35?["Fair",'var(--wa)']:["Low",'var(--bad)'];
+
+const band=s=>s>=75?["Strong",'var(--ok)','badge-pill--ok']:s>=55?["Good",'var(--ok)','badge-pill--ok']:s>=35?["Fair",'var(--wa)','badge-pill--wa']:["Low",'var(--bad)','badge-pill--bad'];
 const V=()=>DATA.find(x=>x.vendor_id===S.vid);
-function gauge(s){const c=band(s)[1],r=64,L=Math.PI*r,o=L*(1-s/100);
- return `<svg class="gauge" width="170" height="104" viewBox="0 0 170 104" role="img" aria-label="${s} out of 100"><path d="M21 90A64 64 0 0 1 149 90" fill="none" stroke="var(--bd)" stroke-width="14" stroke-linecap="round"/><path d="M21 90A64 64 0 0 1 149 90" fill="none" stroke="${c}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${L}" stroke-dashoffset="${o}"/><text x="85" y="82" text-anchor="middle" font-size="34" font-weight="800" fill="var(--tx)">${s}</text></svg>`}
 
-function login(){$("nav").hidden=true;
- $("m").innerHTML=`<div class="scr" style="padding-top:8vh"><div style="font-size:48px">🤝</div><h1>TrustCred</h1><p class="mut" style="margin:6px 0 24px">${S.lang=="en"?"Your daily sales are your credit history.":"உங்கள் தினசரி விற்பனையே உங்கள் கடன் வரலாறு."}</p><label class="mut" for="vs">${t("login")}</label><select id="vs">${DATA.map(x=>`<option>${x.vendor_id}</option>`).join("")}</select><div style="height:14px"></div><button class="btn" id="go">${t("go")}</button><div style="height:14px"></div><button class="lang" id="lg">${lgLabel()}</button><div style="height:16px"></div><a href="index.html" class="mut" style="text-decoration:none;font-size:13px;display:inline-block">🏢 Switch to Underwriter Dashboard</a></div>`;
- $("go").onclick=()=>{S.vid=$("vs").value;S.amt=V().loan_amount_requested;S.tab="home";S.stopped=false;render()};
- $("lg").onclick=toggleLang}
+function gauge(s){
+  const c=band(s)[1],r=62,L=Math.PI*r,o=L*(1-s/100);
+  return `<svg class="gauge" width="180" height="110" viewBox="0 0 180 110" role="img" aria-label="${s} out of 100" style="display:block;margin:0 auto">
+    <path d="M22 96A62 62 0 0 1 158 96" fill="none" stroke="#f1f5f9" stroke-width="14" stroke-linecap="round"/>
+    <path d="M22 96A62 62 0 0 1 158 96" fill="none" stroke="${c}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${L}" stroke-dashoffset="${o}"/>
+    <text x="90" y="88" text-anchor="middle" font-size="38" font-weight="800" fill="var(--tx)" font-family="inherit">${s}</text>
+  </svg>`;
+}
 
-function toggleLang(){stopAudio();S.lang=S.lang=="en"?"ta":S.lang=="ta"?"both":"en";try{localStorage.setItem("lang",S.lang)}catch(e){}render()}
+function login(){
+  $("appHeader").hidden = true;
+  $("storiesBar").hidden = true;
+  $("nav").hidden = true;
+  
+  $("m").innerHTML = `
+    <div style="min-height:80vh;display:flex;flex-direction:column;justify-content:center;padding:12px 6px">
+      <div style="text-align:center;margin-bottom:32px">
+        <div style="width:72px;height:72px;border-radius:24px;background:var(--fintech-gradient);color:#fff;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 16px;box-shadow:0 10px 25px rgba(37,99,235,0.25)">🤝</div>
+        <h1 style="font-size:26px;font-weight:800;letter-spacing:-0.5px">TrustCred</h1>
+        <p class="mut" style="margin-top:6px;font-size:14px">${S.lang=="en"?"Instant cash-flow underwriting for micro-merchants.":"உங்கள் தினசரி விற்பனையே உங்கள் கடன் வரலாறு."}</p>
+      </div>
 
-function nav(){const n=$("nav");n.hidden=false;const it=[["home","🏠",t("home")],["ai","🤖",t("aiNav")],["cf","📊",t("cf")],["loan","💰",t("loan")],["me","👤",t("me")]];
- n.innerHTML=it.map(i=>`<button data-k="${i[0]}" class="${S.tab==i[0]?"on":""}" aria-label="${i[2]}"><span>${i[1]}</span>${i[2]}</button>`).join("");
- n.querySelectorAll("button").forEach(b=>b.onclick=()=>{stopAudio();S.tab=b.dataset.k;render()})}
+      <div class="ig-card" style="padding:22px">
+        <label class="mut" for="vs" style="font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:8px">${t("login")}</label>
+        <select id="vs" style="font-weight:600">
+          ${DATA.map(x=>`<option value="${x.vendor_id}">${x.vendor_id} — ₹${(x.loan_amount_requested/1000).toFixed(0)}k Requested (${x.txn_count} Txns)</option>`).join("")}
+        </select>
+        <div style="height:16px"></div>
+        <button class="btn primary-gradient" id="go" style="min-height:50px;font-weight:700;font-size:16px">
+          <span>${t("go")}</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <div style="height:12px"></div>
+        <button class="lang-pill-btn" id="lg" style="width:100%;justify-content:center;min-height:44px">${lgLabel()}</button>
+      </div>
 
-function home(v){const r=calc(v,S.amt,S.mths),b=band(r.sc);
- const al=v.reciprocal_transfer_share>0?`<div class="alert" role="alert"><b>⚠ ${t("warn")}</b><p class="mut">${t("warnT")}</p></div>`:"";
- return `<div class="row" style="margin-bottom:14px"><div><p class="mut">${t("hi")},</p><h1>${v.vendor_id}</h1></div><button class="lang" id="lg">${lgLabel()}</button></div>${al}
- <div class="card" style="text-align:center"><p class="mut">${t("score")}</p>${gauge(r.sc)}<span class="badge" style="background:${b[1]}">${b[0]}</span><p class="mut" style="margin-top:8px">${t("of")}</p></div>
- <div class="card" style="border:2px solid var(--pri);background:linear-gradient(180deg,var(--card),rgba(36,87,214,0.06));text-align:left">
-  <div class="row" style="align-items:flex-start">
-    <div style="font-size:32px;line-height:1">🤖</div>
-    <div style="flex:1">
-      <h2 style="margin:0 0 4px;font-size:16px">${t("aiCardTitle")}</h2>
-      <p class="mut" style="font-size:13px;margin:0">${t("aiCardSub")}</p>
+      <div style="text-align:center;margin-top:16px">
+        <a href="index.html" class="mut" style="text-decoration:none;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:6px">
+          <span>🏢 Switch to Underwriter Dashboard</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+      </div>
     </div>
-  </div>
-  <button class="btn" id="open-ai" style="margin-top:12px;display:flex;align-items:center;justify-content:center;gap:8px" aria-label="${t("aiEntryBtn")}">
-    <span style="font-size:20px">🔊</span><span>${t("aiEntryBtn")}</span>
-  </button>
- </div>
- <div class="row" style="gap:10px;margin-bottom:14px">${[[t("inc"),v.total_receipts,"var(--ok)"],[t("exp"),v.total_expenses,"var(--bad)"],[t("net"),v.net_cashflow,"var(--pri)"]].map(x=>`<div class="card" style="flex:1;margin:0;padding:12px"><p class="mut" style="font-size:12px">${x[0]}</p><b style="color:${x[2]};font-size:15px">${inr(x[1])}</b></div>`).join("")}</div>
- <div class="card"><h2>${t("why")}</h2>${r.f.map((x,i)=>{const p=x[2]/x[1];return `<div style="margin-bottom:10px"><div class="row"><b style="font-size:14px">${t(fKeys[i])}</b><span class="mut">${x[2].toFixed(0)}/${x[1]}</span></div><div class="bar"><i style="width:${p*100}%;background:${p>.7?"var(--ok)":p>.4?"var(--wa)":"var(--bad)"}"></i></div><p class="mut" style="font-size:13px">${tDesc(i,x,v,r)}</p></div>`}).join("")}<p class="mut" style="font-size:12px">${t("demo")}</p></div>`}
+  `;
+
+  $("go").onclick = () => {
+    S.vid = $("vs").value;
+    S.amt = V().loan_amount_requested;
+    S.tab = "home";
+    S.stopped = false;
+    render();
+  };
+  $("lg").onclick = toggleLang;
+}
+
+function toggleLang(){
+  stopAudio();
+  S.lang = S.lang=="en" ? "ta" : S.lang=="ta" ? "both" : "en";
+  try{ localStorage.setItem("lang", S.lang); }catch(e){}
+  render();
+}
+
+function nav(){
+  const n = $("nav");
+  n.hidden = false;
+  $("appHeader").hidden = false;
+  $("storiesBar").hidden = false;
+
+  // Update header text
+  const hdrLang = $("hdrLangText");
+  if(hdrLang) hdrLang.textContent = lgLabel();
+
+  // Update stories active state
+  document.querySelectorAll(".story-item").forEach(item => {
+    item.classList.toggle("active", item.dataset.tab === S.tab);
+  });
+
+  const icons = {
+    home: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+    ai: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>`,
+    cf: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
+    loan: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>`,
+    me: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>`
+  };
+
+  const it = [
+    ["home", icons.home, t("home")],
+    ["ai", icons.ai, t("aiNav")],
+    ["cf", icons.cf, t("cf")],
+    ["loan", icons.loan, t("loan")],
+    ["me", icons.me, t("me")]
+  ];
+
+  n.innerHTML = it.map(i => `<button data-k="${i[0]}" class="${S.tab==i[0]?"on":""}" aria-label="${i[2]}">${i[1]}<span>${i[2]}</span></button>`).join("");
+  
+  n.querySelectorAll("button").forEach(b => b.onclick = () => {
+    stopAudio();
+    S.tab = b.dataset.k;
+    render();
+  });
+}
+
+function home(v){
+  const r = calc(v, S.amt, S.mths), b = band(r.sc);
+  const al = v.reciprocal_transfer_share > 0 ? `
+    <div class="alert-banner" role="alert">
+      <div style="font-size:20px;line-height:1">⚠</div>
+      <div>
+        <b>${t("warn")}</b>
+        <p>${t("warnT")}</p>
+      </div>
+    </div>` : "";
+
+  return `
+    <!-- Vendor Profile Card (Instagram Post Header) -->
+    <div class="ig-card" style="padding:14px 16px;margin-bottom:12px">
+      <div class="ig-card-header" style="margin-bottom:0">
+        <div class="ig-card-user">
+          <div class="ig-avatar-sm" style="background:var(--fintech-gradient);color:#fff;border:0">${v.vendor_id.substring(0,3)}</div>
+          <div>
+            <div class="ig-user-name">${v.vendor_id} <span style="color:var(--pri);font-size:12px">● Verified</span></div>
+            <div class="ig-user-sub">${v.txn_count} transactions • ${v.unique_customers} customers</div>
+          </div>
+        </div>
+        <span class="badge-pill ${b[2]}">${b[0]} Tier</span>
+      </div>
+    </div>
+
+    ${al}
+
+    <!-- Main Score Card -->
+    <div class="ig-card" style="text-align:center;padding:24px 18px">
+      <span class="mut" style="font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700">${t("score")}</span>
+      <div style="margin:8px 0 12px">
+        ${gauge(r.sc)}
+      </div>
+      <div style="display:inline-flex;align-items:center;gap:6px">
+        <span class="badge-pill ${b[2]}" style="font-size:13px;padding:5px 14px">${b[0]} Category</span>
+        <span class="mut" style="font-size:13px">• ${t("of")}</span>
+      </div>
+
+      <div class="stats-grid" style="margin-top:20px">
+        <div class="stat-box">
+          <div class="stat-label">${t("inc")}</div>
+          <div class="stat-val" style="color:var(--ok)">${inr(v.total_receipts)}</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">${t("exp")}</div>
+          <div class="stat-val" style="color:var(--bad)">${inr(v.total_expenses)}</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">${t("net")}</div>
+          <div class="stat-val" style="color:var(--pri)">${inr(v.net_cashflow)}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Voice Assistant Prompt Card -->
+    <div class="ig-card" style="border:1.5px solid var(--pri);background:linear-gradient(180deg,#ffffff,#eff6ff)">
+      <div class="row" style="align-items:center">
+        <div style="width:44px;height:44px;border-radius:var(--radius-md);background:var(--pri-light);color:var(--pri);display:flex;align-items:center;justify-content:center;font-size:22px">🤖</div>
+        <div style="flex:1">
+          <h2 style="margin:0 0 2px;font-size:15px">${t("aiCardTitle")}</h2>
+          <p class="mut" style="font-size:12.5px;margin:0">${t("aiCardSub")}</p>
+        </div>
+      </div>
+      <button class="btn primary-gradient" id="open-ai" style="margin-top:14px;min-height:44px">
+        <span>🔊 ${t("aiEntryBtn")}</span>
+      </button>
+    </div>
+
+    <!-- Transparent Score Breakdown -->
+    <div class="ig-card">
+      <div class="row" style="margin-bottom:12px">
+        <h2>${t("why")}</h2>
+        <span class="mut" style="font-size:12px">5 Pillars</span>
+      </div>
+      ${r.f.map((x,i)=>{
+        const p=x[2]/x[1];
+        return `
+          <div style="margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)">
+            <div class="row" style="margin-bottom:2px">
+              <b style="font-size:13.5px">${t(fKeys[i])}</b>
+              <span class="mut" style="font-weight:700;font-size:13px">${x[2].toFixed(0)} <span style="font-weight:400">/ ${x[1]}</span></span>
+            </div>
+            <div class="bar"><i style="width:${p*100}%;background:${p>.7?"var(--ok)":p>.4?"var(--wa)":"var(--bad)"}"></i></div>
+            <p class="mut" style="font-size:12.5px;margin-top:4px">${tDesc(i,x,v,r)}</p>
+          </div>
+        `;
+      }).join("")}
+      <p class="mut" style="font-size:11.5px;text-align:center;margin-top:6px">${t("demo")}</p>
+    </div>
+  `;
+}
 
 function aiDiagram(){
   const p=S.lang=="ta"?"UPI வரவுகள்":S.lang=="both"?"வரவு / Payments":"UPI Payments";
@@ -169,17 +776,17 @@ function aiDiagram(){
   const s=S.lang=="ta"?"100 மதிப்பெண்":S.lang=="both"?"மதிப்பெண் / Score":"Score / 100";
   return `<svg viewBox="0 0 340 76" width="100%" style="display:block;margin:6px 0" role="img" aria-label="Payments to AI to Score diagram">
     <defs><marker id="arr" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 8 5 L 0 9 z" fill="var(--pri)"/></marker></defs>
-    <rect x="2" y="8" width="94" height="60" rx="10" fill="var(--card)" stroke="var(--bd)" stroke-width="2"/>
+    <rect x="2" y="8" width="94" height="60" rx="12" fill="#f8fafc" stroke="var(--border-strong)" stroke-width="1.5"/>
     <text x="49" y="32" text-anchor="middle" font-size="18">📲</text>
     <text x="49" y="52" text-anchor="middle" font-size="10" font-weight="700" fill="var(--tx)">${p}</text>
     <line x1="98" y1="38" x2="116" y2="38" stroke="var(--pri)" stroke-width="2" marker-end="url(#arr)"/>
-    <rect x="120" y="8" width="100" height="60" rx="10" fill="var(--card)" stroke="var(--pri)" stroke-width="2"/>
+    <rect x="120" y="8" width="100" height="60" rx="12" fill="#eff6ff" stroke="var(--pri)" stroke-width="1.5"/>
     <text x="170" y="32" text-anchor="middle" font-size="18">🤖</text>
-    <text x="170" y="52" text-anchor="middle" font-size="10" font-weight="700" fill="var(--tx)">${c}</text>
+    <text x="170" y="52" text-anchor="middle" font-size="10" font-weight="700" fill="var(--pri)">${c}</text>
     <line x1="222" y1="38" x2="240" y2="38" stroke="var(--pri)" stroke-width="2" marker-end="url(#arr)"/>
-    <rect x="244" y="8" width="94" height="60" rx="10" fill="var(--card)" stroke="var(--ok)" stroke-width="2"/>
+    <rect x="244" y="8" width="94" height="60" rx="12" fill="#ecfdf5" stroke="var(--ok)" stroke-width="1.5"/>
     <text x="291" y="32" text-anchor="middle" font-size="18">💯</text>
-    <text x="291" y="52" text-anchor="middle" font-size="10" font-weight="700" fill="var(--tx)">${s}</text>
+    <text x="291" y="52" text-anchor="middle" font-size="10" font-weight="700" fill="var(--ok)">${s}</text>
   </svg>`;
 }
 
@@ -187,83 +794,215 @@ function ai(v){
   const r = calc(v, S.amt, S.mths);
   const exEn = `You kept ${inr(v.net_cashflow)} in 3 months. Your 5 factors: Steady income (${r.f[0][2].toFixed(0)}/25), Can repay (${r.f[1][2].toFixed(0)}/30), Low costs (${r.f[2][2].toFixed(0)}/15), Many customers (${r.f[3][2].toFixed(0)}/15), Genuine sales (${r.f[4][2].toFixed(0)}/15). Total score: ${r.sc} out of 100.`;
   const exTa = `3 மாதங்களில் உங்கள் மிச்சம் ${inr(v.net_cashflow)}. உங்கள் 5 காரணிகள்: சீரான வருமானம் (${r.f[0][2].toFixed(0)}/25), திருப்பிச் செலுத்தும் திறன் (${r.f[1][2].toFixed(0)}/30), குறைந்த செலவு (${r.f[2][2].toFixed(0)}/15), அதிக வாடிக்கையாளர்கள் (${r.f[3][2].toFixed(0)}/15), உண்மையான விற்பனை (${r.f[4][2].toFixed(0)}/15). மொத்த மதிப்பெண்: 100-க்கு ${r.sc}.`;
-  const exBody = S.lang=="ta"?`<p style="font-size:14px;line-height:1.6">${exTa}</p>`:S.lang=="both"?`<p style="font-size:14px;line-height:1.6;font-weight:600">${exTa}</p><p class="both-sub">${exEn}</p>`:`<p style="font-size:14px;line-height:1.6">${exEn}</p>`;
+  const exBody = S.lang=="ta"?`<p style="font-size:13.5px;line-height:1.6">${exTa}</p>`:S.lang=="both"?`<p style="font-size:13.5px;line-height:1.6;font-weight:600">${exTa}</p><p class="both-sub">${exEn}</p>`:`<p style="font-size:13.5px;line-height:1.6">${exEn}</p>`;
 
-  return `<div class="row" style="margin-bottom:14px"><div><h1>${t("aiTitle")}</h1><p class="mut">${t("aiSub")}</p></div><button class="lang" id="lg">${lgLabel()}</button></div>
-  <div id="ta-voice-alert" class="alert" role="alert" hidden>
-    <b>⚠ ${t("warn")}</b>
-    <p style="margin:4px 0 0;font-size:14px">${TX.ta.taVoiceMissing}</p>
-    <p class="mut" style="font-size:13px;margin-top:4px">${TX.en.taVoiceMissing}</p>
-  </div>
-  <div class="tts-ctrls">
-    <button class="btn" id="btn-listen-all" style="min-height:52px;display:flex;align-items:center;justify-content:center;gap:8px" aria-label="${t("listenAll")}">
-      <span style="font-size:20px">🔊</span><span>${t("listenAll")}</span>
-    </button>
-    <div class="row" style="margin-top:10px;gap:8px">
-      <button class="btn ghost" id="btn-pause" style="flex:1" disabled>${t("pause")}</button>
-      <button class="btn ghost" id="btn-stop" style="flex:1" disabled>${t("stop")}</button>
-    </div>
-    <div class="row" style="margin-top:10px;align-items:center">
-      <span class="mut" style="font-size:13px" id="tts-status">${t("ready")}</span>
-      <span class="mut" style="font-size:12px">${t("speed")}:</span>
-    </div>
-    <div class="speed-group">
-      <button class="speed-btn ${S.rate===0.8?"on":""}" data-r="0.8" id="spd-08" aria-label="${t("slow")}">${t("slow")}</button>
-      <button class="speed-btn ${S.rate===1.0?"on":""}" data-r="1.0" id="spd-10" aria-label="${t("norm")}">${t("norm")}</button>
-      <button class="speed-btn ${S.rate===1.2?"on":""}" data-r="1.2" id="spd-12" aria-label="${t("fast")}">${t("fast")}</button>
-    </div>
-  </div>
-  <div class="card">${aiDiagram()}</div>
-  ${STEPS.map((s,i)=>{
-    const title = S.lang=="ta"?s.titleTa:S.lang=="both"?`${s.titleTa}<span class="both-sub">/ ${s.titleEn}</span>`:s.titleEn;
-    const body = S.lang=="ta"?`<p>${s.ta}</p>`:S.lang=="both"?`<p style="font-weight:600">${s.ta}</p><p class="both-sub">${s.en}</p>`:`<p>${s.en}</p>`;
-    return `<div class="step-card" id="step-card-${i}">
-      <div class="row" style="align-items:flex-start">
-        <div style="font-size:32px;line-height:1">${s.icon}</div>
-        <div style="flex:1">
-          <div class="row" style="margin-bottom:4px">
-            <span class="badge" style="background:var(--pri);font-size:11px;padding:2px 8px">${S.lang=="ta"?"படி "+(i+1):S.lang=="both"?"படி/Step "+(i+1):"Step "+(i+1)}</span>
-            <button class="step-tts-btn" data-step="${i}" aria-label="${t("playStep")} ${i+1}">🔊</button>
-          </div>
-          <h2 style="font-size:16px;margin:6px 0 4px">${title}</h2>
-          <div style="font-size:14px;line-height:1.6">${body}</div>
-        </div>
+  return `
+    <div class="row" style="margin-bottom:14px">
+      <div>
+        <h1>${t("aiTitle")}</h1>
+        <p class="mut">${t("aiSub")}</p>
       </div>
-    </div>`;
-  }).join("")}
-  <div class="card" style="border:2px solid var(--pri)">
-    <div class="row" style="margin-bottom:8px">
-      <h2>${t("myExample")}</h2>
-      <span class="badge" style="background:var(--ok)">${v.vendor_id}</span>
     </div>
-    ${exBody}
-    <div style="height:12px"></div>
-    <button class="btn ghost" id="btn-read-score" style="min-height:48px;display:flex;align-items:center;justify-content:center;gap:8px" aria-label="${t("readScore")}">
-      <span style="font-size:18px">🔊</span><span>${t("readScore")}</span>
-    </button>
-  </div>
-  <div class="card" style="border-left:5px solid var(--bad)">
-    <h2>${t("notTitle")}</h2>
-    <ul style="list-style:none;padding:0;margin:8px 0 0;font-size:14px;line-height:1.7">
-      <li style="margin-bottom:6px">❌ ${t("not1")}</li>
-      <li style="margin-bottom:6px">❌ ${t("not2")}</li>
-      <li style="margin-bottom:6px">❌ ${t("not3")}</li>
-      <li>❌ ${t("not4")}</li>
-    </ul>
-  </div>`;
+
+    <div id="ta-voice-alert" class="alert-banner" role="alert" hidden>
+      <div>
+        <b>⚠ ${t("warn")}</b>
+        <p style="margin:2px 0 0">${TX.ta.taVoiceMissing}</p>
+        <p class="mut" style="font-size:11px;margin-top:2px">${TX.en.taVoiceMissing}</p>
+      </div>
+    </div>
+
+    <!-- Sticky Instagram Audio Player Card -->
+    <div class="tts-ctrls">
+      <button class="btn primary-gradient" id="btn-listen-all" style="min-height:48px" aria-label="${t("listenAll")}">
+        <span>${t("listenAll")}</span>
+      </button>
+      <div class="row" style="margin-top:10px;gap:8px">
+        <button class="btn ghost" id="btn-pause" style="flex:1;min-height:40px" disabled>${t("pause")}</button>
+        <button class="btn ghost" id="btn-stop" style="flex:1;min-height:40px" disabled>${t("stop")}</button>
+      </div>
+      <div class="row" style="margin-top:10px;align-items:center">
+        <span class="mut" style="font-size:12.5px" id="tts-status">${t("ready")}</span>
+        <span class="mut" style="font-size:11.5px;font-weight:600">${t("speed")}:</span>
+      </div>
+      <div class="speed-group">
+        <button class="speed-btn ${S.rate===0.8?"on":""}" data-r="0.8" id="spd-08">${t("slow")}</button>
+        <button class="speed-btn ${S.rate===1.0?"on":""}" data-r="1.0" id="spd-10">${t("norm")}</button>
+        <button class="speed-btn ${S.rate===1.2?"on":""}" data-r="1.2" id="spd-12">${t("fast")}</button>
+      </div>
+    </div>
+
+    <div class="ig-card" style="padding:14px">
+      ${aiDiagram()}
+    </div>
+
+    <!-- 6 Step Story Cards -->
+    ${STEPS.map((s,i)=>{
+      const title = S.lang=="ta"?s.titleTa:S.lang=="both"?`${s.titleTa}<span class="both-sub">/ ${s.titleEn}</span>`:s.titleEn;
+      const body = S.lang=="ta"?`<p>${s.ta}</p>`:S.lang=="both"?`<p style="font-weight:600">${s.ta}</p><p class="both-sub">${s.en}</p>`:`<p>${s.en}</p>`;
+      return `
+        <div class="step-card" id="step-card-${i}">
+          <div class="row" style="align-items:flex-start">
+            <div style="font-size:28px;line-height:1;margin-top:2px">${s.icon}</div>
+            <div style="flex:1">
+              <div class="row" style="margin-bottom:4px">
+                <span class="badge-pill" style="background:var(--pri-light);color:var(--pri);font-size:11px;padding:2px 8px">${S.lang=="ta"?"படி "+(i+1):S.lang=="both"?"படி/Step "+(i+1):"Step "+(i+1)}</span>
+                <button class="step-tts-btn" data-step="${i}" aria-label="${t("playStep")} ${i+1}">🔊</button>
+              </div>
+              <h2 style="font-size:15px;margin:4px 0">${title}</h2>
+              <div style="font-size:13.5px;line-height:1.5">${body}</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join("")}
+
+    <!-- Live Vendor Audio Example -->
+    <div class="ig-card" style="border:1.5px solid var(--pri);background:#fafafa">
+      <div class="row" style="margin-bottom:8px">
+        <h2>${t("myExample")}</h2>
+        <span class="badge-pill badge-pill--ok">${v.vendor_id}</span>
+      </div>
+      ${exBody}
+      <div style="height:12px"></div>
+      <button class="btn ghost" id="btn-read-score" style="min-height:44px" aria-label="${t("readScore")}">
+        <span>${t("readScore")}</span>
+      </button>
+    </div>
+
+    <div class="ig-card" style="border-left:4px solid var(--bad)">
+      <h2>${t("notTitle")}</h2>
+      <ul style="list-style:none;padding:0;margin:8px 0 0;font-size:13px;line-height:1.7">
+        <li style="margin-bottom:4px">❌ ${t("not1")}</li>
+        <li style="margin-bottom:4px">❌ ${t("not2")}</li>
+        <li style="margin-bottom:4px">❌ ${t("not3")}</li>
+        <li>❌ ${t("not4")}</li>
+      </ul>
+    </div>
+  `;
 }
 
-function cf(v){const ks=Object.keys(days),vals=ks.map(k=>v.monthly_receipts[k]),mx=Math.max(...vals);
- return `<h1 style="margin-bottom:14px">${t("cf")}</h1><div class="card"><h2>${t("inc")} (Jul – Sep 28)</h2><svg viewBox="0 0 300 150" width="100%" role="img" aria-label="Monthly sales">${vals.map((x,i)=>{const h=x/mx*100;return `<rect x="${30+i*90}" y="${115-h}" width="60" height="${h}" rx="8" fill="var(--pri)"/><text x="${60+i*90}" y="${108-h}" text-anchor="middle" font-size="11" fill="var(--tx)">${inr(x/1000)}k</text><text x="${60+i*90}" y="138" text-anchor="middle" font-size="12" fill="var(--mut)">${MN[ks[i]]}</text>`}).join("")}</svg><p class="mut" style="font-size:12px">Sep covers 28 days only.</p></div>
- <div class="card">${[[t("inc"),v.total_receipts],[t("exp"),v.total_expenses],[t("net"),v.net_cashflow],["Customers",v.unique_customers,1],["Payments received",v.txn_count,1]].map(x=>`<div class="tog"><span>${x[0]}</span><b>${x[2]?x[1].toLocaleString("en-IN"):inr(x[1])}</b></div>`).join("")}</div>`}
+function cf(v){
+  const ks=Object.keys(days), vals=ks.map(k=>v.monthly_receipts[k]), mx=Math.max(...vals);
+  return `
+    <h1 style="margin-bottom:14px">${t("cf")}</h1>
+    
+    <div class="ig-card">
+      <div class="row" style="margin-bottom:10px">
+        <h2>${t("inc")} (90-Day Trend)</h2>
+        <span class="badge-pill badge-pill--ok">Active Flow</span>
+      </div>
+      <svg viewBox="0 0 300 150" width="100%" role="img" aria-label="Monthly sales">
+        ${vals.map((x,i)=>{
+          const h=x/mx*100;
+          return `
+            <rect x="${30+i*90}" y="${115-h}" width="60" height="${h}" rx="10" fill="var(--pri)"/>
+            <text x="${60+i*90}" y="${108-h}" text-anchor="middle" font-size="11" font-weight="700" fill="var(--tx)">${inr(x/1000)}k</text>
+            <text x="${60+i*90}" y="${138}" text-anchor="middle" font-size="12" fill="var(--tx-mut)">${MN[ks[i]]}</text>
+          `;
+        }).join("")}
+      </svg>
+      <p class="mut" style="font-size:12px;text-align:center;margin-top:8px">Verified transactions across July, August, & September.</p>
+    </div>
 
-function loan(v){const r=calc(v,S.amt,S.mths),c=r.cover>=2?["good","var(--ok)"]:r.cover>=1?["ok","var(--wa)"]:["risk","var(--bad)"];
- return `<h1 style="margin-bottom:14px">${t("loan")}</h1><div class="card"><div class="row"><label for="a">${t("req")}</label><b id="av">${inr(S.amt)}</b></div><input id="a" type="range" min="10000" max="100000" step="5000" value="${S.amt}"><div class="row" style="margin-top:12px"><label for="mo">${t("mon")}</label><b id="mv">${S.mths}</b></div><input id="mo" type="range" min="6" max="24" step="3" value="${S.mths}"></div>
- <div class="card" style="text-align:center"><p class="mut">${t("emi")}</p><p class="big" id="ev">${inr(r.emi)}</p><p class="mut" id="cv">${t("cov")} ${r.cover.toFixed(1)}x</p><span class="badge" id="cb" style="background:${c[1]}">${t(c[0])}</span><p class="mut" style="font-size:12px;margin-top:8px">${t("ill")}</p></div>
- <div class="card"><h2>${t("tips")}</h2><p class="mut">• Take UPI payments from many customers.<br>• Keep sales steady through the month.<br>• Do not move money back and forth with other vendors.</p></div>`}
+    <div class="ig-card">
+      ${[
+        [t("inc"), v.total_receipts],
+        [t("exp"), v.total_expenses],
+        [t("net"), v.net_cashflow],
+        ["Distinct Buyers", v.unique_customers, 1],
+        ["Total UPI Transactions", v.txn_count, 1]
+      ].map(x=>`
+        <div class="tog">
+          <span>${x[0]}</span>
+          <b style="color:${x[0]===t("inc")?"var(--ok)":x[0]===t("exp")?"var(--bad)":"var(--tx)"}">${x[2]?x[1].toLocaleString("en-IN"):inr(x[1])}</b>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
 
-function me(v){const o=[["r","Score report"],["e","Reasons for the score"],["m","Monthly summary"],["c","Payment documents"]];
- return `<h1 style="margin-bottom:14px">${t("me")} · ${v.vendor_id}</h1><div class="card"><h2>${t("share")}</h2><p class="mut" style="margin-bottom:6px">${t("shareT")}</p>${S.stopped?`<p class="alert" style="border-left-color:var(--ok)">✔ ${t("stopped")}</p>`:o.map(x=>`<label class="tog">${x[1]}<input type="checkbox" data-s="${x[0]}" ${S.share[x[0]]?"checked":""}></label>`).join("")+`<div style="height:12px"></div><button class="btn ghost" id="st">${t("stop")}</button>`}</div><button class="btn ghost" id="lo">${t("out")}</button><div style="height:12px"></div><a href="index.html" class="btn ghost" style="text-decoration:none;display:flex;align-items:center;justify-content:center">🏢 Underwriter Dashboard</a>`}
+function loan(v){
+  const r = calc(v, S.amt, S.mths), c = r.cover>=2?["good","badge-pill--ok"]:r.cover>=1?["ok","badge-pill--wa"]:["risk","badge-pill--bad"];
+  return `
+    <h1 style="margin-bottom:14px">${t("loan")}</h1>
+
+    <div class="ig-card">
+      <div class="row" style="margin-bottom:4px">
+        <label for="a" style="font-weight:600;font-size:14px">${t("req")}</label>
+        <b id="av" style="font-size:17px;color:var(--pri)">${inr(S.amt)}</b>
+      </div>
+      <input id="a" type="range" min="10000" max="100000" step="5000" value="${S.amt}" style="margin:10px 0 16px">
+
+      <div class="row" style="margin-bottom:4px">
+        <label for="mo" style="font-weight:600;font-size:14px">${t("mon")}</label>
+        <b id="mv" style="font-size:16px">${S.mths} months</b>
+      </div>
+      <input id="mo" type="range" min="6" max="24" step="3" value="${S.mths}" style="margin-top:10px">
+    </div>
+
+    <div class="ig-card" style="text-align:center;padding:22px">
+      <p class="mut" style="font-size:12.5px;text-transform:uppercase;letter-spacing:0.5px;font-weight:700">${t("emi")}</p>
+      <p style="font-size:32px;font-weight:800;letter-spacing:-0.5px;color:var(--tx);margin:4px 0 8px" id="ev">${inr(r.emi)}</p>
+      <p class="mut" id="cv" style="font-size:13.5px">${t("cov")}: <b>${r.cover.toFixed(1)}x</b></p>
+      <div style="margin-top:10px">
+        <span class="badge-pill ${c[1]}" id="cb">${t(c[0])}</span>
+      </div>
+      <p class="mut" style="font-size:11.5px;margin-top:14px">${t("ill")}</p>
+    </div>
+
+    <div class="ig-card">
+      <h2>${t("tips")}</h2>
+      <ul style="list-style:none;padding:0;margin:8px 0 0;font-size:13.5px;line-height:1.7">
+        <li>✓ Accept regular payments across diverse customers.</li>
+        <li>✓ Maintain steady sales velocity through the entire week.</li>
+        <li>✓ Avoid circular reciprocal transfers with other merchants.</li>
+      </ul>
+    </div>
+  `;
+}
+
+function me(v){
+  const o=[["r","Credit score assessment report"],["e","Pillar-by-pillar explainable reasons"],["m","3-month cash flow velocity summary"],["c","Verified UPI payment logs"]];
+  return `
+    <div class="ig-card" style="padding:16px;margin-bottom:14px">
+      <div class="row">
+        <div class="ig-card-user">
+          <div class="ig-avatar-sm" style="width:48px;height:48px;font-size:18px;background:var(--fintech-gradient);color:#fff;border:0">${v.vendor_id.substring(0,3)}</div>
+          <div>
+            <div class="ig-user-name" style="font-size:16px">${v.vendor_id}</div>
+            <div class="ig-user-sub">₹${(v.loan_amount_requested/1000).toFixed(0)}k Loan Request • Verified Profile</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ig-card">
+      <h2>${t("share")}</h2>
+      <p class="mut" style="margin-bottom:8px;font-size:13px">${t("shareT")}</p>
+      ${S.stopped ? `
+        <div class="alert-banner" style="background:var(--ok-light);border-color:rgba(5,150,105,0.2)">
+          <div style="font-size:18px">✔</div>
+          <div><b style="color:var(--ok)">${t("stopped")}</b></div>
+        </div>
+      ` : o.map(x=>`
+        <label class="tog">
+          <span>${x[1]}</span>
+          <input type="checkbox" data-s="${x[0]}" ${S.share[x[0]]?"checked":""}>
+        </label>
+      `).join("") + `
+        <div style="height:14px"></div>
+        <button class="btn ghost" id="st" style="color:var(--bad);border-color:rgba(225,29,72,0.3)">${t("stop")}</button>
+      `}
+    </div>
+
+    <div class="ig-card" style="padding:14px">
+      <button class="btn ghost" id="lo" style="min-height:44px">${t("out")}</button>
+      <div style="height:10px"></div>
+      <a href="index.html" class="btn ghost" style="text-decoration:none;min-height:44px;font-size:14px">🏢 Switch to Underwriter Dashboard</a>
+    </div>
+  `;
+}
 
 // Speech & TTS Engine
 let ttsState="idle", activeStep=-1, ttsQueue=[], audioEl=null, audioFilesAvailable=false, audioChecked=false;
@@ -313,17 +1052,17 @@ function getScoreSpeechSentence(v, lang){
 
 async function checkAudioFiles(){
   if(audioChecked) return audioFilesAvailable;
-  try{const res = await fetch("audio/ta/step1.mp3", {method:"HEAD"}); audioFilesAvailable = res.ok;}
-  catch(e){audioFilesAvailable = false;}
+  try{ const res = await fetch("audio/ta/step1.mp3", {method:"HEAD"}); audioFilesAvailable = res.ok; }
+  catch(e){ audioFilesAvailable = false; }
   audioChecked = true;
   return audioFilesAvailable;
 }
 
 function getVoicesList(){
-  return (typeof window!=="undefined"&&window.speechSynthesis)?window.speechSynthesis.getVoices():[];
+  return (typeof window!=="undefined"&&window.speechSynthesis) ? window.speechSynthesis.getVoices() : [];
 }
 if(typeof window!=="undefined"&&window.speechSynthesis){
-  window.speechSynthesis.onvoiceschanged=()=>{getVoicesList()};
+  window.speechSynthesis.onvoiceschanged = () => { getVoicesList(); };
 }
 
 function getVoice(lang){
@@ -473,28 +1212,63 @@ function speakMyScore(v){
 document.addEventListener("visibilitychange", ()=>{ if(document.hidden) stopAudio(); });
 window.addEventListener("pagehide", stopAudio);
 
-function render(){if(!S.vid)return login();nav();const v=V();
- $("m").innerHTML=`<div class="scr">${{home,ai,cf,loan,me}[S.tab](v)}</div>`;$("m").scrollTop=0;
- const lg=$("lg");if(lg)lg.onclick=toggleLang;
- const oai=$("open-ai");if(oai)oai.onclick=()=>{stopAudio();S.tab="ai";render()};
- if(S.tab=="ai"){
-   $("btn-listen-all").onclick = playAll;
-   $("btn-pause").onclick = () => { if(ttsState==="paused") resumeAudio(); else pauseAudio(); };
-   $("btn-stop").onclick = stopAudio;
-   document.querySelectorAll(".speed-btn").forEach(b => b.onclick = () => setSpeed(parseFloat(b.dataset.r)));
-   document.querySelectorAll(".step-tts-btn").forEach(b => b.onclick = () => playStep(parseInt(b.dataset.step, 10)));
-   $("btn-read-score").onclick = () => speakMyScore(v);
- }
- if(S.tab=="loan"){const upd=()=>{S.amt=+$("a").value;S.mths=+$("mo").value;const r=calc(v,S.amt,S.mths),c=r.cover>=2?["good","var(--ok)"]:r.cover>=1?["ok","var(--wa)"]:["risk","var(--bad)"];
-  $("av").textContent=inr(S.amt);$("mv").textContent=S.mths;$("ev").textContent=inr(r.emi);$("cv").textContent=t("cov")+" "+r.cover.toFixed(1)+"x";$("cb").textContent=t(c[0]);$("cb").style.background=c[1]};$("a").oninput=upd;$("mo").oninput=upd}
- if(S.tab=="me"){
-  document.querySelectorAll("[data-s]").forEach(i=>i.onchange=()=>S.share[i.dataset.s]=i.checked?1:0);
-  const st=$("st");if(st)st.onclick=()=>{S.stopped=true;render()};$("lo").onclick=()=>{stopAudio();S.vid=null;render()}
- }
+function render(){
+  if(!S.vid) return login();
+  nav();
+  const v = V();
+  $("m").innerHTML = `<div class="scr">${{home,ai,cf,loan,me}[S.tab](v)}</div>`;
+  $("m").scrollTop = 0;
+
+  const hdrLangBtn = $("hdrLangBtn");
+  if(hdrLangBtn) hdrLangBtn.onclick = toggleLang;
+
+  // Story bar tab switching
+  document.querySelectorAll(".story-item").forEach(item => {
+    item.onclick = () => {
+      stopAudio();
+      S.tab = item.dataset.tab;
+      render();
+    };
+  });
+
+  const oai = $("open-ai");
+  if(oai) oai.onclick = () => { stopAudio(); S.tab="ai"; render(); };
+
+  if(S.tab=="ai"){
+    $("btn-listen-all").onclick = playAll;
+    $("btn-pause").onclick = () => { if(ttsState==="paused") resumeAudio(); else pauseAudio(); };
+    $("btn-stop").onclick = stopAudio;
+    document.querySelectorAll(".speed-btn").forEach(b => b.onclick = () => setSpeed(parseFloat(b.dataset.r)));
+    document.querySelectorAll(".step-tts-btn").forEach(b => b.onclick = () => playStep(parseInt(b.dataset.step, 10)));
+    $("btn-read-score").onclick = () => speakMyScore(v);
+  }
+
+  if(S.tab=="loan"){
+    const upd = () => {
+      S.amt = +$("a").value;
+      S.mths = +$("mo").value;
+      const r = calc(v, S.amt, S.mths), c = r.cover>=2?["good","badge-pill--ok"]:r.cover>=1?["ok","badge-pill--wa"]:["risk","badge-pill--bad"];
+      $("av").textContent = inr(S.amt);
+      $("mv").textContent = S.mths + " months";
+      $("ev").textContent = inr(r.emi);
+      $("cv").innerHTML = `${t("cov")}: <b>${r.cover.toFixed(1)}x</b>`;
+      $("cb").textContent = t(c[0]);
+      $("cb").className = `badge-pill ${c[1]}`;
+    };
+    $("a").oninput = upd;
+    $("mo").oninput = upd;
+  }
+
+  if(S.tab=="me"){
+    document.querySelectorAll("[data-s]").forEach(i => i.onchange = () => S.share[i.dataset.s] = i.checked ? 1 : 0);
+    const st = $("st");
+    if(st) st.onclick = () => { S.stopped = true; render(); };
+    $("lo").onclick = () => { stopAudio(); S.vid = null; render(); };
+  }
 }
+
 window.TrustCred = { DATA, S, calc, V, inr, t, TX, render, stopAudio };
 render();
-
 </script>
 <script src="js/bot.js"></script>
 </body>
