@@ -3,9 +3,15 @@
 > **Empirical UPI-flow underwriting for unbanked micro-merchants and street vendors with zero credit bureau history.**  
 > Unmasks circular round-tripping transfers, evaluates authentic debt servicing capacity, and delivers an objective 100-point explainable scorecard.
 
+![TrustCred AI Underwriter Dashboard](docs/images/lender_dashboard_ui.jpg)
+
 ---
 
 ## 1. System High-Level Design (HLD) Architecture
+
+![TrustCred AI System Architecture Diagram](docs/images/system_architecture_hld.jpg)
+
+### Architecture Schematic
 
 ```
 +===================================================================================================+
@@ -115,7 +121,18 @@ flowchart TD
 
 ---
 
-## 2. Machine Learning Benchmarks & Model Evaluation
+## 2. Circular Round-Tripping Detection vs. Genuine Commerce
+
+![Genuine Merchant Commerce vs Circular Round-Tripping Fraud](docs/images/circular_flow_fraud.jpg)
+
+### Fraud Ring Mechanics & Detection Logic
+- **Genuine Merchant Profile**: Characterized by natural high in-degree retail commerce (hundreds of distinct customer payers `C#####`), small repetitive retail payments (₹20 to ₹2,000), regular outward supplier expenses (`SUP###`), and low customer concentration ($< 1\%$).
+- **Circular Fraud Ring Profile**: Organized merchant syndicates ping-ponging reciprocal transactions (`V###` to `V###`) in closed loops to falsely inflate UPI velocity and gross turnover prior to loan origination.
+- **Underwriting Safeguard**: Flagged merchants trigger a **Hard Cap** limiting their maximum possible credit score to $\le 30/100$, placing them in the **Insufficient** band and preventing fraudulent loan disbursement.
+
+---
+
+## 3. Machine Learning Benchmarks & Model Evaluation
 
 The dataset evaluates 40 merchants representing ₹2,025,000 in loan requests across 49,160 verified transactions over 90 calendar days (`2026-07-01` to `2026-09-28`).
 
@@ -135,6 +152,8 @@ The dataset evaluates 40 merchants representing ₹2,025,000 in loan requests ac
 
 ### Holdout Confusion Matrix (8 Test Vendors: 6 Genuine, 2 Non-Genuine)
 
+![Holdout Confusion Matrix](docs/images/confusion_matrix.png)
+
 ```
                  Predicted Genuine     Predicted Non-Genuine
 Actual Genuine          6                       0             (100% Specificity)
@@ -148,6 +167,8 @@ Actual Non-Genuine      0                       2             (100% Sensitivity)
 - **Cross-Method Agreement**: **38 / 40 merchants (95.0%)**.
 
 ### Top Gini Feature Importances (Random Forest)
+
+![Random Forest Feature Importances](docs/images/feature_importance.png)
 
 | Rank | Feature | Gini Importance | Underwriting Significance |
 |:---:|---|:---:|---|
@@ -164,7 +185,7 @@ Actual Non-Genuine      0                       2             (100% Sensitivity)
 
 ---
 
-## 3. 100-Point Explainable Scorecard Framework
+## 4. 100-Point Explainable Scorecard Framework
 
 Traditional credit scoring models rely on credit bureau histories (CIBIL/Experian), which excludes micro-merchants and street vendors. TrustCred AI assesses creditworthiness directly from **cash-flow evidence**:
 
@@ -219,6 +240,12 @@ $$\text{Active Ratio} = \frac{\text{Active Days with Transactions}}{90\text{ Obs
 - **Circular Round-Tripping Flag**: $0\text{ pts}$ + **Hard Exclusion Cap**:
   $$\text{Final Score} = \min(\text{Raw Score}, 30) \implies \text{Band} = \text{Insufficient}$$
 
+### Scorecard Distribution & Repayment Visualizations
+
+![100-Point Scorecard Distribution](docs/images/score_distribution.png)
+
+![Repayment Coverage vs Monthly Net Cash Flow](docs/images/repayment_vs_cashflow.png)
+
 ### Underwriting Decision Matrix
 
 | Score Band | Range | Policy Decision | Pricing / Terms | Cohort Count |
@@ -230,7 +257,7 @@ $$\text{Active Ratio} = \frac{\text{Active Days with Transactions}}{90\text{ Obs
 
 ---
 
-## 4. Repository Structure
+## 5. Repository Structure
 
 ```
 c:\Users\dhanu\Documents\PROJECTS\SRI SAKTHI HACKTHON/
@@ -239,7 +266,15 @@ c:\Users\dhanu\Documents\PROJECTS\SRI SAKTHI HACKTHON/
 ├── docs/
 │   ├── dataset-schema.md              # Feature definitions, schema contracts & scoring formulas
 │   ├── pseudo-label-rules.md          # Fraud rules, thresholds & Isolation Forest audit
-│   └── dataset-audit.md               # Complete audit report verifying dataset integrity
+│   ├── dataset-audit.md               # Complete audit report verifying dataset integrity
+│   └── images/                        # Visual architecture, fraud flows & ML performance figures
+│       ├── lender_dashboard_ui.jpg    # Interactive Underwriter UI preview
+│       ├── system_architecture_hld.jpg# High-Level Design (HLD) architecture diagram
+│       ├── circular_flow_fraud.jpg    # Genuine vs circular transfer mechanics
+│       ├── confusion_matrix.png       # Test partition confusion matrix chart
+│       ├── feature_importance.png     # Top 10 Random Forest feature importances
+│       ├── score_distribution.png     # 100-point credit score distribution
+│       └── repayment_vs_cashflow.png  # Repayment coverage (DSCR) vs cash flow scatter
 ├── frontend/
 │   ├── index.html                     # Minimalist, modern light-only underwriter dashboard
 │   ├── vendor.html                    # Mobile bilingual (English/Tamil) vendor PWA
@@ -277,7 +312,7 @@ c:\Users\dhanu\Documents\PROJECTS\SRI SAKTHI HACKTHON/
 
 ---
 
-## 5. Quickstart & Execution
+## 6. Quickstart & Execution
 
 ### 1. Install Dependencies
 ```bash
@@ -304,7 +339,7 @@ Access the applications in your browser:
 
 ---
 
-## 6. Underwriting Scope, Assumptions & Limitations
+## 7. Underwriting Scope, Assumptions & Limitations
 
 1. **Transaction Velocity vs. Credit Intent**:
    - The TrustCred AI score measures **empirical cash-flow velocity**, **revenue stability**, and **counter-party authenticity** from transaction records.
