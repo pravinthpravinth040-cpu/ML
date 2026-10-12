@@ -205,6 +205,7 @@ c:\Users\dhanu\Documents\PROJECTS\SRI SAKTHI HACKTHON/
 │   ├── dataset-audit.md               # Complete audit report verifying dataset integrity
 │   └── images/                        # Visual architecture, fraud flows & ML performance figures
 │       ├── lender_dashboard_ui.png    # Interactive Underwriter UI preview (Minimal Startup Hero)
+│       ├── vendor_portal_ui.jpg       # Modern FinTech Merchant Portal UI preview
 │       ├── system_architecture_hld.jpg# High-Level Design (HLD) architecture diagram
 │       ├── architecture_schematic_handdrawn.jpg # Hand-drawn architecture schematic overview
 │       ├── circular_flow_fraud.jpg    # Genuine vs circular transfer mechanics

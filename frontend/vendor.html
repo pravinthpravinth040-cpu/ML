@@ -2,474 +2,491 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>TrustCred — Vendor Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>TrustCred — Merchant Credit Portal</title>
+  <meta name="description" content="Transparent cash-flow credit assessment and voice AI explanation for unbanked micro-merchants.">
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/bot.css">
+  
   <style>
     :root {
-      --bg: #f8fafc;
-      --surface: #ffffff;
-      --card-bg: #ffffff;
-      --border: #f1f5f9;
-      --border-strong: #e2e8f0;
-      --tx: #0f172a;
-      --tx-mut: #64748b;
-      --tx-subtle: #94a3b8;
-      --pri: #2563eb;
-      --pri-light: #eff6ff;
-      --pri-hover: #1d4ed8;
-      --ok: #059669;
-      --ok-light: #ecfdf5;
-      --wa: #d97706;
-      --wa-light: #fffbeb;
-      --bad: #e11d48;
-      --bad-light: #fff1f2;
-      --ig-gradient: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-      --fintech-gradient: linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%);
+      --bg: #F8FAFC;
+      --surface: #FFFFFF;
+      --surface-subtle: #F1F5F9;
+      --border: #E2E8F0;
+      --border-subtle: #F1F5F9;
+      --border-focus: #2563EB;
+      --text: #0F172A;
+      --text-muted: #64748B;
+      --text-subtle: #94A3B8;
+      
+      --primary: #2563EB;
+      --primary-hover: #1D4ED8;
+      --primary-light: #EFF6FF;
+      --primary-ring: rgba(37, 99, 235, 0.15);
+      
+      --success: #059669;
+      --success-light: #ECFDF5;
+      --warning: #D97706;
+      --warning-light: #FFFBEB;
+      --danger: #E11D48;
+      --danger-light: #FFF1F2;
+      
       --radius-sm: 8px;
-      --radius-md: 14px;
-      --radius-lg: 20px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
       --radius-full: 9999px;
-      --shadow-card: 0 2px 12px -2px rgba(15, 23, 42, 0.05);
-      --shadow-elevated: 0 10px 25px -4px rgba(15, 23, 42, 0.08);
+      
+      --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.05);
+      --shadow-lg: 0 12px 28px rgba(15, 23, 42, 0.07);
     }
-    
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; background: #f1f5f9; color: var(--tx); font-family: 'Plus Jakarta Sans', 'Noto Sans Tamil', system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
-    body { display: flex; justify-content: center; align-items: stretch; }
 
-    #app {
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    html, body {
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Noto Sans Tamil', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Outer Wrapper */
+    .app-viewport {
       width: 100%;
-      max-width: 440px;
-      height: 100%;
+      max-width: 820px;
+      margin: 0 auto;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      background: var(--surface);
-      position: relative;
-      box-shadow: 0 0 40px rgba(0,0,0,0.06);
+      padding: 0 16px 40px;
     }
 
-    /* Top Instagram-Style Header */
-    .app-header {
+    /* Top Startup Header */
+    .top-header {
       position: sticky;
       top: 0;
-      z-index: 40;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      z-index: 50;
+      background: rgba(248, 250, 252, 0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      padding: 16px 0;
       border-bottom: 1px solid var(--border);
-      padding: calc(12px + env(safe-area-inset-top, 0px)) 16px 12px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 24px;
     }
-    .app-header-brand {
+
+    .brand-group {
       display: flex;
       align-items: center;
       gap: 10px;
       text-decoration: none;
-      color: var(--tx);
+      color: var(--text);
     }
-    .brand-logo-text {
-      font-size: 20px;
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      background: var(--primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+    }
+    .brand-title {
+      font-size: 17px;
       font-weight: 800;
-      letter-spacing: -0.5px;
-      background: var(--fintech-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.3px;
     }
-    .header-actions {
+    .brand-pill {
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .header-controls {
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    /* Instagram-Style Story Highlights */
-    .stories-row {
-      display: flex;
-      gap: 14px;
-      overflow-x: auto;
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--border);
-      background: #fafafa;
-      scrollbar-width: none;
+    .select-merchant {
+      appearance: none;
+      -webkit-appearance: none;
+      background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat calc(100% - 10px) center;
+      border: 1px solid var(--border);
+      padding: 7px 28px 7px 12px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      outline: none;
+      transition: all 0.15s ease;
     }
-    .stories-row::-webkit-scrollbar { display: none; }
-    .story-item {
-      display: flex;
-      flex-direction: column;
+    .select-merchant:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-ring);
+    }
+
+    .btn-lang {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 7px 12px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      display: inline-flex;
       align-items: center;
       gap: 5px;
-      cursor: pointer;
-      background: none;
+      transition: all 0.15s ease;
+    }
+    .btn-lang:hover {
+      background: var(--surface-subtle);
+      border-color: var(--text-muted);
+    }
+
+    /* Startup Segmented Nav Pills */
+    .tab-pills {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 4px;
+      background: var(--surface-subtle);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      scrollbar-width: none;
+    }
+    .tab-pills::-webkit-scrollbar { display: none; }
+    
+    .tab-pill {
+      flex: 1;
+      min-width: fit-content;
+      padding: 9px 16px;
       border: 0;
-      font-family: inherit;
-    }
-    .story-ring {
-      width: 58px;
-      height: 58px;
-      border-radius: var(--radius-full);
-      padding: 2.5px;
-      background: var(--border-strong);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .story-item.active .story-ring {
-      background: var(--fintech-gradient);
-    }
-    .story-ring:active { transform: scale(0.92); }
-    .story-avatar {
-      width: 100%;
-      height: 100%;
-      border-radius: var(--radius-full);
-      background: var(--surface);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      border: 2px solid var(--surface);
-    }
-    .story-title {
-      font-size: 11px;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 13.5px;
       font-weight: 600;
-      color: var(--tx-mut);
-      max-width: 62px;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s ease;
       white-space: nowrap;
     }
-    .story-item.active .story-title {
-      color: var(--pri);
+    .tab-pill.active {
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: var(--shadow-sm);
       font-weight: 700;
     }
-
-    /* Main Scrollable Canvas */
-    main {
-      flex: 1;
-      overflow-y: auto;
-      padding: 16px;
-      padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
-      background: #fbfcfd;
+    .tab-pill:hover:not(.active) {
+      color: var(--text);
     }
 
-    /* Instagram-Style Feed Cards */
-    .ig-card {
+    /* Cards System */
+    .card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 18px;
-      margin-bottom: 14px;
-      box-shadow: var(--shadow-card);
-      transition: border-color 0.15s ease;
+      padding: 24px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
-    .ig-card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
+    .card:hover {
+      box-shadow: var(--shadow-md);
     }
-    .ig-card-user {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .ig-avatar-sm {
-      width: 36px;
-      height: 36px;
-      border-radius: var(--radius-full);
-      background: var(--pri-light);
-      color: var(--pri);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 13px;
-      border: 1.5px solid rgba(37, 99, 235, 0.2);
-    }
-    .ig-user-name { font-size: 14px; font-weight: 700; color: var(--tx); line-height: 1.2; }
-    .ig-user-sub { font-size: 12px; color: var(--tx-mut); }
 
-    /* Typography & Utilities */
-    h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
-    h2 { font-size: 16px; font-weight: 700; letter-spacing: -0.2px; margin-bottom: 6px; }
-    .mut { color: var(--tx-mut); font-size: 13.5px; line-height: 1.5; }
-    .row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .hero-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 30px 24px;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 32px;
+      align-items: center;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-md);
+    }
+    @media (max-width: 680px) {
+      .hero-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 20px;
+        padding: 24px 18px;
+      }
+    }
 
-    /* Pills & Badges */
-    .badge-pill {
+    /* Typography */
+    h1 { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+    h2 { font-size: 17px; font-weight: 700; letter-spacing: -0.2px; margin-bottom: 8px; }
+    .mut { color: var(--text-muted); font-size: 13.5px; line-height: 1.55; }
+    .row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+
+    /* Score Badges */
+    .badge {
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      padding: 5px 12px;
+      padding: 4px 12px;
       border-radius: var(--radius-full);
-      font-size: 12px;
+      font-size: 12.5px;
       font-weight: 700;
       letter-spacing: 0.2px;
     }
-    .badge-pill--ok { background: var(--ok-light); color: var(--ok); }
-    .badge-pill--wa { background: var(--wa-light); color: var(--wa); }
-    .badge-pill--bad { background: var(--bad-light); color: var(--bad); }
+    .badge-ok { background: var(--success-light); color: var(--success); }
+    .badge-wa { background: var(--warning-light); color: var(--warning); }
+    .badge-bad { background: var(--danger-light); color: var(--danger); }
 
-    .lang-pill-btn {
-      background: var(--surface);
-      border: 1px solid var(--border-strong);
-      color: var(--tx);
-      border-radius: var(--radius-full);
-      min-height: 34px;
-      padding: 0 12px;
-      font-size: 12.5px;
-      font-weight: 700;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      transition: all 0.15s ease;
-    }
-    .lang-pill-btn:hover { background: #f8fafc; border-color: var(--tx-mut); }
-
-    /* Buttons */
-    .btn {
-      min-height: 46px;
-      border: 0;
-      border-radius: var(--radius-md);
-      background: var(--pri);
-      color: #fff;
-      font: 600 15px inherit;
-      width: 100%;
-      padding: 10px 16px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: all 0.15s ease;
-    }
-    .btn:hover { background: var(--pri-hover); transform: translateY(-1px); }
-    .btn:active { transform: translateY(0); }
-    .btn.ghost {
-      background: var(--surface);
-      color: var(--tx);
-      border: 1px solid var(--border-strong);
-    }
-    .btn.ghost:hover { background: #f8fafc; border-color: var(--tx-mut); }
-    .btn.primary-gradient {
-      background: var(--fintech-gradient);
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
-    }
-
-    /* Metric Grid (Instagram Stories Profile Stats Style) */
-    .stats-grid {
+    /* Metric Grid */
+    .metrics-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin: 12px 0;
+      gap: 12px;
+      margin: 18px 0;
     }
-    .stat-box {
-      background: #f8fafc;
+    @media (max-width: 520px) {
+      .metrics-row { grid-template-columns: 1fr; }
+    }
+    .metric-card {
+      background: var(--surface-subtle);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      padding: 10px;
-      text-align: center;
+      padding: 14px 16px;
     }
-    .stat-label { font-size: 11.5px; font-weight: 600; color: var(--tx-mut); margin-bottom: 2px; }
-    .stat-val { font-size: 15px; font-weight: 800; color: var(--tx); }
-
-    /* Sliders & Inputs */
-    select, input[type=range] {
-      width: 100%;
-      min-height: 44px;
-      font: 15px inherit;
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-strong);
-      background: var(--surface);
-      color: var(--tx);
-      padding: 8px 12px;
-      outline: none;
-    }
-    select:focus { border-color: var(--pri); ring: 2px var(--pri-light); }
-    input[type=range] {
-      padding: 0;
-      accent-color: var(--pri);
-      height: 6px;
-      background: #e2e8f0;
-      border-radius: var(--radius-full);
-      border: 0;
-    }
-
-    /* Bottom Instagram Navigation Bar */
-    nav#nav {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 440px;
-      height: calc(60px + env(safe-area-inset-bottom, 0px));
-      padding-bottom: env(safe-area-inset-bottom, 0px);
-      background: rgba(255, 255, 255, 0.94);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      z-index: 50;
-    }
-    nav#nav button {
-      flex: 1;
-      height: 100%;
-      border: 0;
-      background: none;
-      color: var(--tx-subtle);
-      font: 600 11px inherit;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 3px;
-      cursor: pointer;
-      transition: color 0.15s ease;
-    }
-    nav#nav button svg { width: 22px; height: 22px; stroke-width: 2; transition: transform 0.15s ease; }
-    nav#nav button.on { color: var(--pri); font-weight: 700; }
-    nav#nav button.on svg { stroke-width: 2.5; transform: scale(1.08); }
+    .metric-label { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; }
+    .metric-value { font-size: 18px; font-weight: 800; color: var(--text); }
 
     /* Alert Banner */
-    .alert-banner {
-      background: var(--bad-light);
-      border: 1px solid rgba(225, 29, 72, 0.2);
+    .alert-box {
+      border-left: 4px solid var(--danger);
+      background: var(--danger-light);
       border-radius: var(--radius-md);
-      padding: 12px 14px;
-      margin-bottom: 14px;
+      padding: 14px 16px;
+      margin-bottom: 18px;
       display: flex;
       align-items: flex-start;
       gap: 10px;
     }
-    .alert-banner b { color: var(--bad); font-size: 13.5px; }
-    .alert-banner p { color: #9f1239; font-size: 12.5px; margin-top: 2px; }
+    .alert-box b { color: var(--danger); font-size: 14px; }
+    .alert-box p { color: #9f1239; font-size: 13px; margin-top: 2px; }
 
-    /* Progress Bar */
-    .bar { height: 8px; border-radius: var(--radius-full); background: #e2e8f0; overflow: hidden; margin: 6px 0 3px; }
-    .bar i { display: block; height: 100%; border-radius: var(--radius-full); }
+    /* Buttons */
+    .btn {
+      min-height: 44px;
+      border: 0;
+      border-radius: var(--radius-md);
+      background: var(--primary);
+      color: #fff;
+      font: 600 14px inherit;
+      padding: 10px 18px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+    .btn:hover { background: var(--primary-hover); }
+    .btn.ghost {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn.ghost:hover {
+      background: var(--surface-subtle);
+      border-color: var(--text-muted);
+    }
+    .btn.btn-lg {
+      min-height: 48px;
+      font-size: 15px;
+      width: 100%;
+    }
 
-    /* Toggle Switches */
-    .tog {
+    /* Sliders & Inputs */
+    input[type=range] {
+      width: 100%;
+      height: 6px;
+      accent-color: var(--primary);
+      background: var(--border);
+      border-radius: var(--radius-full);
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Pillar Progress Bar */
+    .bar {
+      height: 8px;
+      border-radius: var(--radius-full);
+      background: var(--border);
+      overflow: hidden;
+      margin: 8px 0 4px;
+    }
+    .bar i {
+      display: block;
+      height: 100%;
+      border-radius: var(--radius-full);
+      transition: width 0.4s ease;
+    }
+
+    /* Toggle row */
+    .toggle-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      min-height: 48px;
+      padding: 14px 0;
       border-bottom: 1px solid var(--border);
       font-size: 14px;
       font-weight: 500;
     }
-    .tog input { width: 20px; height: 20px; accent-color: var(--pri); }
-
-    /* TTS Controls */
-    .tts-ctrls {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      background: var(--surface);
-      border: 1px solid var(--border-strong);
-      border-radius: var(--radius-lg);
-      padding: 14px;
-      margin-bottom: 14px;
-      box-shadow: var(--shadow-elevated);
+    .toggle-row input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      cursor: pointer;
     }
-    .speed-group { display: flex; gap: 6px; align-items: center; margin-top: 8px; }
+
+    /* TTS Controls Card */
+    .tts-controls-panel {
+      position: sticky;
+      top: 80px;
+      z-index: 30;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-md);
+    }
+    .speed-btns { display: flex; gap: 6px; margin-top: 10px; }
     .speed-btn {
       flex: 1;
-      min-height: 36px;
+      min-height: 34px;
       border-radius: var(--radius-sm);
-      border: 1px solid var(--border-strong);
-      background: #f8fafc;
-      color: var(--tx);
+      border: 1px solid var(--border);
+      background: var(--surface-subtle);
+      color: var(--text);
       font: 600 12.5px inherit;
       cursor: pointer;
     }
-    .speed-btn.on { background: var(--pri); color: #fff; border-color: var(--pri); }
+    .speed-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
 
     .step-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 16px;
-      margin-bottom: 12px;
-      box-shadow: var(--shadow-card);
+      padding: 18px 20px;
+      margin-bottom: 14px;
       transition: all 0.2s ease;
     }
     .step-card.active-step {
-      border-color: var(--pri);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-      background: var(--pri-light);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-ring);
+      background: var(--primary-light);
     }
-    .step-tts-btn {
-      width: 38px;
-      height: 38px;
+    .step-play-btn {
+      width: 36px;
+      height: 36px;
       border-radius: var(--radius-full);
-      border: 1px solid var(--border-strong);
+      border: 1px solid var(--border);
       background: var(--surface);
-      color: var(--tx);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 15px;
       transition: all 0.15s ease;
     }
-    .step-tts-btn:hover { background: var(--pri-light); color: var(--pri); border-color: var(--pri); }
+    .step-play-btn:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+    }
 
-    .both-sub { color: var(--tx-mut); font-size: 12.5px; display: block; margin-top: 3px; font-weight: 400; line-height: 1.4; }
+    .both-sub {
+      color: var(--text-muted);
+      font-size: 13px;
+      display: block;
+      margin-top: 2px;
+      font-weight: 400;
+    }
+
+    /* Login Screen Minimal */
+    .login-container {
+      max-width: 440px;
+      margin: 8vh auto 0;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
 
-<div id="app">
-  <!-- Sticky Instagram Header -->
-  <header class="app-header" id="appHeader" hidden>
-    <a href="#" class="app-header-brand" id="hdrBrand">
-      <span class="brand-logo-text">TrustCred</span>
-    </a>
-    <div class="header-actions">
-      <button class="lang-pill-btn" id="hdrLangBtn">
+<div class="app-viewport">
+
+  <!-- Top Startup Navigation Header -->
+  <header class="top-header" id="topHeader">
+    <div class="brand-group">
+      <div class="brand-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+      </div>
+      <div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span class="brand-title">TrustCred</span>
+          <span class="brand-pill">Merchant</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-controls" id="headerControls" hidden>
+      <select id="vendorSelect" class="select-merchant" aria-label="Select merchant profile"></select>
+      <button id="langToggleBtn" class="btn-lang" type="button" aria-label="Switch language">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-        <span id="hdrLangText">தமிழ்</span>
+        <span id="langLabelText">தமிழ்</span>
       </button>
+      <a href="index.html" class="btn ghost" style="padding:7px 12px;font-size:13px;text-decoration:none" title="Switch to Underwriter Dashboard">
+        <span>Lender View</span>
+      </a>
     </div>
   </header>
 
-  <!-- Instagram Story Highlights Row -->
-  <div class="stories-row" id="storiesBar" hidden>
-    <button class="story-item active" data-tab="home">
-      <div class="story-ring"><div class="story-avatar">🎯</div></div>
-      <span class="story-title">Score</span>
-    </button>
-    <button class="story-item" data-tab="ai">
-      <div class="story-ring"><div class="story-avatar">🤖</div></div>
-      <span class="story-title">AI Voice</span>
-    </button>
-    <button class="story-item" data-tab="cf">
-      <div class="story-ring"><div class="story-avatar">📊</div></div>
-      <span class="story-title">Cash Flow</span>
-    </button>
-    <button class="story-item" data-tab="loan">
-      <div class="story-ring"><div class="story-avatar">💰</div></div>
-      <span class="story-title">Loan Sim</span>
-    </button>
-    <button class="story-item" data-tab="me">
-      <div class="story-ring"><div class="story-avatar">🛡️</div></div>
-      <span class="story-title">Privacy</span>
-    </button>
-  </div>
+  <!-- Segmented Tab Pills -->
+  <nav class="tab-pills" id="navTabs" hidden>
+    <button class="tab-pill active" data-tab="home">🎯 Overview</button>
+    <button class="tab-pill" data-tab="ai">🤖 AI Voice Explainer</button>
+    <button class="tab-pill" data-tab="cf">📊 Cash Flow Velocity</button>
+    <button class="tab-pill" data-tab="loan">💰 Loan Simulator</button>
+    <button class="tab-pill" data-tab="me">🛡️ Privacy & Sharing</button>
+  </nav>
 
-  <main id="m" aria-live="polite"></main>
-  <nav id="nav" hidden></nav>
+  <!-- Dynamic Content Container -->
+  <main id="mainContainer" aria-live="polite"></main>
+
 </div>
 
 <script>
@@ -477,55 +494,55 @@ const DATA=[{"vendor_id":"V001","loan_amount_requested":60000,"total_receipts":3
 
 const TX={
   en:{
-    hi:"Hello",score:"Trust Score",of:"out of 100",inc:"Money in",exp:"Money out",net:"You kept",cf:"Cash flow",loan:"Loan",me:"Me",home:"Home",aiNav:"AI",login:"Choose your vendor ID",go:"Continue to App",demo:"Score calculated transparently from verified UPI transactions.",warn:"Verification Alert",warnT:"Money moved back and forth between your account and another vendor. This is not counted as real sales and lowers your score.",why:"Why this score",req:"Loan requested",mon:"Repayment tenure",emi:"Monthly instalment",cov:"Monthly net cashflow coverage",good:"Comfortable",ok:"Manageable",risk:"Risky",share:"Share with a lender",shareT:"You decide what a lender can see. You can stop sharing any time.",stop:"Revoke lender access",stopped:"Sharing stopped. No lender can view your data.",out:"Log out",tips:"Underwriting Tips",ill:"Illustrative: flat 20% p.a. interest.",
-    aiCardTitle:"How does AI calculate my score?",aiCardSub:"Tap for full spoken explanation in audio",aiEntryBtn:"Listen to Voice Breakdown",
-    aiTitle:"AI Explanation",aiSub:"Your 100-point score explained in 6 simple steps",
-    listenAll:"🔊 Listen to all 6 steps",pause:"⏸ Pause",resume:"▶ Resume",stop:"⏹ Stop",
-    speaking:"Speaking step",paused:"Audio paused",ready:"Ready to listen",speed:"Speed",slow:"Slow 0.8x",norm:"Normal 1x",fast:"Fast 1.2x",playStep:"Listen",
-    myExample:"Your Live Profile Example",readScore:"🔊 Read my score aloud",
-    notTitle:"What the AI does NOT do",
-    not1:"Does not read private messages or SMS",
-    not2:"Does not track or record your GPS location",
-    not3:"Does not issue credit decisions alone (a human underwriter reviews)",
-    not4:"Does not guess or speculate if you will repay",
-    taVoiceMissing:"Tamil voice TTS not installed. Please enable Tamil speech in your device settings.",
-    diagP:"UPI Receipts",diagC:"5 AI Pillars",diagS:"Score / 100",
-    f1:"Steady income",f2:"Can repay",f3:"Low costs",f4:"Many customers",f5:"Genuine sales"
+    hi:"Welcome",score:"Trust Score",of:"out of 100",inc:"Monthly Inflow",exp:"Monthly Outflow",net:"Net Operating Cashflow",cf:"Cash Flow Velocity",loan:"Loan Simulator",me:"Privacy & Controls",home:"Overview",aiNav:"AI Voice",login:"Select your merchant profile",go:"Enter Portal",demo:"Objective 100-point score computed directly from 90 days of UPI transaction history.",warn:"Turnover Verification Flag",warnT:"High reciprocal transfers detected between peer vendor accounts. Circular flows are excluded from genuine sales, placing the account under conservative review.",why:"Transparent Underwriting Factors",req:"Requested Loan Amount",mon:"Repayment Horizon",emi:"Estimated Monthly Instalment",cov:"Operating Cashflow Coverage",good:"Comfortable Buffer (2.0x+)",ok:"Manageable (1.0x - 2.0x)",risk:"High Burden (< 1.0x)",share:"Lender Data Permissions",shareT:"You retain total control over your shared underwriting evidence. Permissions can be revoked at any instant.",stop:"Revoke All Lender Access",stopped:"Access revoked. No institution can inspect your cash flow records.",out:"Sign Out",tips:"Merchant Best Practices",ill:"Illustrative estimate assuming 20% annual flat interest.",
+    aiCardTitle:"How does AI evaluate my business?",aiCardSub:"Spoken 6-step breakdown in clear voice audio",aiEntryBtn:"Listen to Voice Breakdown",
+    aiTitle:"Voice AI Underwriter",aiSub:"How your creditworthiness is assessed in 6 simple steps",
+    listenAll:"🔊 Play Full Explanation",pause:"⏸ Pause",resume:"▶ Resume",stop:"⏹ Stop",
+    speaking:"Now Explaining Step",paused:"Audio Paused",ready:"Ready to stream audio",speed:"Speed",slow:"0.8x Slow",norm:"1.0x Normal",fast:"1.2x Fast",playStep:"Listen",
+    myExample:"Your Live Business Example",readScore:"🔊 Read My Assessment Aloud",
+    notTitle:"Guarantees & Safeguards",
+    not1:"Never accesses private SMS, phonebook, or messages",
+    not2:"Never tracks GPS coordinates or device location",
+    not3:"Does not make automated loan rejections (a human lender reviews)",
+    not4:"Does not guess or gamble on repayment capability",
+    taVoiceMissing:"Tamil voice synthesis not installed on this browser. You can enable Tamil speech under system settings.",
+    diagP:"Verified UPI Receipts",diagC:"5 Core Risk Checks",diagS:"Scorecard (0 - 100)",
+    f1:"Income Stability",f2:"Debt Repayment Capacity",f3:"Expense Discipline",f4:"Customer Base Breadth",f5:"Turnover Authenticity"
   },
   ta:{
-    hi:"வணக்கம்",score:"நம்பிக்கை மதிப்பெண்",of:"100-க்கு",inc:"வரவு",exp:"செலவு",net:"மிச்சம்",cf:"பணப்புழக்கம்",loan:"கடன்",me:"நான்",home:"முகப்பு",aiNav:"AI",login:"உங்கள் வியாபாரி ஐடியைத் தேர்வு செய்யவும்",go:"தொடரவும்",demo:"உண்மையான UPI பணப் பரிவர்த்தனைகளின் மாதிரி மதிப்பெண்.",warn:"கவனிக்கவும்",warnT:"உங்கள் கணக்கிற்கும் மற்றொரு வியாபாரிக்கும் இடையே பணம் முன்னும் பின்னும் சென்றுள்ளது. இது உண்மையான விற்பனையாகக் கணக்கிடப்படாது; மதிப்பெண்ணைக் குறைக்கும்.",why:"இந்த மதிப்பெண் ஏன்",req:"கடன் தொகை",mon:"திருப்பிச் செலுத்தும் கால அளவு",emi:"மாதத் தவணை",cov:"மாத மிச்சம் ஈடுசெய்யும் அளவு",good:"வசதி",ok:"சமாளிக்கலாம்",risk:"ஆபத்து",share:"கடன் வழங்குநருடன் பகிர",shareT:"கடன் வழங்குநர் எதைப் பார்க்கலாம் என்பதை நீங்களே தீர்மானிக்கிறீர்கள். எப்போது வேண்டுமானாலும் நிறுத்தலாம்.",stop:"எல்லா பகிர்வையும் நிறுத்து",stopped:"பகிர்வு நிறுத்தப்பட்டது. எந்த கடன் வழங்குநரும் உங்கள் தரவைப் பார்க்க முடியாது.",out:"வெளியேறு",tips:"மேம்படுத்தும் வழிகள்",ill:"எடுத்துக்காட்டு: ஆண்டுக்கு 20% வட்டி.",
-    aiCardTitle:"AI எனது மதிப்பெண்ணை எப்படி தீர்மானிக்கிறது?",aiCardSub:"குரல் வழியே மிக எளிய விளக்கம்",aiEntryBtn:"AI குரல் விளக்கம் (கேளுங்கள்)",
-    aiTitle:"AI விளக்கம்",aiSub:"6 எளிய படிகளில் மதிப்பெண் விளக்கம்",
-    listenAll:"🔊 6 படிகளையும் கேளுங்கள்",pause:"⏸ நிறுத்து",resume:"▶ தொடர்",stop:"⏹ நிறுத்து",
-    speaking:"படி படிக்கிறது",paused:"ஒலி இடைநிறுத்தப்பட்டது",ready:"கேட்கத் தயார்",speed:"வேகம்",slow:"மெதுவாக 0.8x",norm:"சாதாரணம் 1x",fast:"வேகமாக 1.2x",playStep:"கேளுங்கள்",
-    myExample:"உங்கள் சொந்த உண்மை உதாரணம்",readScore:"🔊 எனது மதிப்பெண்ணைக் கூறு",
+    hi:"வணக்கம்",score:"நம்பிக்கை மதிப்பெண்",of:"100-க்கு",inc:"மாத வரவு",exp:"மாத செலவு",net:"மாத நிகர மிச்சம்",cf:"பணப்புழக்கம்",loan:"கடன் கால்குலேட்டர்",me:"பாதுகாப்பு & கட்டுப்பாடு",home:"சுருக்கம்",aiNav:"AI குரல்",login:"உங்கள் வியாபாரி கணக்கைத் தேர்ந்தெடுக்கவும்",go:"உள்நுழையவும்",demo:"90 நாள் UPI பரிவர்த்தனைகளின் அடிப்படையில் கணக்கிடப்பட்ட வெளிப்படையான மாதிரி மதிப்பெண்.",warn:"பரிவர்த்தனை எச்சரிக்கை",warnT:"மற்றொரு வியாபாரியுடன் பணம் முன்னும் பின்னும் சுழன்றது கண்டறியப்பட்டது. இது உண்மையான விற்பனையாகக் கருதப்படாது.",why:"மதிப்பெண் கணக்கீட்டு காரணிகள்",req:"தேவையான கடன் தொகை",mon:"திருப்பிச் செலுத்தும் கால அளவு",emi:"மாதத் தவணை",cov:"மாத மிச்சம் ஈடுசெய்யும் அளவு",good:"வசதியான நிலை (2.0x+)",ok:"சமாளிக்கலாம் (1.0x - 2.0x)",risk:"ஆபத்தான சுமை (< 1.0x)",share:"கடன் நிறுவனத்திற்கு தரவு பகிர்தல்",shareT:"கடன் நிறுவனம் எதைப் பார்க்க வேண்டும் என்பதை நீங்களே தீர்மானிக்கிறீர்கள். எப்போது வேண்டுமானாலும் நிறுத்தலாம்.",stop:"எல்லா அனுமதியையும் ரத்து செய்",stopped:"அனுமதி ரத்து செய்யப்பட்டது. எந்த நிறுவனமும் உங்கள் தரவைப் பார்க்க முடியாது.",out:"வெளியேறு",tips:"வியாபாரத்தை உயர்த்தும் குறிப்புகள்",ill:"ஆண்டுக்கு 20% வட்டி என்ற அடிப்படையில் மாதிரி கணக்கீடு.",
+    aiCardTitle:"AI எனது மதிப்பெண்ணை எவ்வாறு கணக்கிடுகிறது?",aiCardSub:"குரல் வழியே மிக எளிய 6 படி விளக்கம்",aiEntryBtn:"AI குரல் விளக்கம் கேளுங்கள்",
+    aiTitle:"AI குரல் வழிகாட்டி",aiSub:"6 எளிய படிகளில் வெளிப்படையான விளக்கம்",
+    listenAll:"🔊 முழு விளக்கத்தையும் கேளுங்கள்",pause:"⏸ நிறுத்து",resume:"▶ தொடர்",stop:"⏹ நிறுத்து",
+    speaking:"படி படிக்கிறது",paused:"ஒலி இடைநிறுத்தப்பட்டது",ready:"கேட்கத் தயார்",speed:"வேகம்",slow:"0.8x மெதுவாக",norm:"1.0x சாதாரணம்",fast:"1.2x வேகமாக",playStep:"கேளுங்கள்",
+    myExample:"உங்கள் நேரடி வியாபார உதாரணம்",readScore:"🔊 எனது மதிப்பெண்ணைக் கூறு",
     notTitle:"AI எதையெல்லாம் செய்யாது",
     not1:"உங்கள் தனிப்பட்ட SMS அல்லது செய்திகளைப் படிக்காது",
     not2:"உங்கள் இருப்பிடத்தை (GPS) பார்க்கவோ கண்காணிக்கவோ செய்யாது",
     not3:"தனியாக முடிவெடுக்காது (கடன் நிறுவன மனிதரே இறுதி முடிவு எடுப்பார்)",
     not4:"நீங்கள் திருப்பிச் செலுத்துவீர்களா என ஊகிக்காது",
-    taVoiceMissing:"உங்கள் மொபைலில் தமிழ் குரல் வசதி இல்லை. Settings > Language > Text-to-speech பகுதிக்குச் சென்று தமிழ் குரலை நிறுவவும்.",
-    diagP:"UPI வரவுகள்",diagC:"5 AI சோதனைகள்",diagS:"மதிப்பெண் / 100",
+    taVoiceMissing:"உங்கள் உலாவியில் தமிழ் குரல் வசதி இல்லை. Settings > Language சென்று நிறுவலாம்.",
+    diagP:"UPI வரவுகள்",diagC:"5 சோதனைகள்",diagS:"மதிப்பெண் / 100",
     f1:"சீரான வருமானம்",f2:"திருப்பிச் செலுத்தும் திறன்",f3:"குறைந்த செலவு",f4:"அதிக வாடிக்கையாளர்கள்",f5:"உண்மையான விற்பனை"
   }
 };
 
 const STEPS=[
-  {icon:"📱",titleEn:"Your payments are the proof",titleTa:"உங்கள் வரவுகளே சான்று",en:"The app looks at the UPI payments your customers made to you. It does not need a bank history or a credit card.",ta:"உங்கள் வாடிக்கையாளர்கள் செய்த UPI வரவுகளை மட்டுமே இந்த செயலி பார்க்கிறது. வங்கி வரலாறோ கிரெடிட் கார்டோ தேவையில்லை."},
-  {icon:"🔍",titleEn:"AI looks for patterns",titleTa:"AI விற்பனை முறையைக் கவனிக்கிறது",en:"The AI counts how much came in, how much went out, and how steady your sales are from week to week.",ta:"மொத்த வரவு, மொத்த செலவு மற்றும் வாரந்தோறும் வியாபாரம் எவ்வளவு சீராக உள்ளது என்பதை AI கணக்கிடுகிறது."},
-  {icon:"⚖️",titleEn:"Five things are checked",titleTa:"5 விஷயங்கள் சரிபார்க்கப்படுகின்றன",en:"Five things are checked: steady income, ability to repay, low costs, many customers, genuine sales. Together they make 100 points.",ta:"சீரான வருமானம், திருப்பிச் செலுத்தும் திறன், குறைந்த செலவு, அதிக வாடிக்கையாளர்கள், உண்மையான விற்பனை ஆகிய 5 விஷயங்களைச் சேர்த்து 100 மதிப்பெண் வழங்கப்படுகிறது."},
-  {icon:"🚫",titleEn:"Fake sales are caught",titleTa:"போலி விற்பனை கண்டுபிடிக்கப்படும்",en:"If money only moves back and forth between two vendors, it is not a real sale. The AI does not count it and your score goes down.",ta:"இரண்டு வியாபாரிகளுக்கு இடையே பணம் முன்னும் பின்னும் மட்டுமே சுழன்றால் அது உண்மையான விற்பனை அல்ல. AI அதைக் கணக்கில் கொள்ளாது, மதிப்பெண்ணும் குறையும்."},
-  {icon:"🤝",titleEn:"The score is a guide, not a verdict",titleTa:"மதிப்பெண் வழிகாட்டி மட்டுமே, தீர்ப்பு அல்ல",en:"It does not say you will or will not repay. A person at the lender makes the final decision.",ta:"நீங்கள் கடன் கட்டமாட்டீர்கள் என்று இது தீர்ப்பளிக்காது. கடன் நிறுவனத்தில் உள்ள ஒரு மனிதரே இறுதி முடிவை எடுப்பார்."},
-  {icon:"🔒",titleEn:"You are in control",titleTa:"முழுக் கட்டுப்பாடு உங்களிடம் உள்ளது",en:"You choose what a lender can see and can stop sharing any time.",ta:"கடன் கொடுப்பவர் எதைப் பார்க்கலாம் என்பதை நீங்களே முடிவு செய்கிறீர்கள், எப்போது வேண்டுமானாலும் பகிர்வை நிறுத்தலாம்."}
+  {icon:"📱",titleEn:"Real UPI payments are your credit proof",titleTa:"உங்கள் வரவுகளே சான்று",en:"The engine looks directly at verified customer UPI transactions. No traditional bureau report, collateral, or CIBIL history required.",ta:"வாடிக்கையாளர்கள் செய்த உண்மையான UPI வரவுகளை மட்டுமே இந்த முறை பார்க்கிறது. கிரெடிட் கார்டோ வங்கி வரலாறோ தேவையில்லை."},
+  {icon:"🔍",titleEn:"Algorithms analyze patterns over 90 days",titleTa:"90 நாள் பணப்புழக்கம் ஆய்வு",en:"Calculates daily intake volume, weekly stability variation, and operating expenses across the entire observation window.",ta:"மொத்த வரவு, வாராந்திர வியாபாரச் சீரான தன்மை மற்றும் இயக்கச் செலவுகள் ஆகியவற்றை முறையாக ஆராய்கிறது."},
+  {icon:"⚖️",titleEn:"Five transparent pillars determine your score",titleTa:"5 வெளிப்படையான காரணிகள்",en:"Evaluates income consistency, debt coverage ratio, cost discipline, buyer diversity, and authentic turnover out of 100 points.",ta:"வருமான உறுதி, தவணை கட்டும் திறன், செலவுக் கட்டுப்பாடு, வாடிக்கையாளர் எண்ணிக்கை, மற்றும் உண்மையான வியாபாரம் என 100 மதிப்பெண்கள் பிரிக்கப்படுகின்றன."},
+  {icon:"🚫",titleEn:"Synthetic circular transfers are stripped away",titleTa:"போலி பணச்சுழற்சி நீக்கப்படும்",en:"Reciprocal funds bounced between paired vendor accounts are recognized and excluded from legitimate operating turnover.",ta:"இரண்டு வியாபாரிகளுக்கு இடையே முன்னும் பின்னும் சுழலும் போலிப் பரிவர்த்தனைகள் கண்டறியப்பட்டு நீக்கப்படும்."},
+  {icon:"🤝",titleEn:"The score empowers human underwriters",titleTa:"மதிப்பெண் ஒரு வழிகாட்டி மட்டுமே",en:"The scorecard does not reject you automatically; it serves as verified evidence for financial institutions to offer fair terms.",ta:"இது தன்னிச்சையாகக் கடனை நிராகரிக்காது. கடன் வழங்கும் மனிதர்கள் நியாயமான வட்டி வழங்க ஆதாரமாக மட்டுமே உதவும்."},
+  {icon:"🔒",titleEn:"Your consent controls every data point",titleTa:"முழுக் கட்டுப்பாடு உங்களிடம் உள்ளது",en:"You determine who inspects your receipts, what pillars are shared, and can revoke lender visibility with a single tap.",ta:"கடன் வழங்குநர் எதைப் பார்க்கலாம் என்பதை நீங்களே முடிவு செய்கிறீர்கள்; எப்போது வேண்டுமானாலும் பகிர்தலை ரத்து செய்யலாம்."}
 ];
 
-let S={lang:"en",vid:null,tab:"home",amt:null,mths:12,share:{r:1,e:1,m:1,c:0},stopped:false,rate:1.0};
+let S={lang:"en",vid:"V001",tab:"home",amt:60000,mths:12,share:{r:1,e:1,m:1,c:0},stopped:false,rate:1.0};
 try{const l=localStorage.getItem("lang");if(l&&["en","ta","both"].includes(l))S.lang=l;}catch(e){}
 
 const t=k=>{
   if(S.lang==="both"){
     const ta=TX.ta[k],en=TX.en[k];
-    if(ta&&en&&ta!==en)return `${ta} <span class="both-sub">/ ${en}</span>`;
+    if(ta&&en&&ta!==en)return `${ta} <span class="both-sub">${en}</span>`;
     return ta||en||k;
   }
   return (TX[S.lang]&&TX[S.lang][k])||TX.en[k]||k;
@@ -539,18 +556,18 @@ const fKeys=["f1","f2","f3","f4","f5"];
 function tDesc(i, x, v, r){
   const er = v.total_expenses/v.total_receipts;
   const dEn = [
-    `Daily sales changed ${(r.cv*100).toFixed(0)}% between months.`,
-    `Monthly savings ${inr(r.mNet)} cover a ${inr(r.emi)} instalment ${r.cover.toFixed(1)}x.`,
-    `Expenses were ${(er*100).toFixed(0)}% of sales.`,
-    `${v.unique_customers.toLocaleString("en-IN")} different customers paid you.`,
-    v.reciprocal_transfer_share>0?"Money moving between vendors was found.":"No back-and-forth transfers found."
+    `Weekly cashflow variation is ${(r.cv*100).toFixed(0)}% across months.`,
+    `Monthly operating surplus ${inr(r.mNet)} covers ${inr(r.emi)} EMI by ${r.cover.toFixed(1)}x.`,
+    `Operating expense ratio maintained at ${(er*100).toFixed(0)}% of receipts.`,
+    `${v.unique_customers.toLocaleString("en-IN")} distinct buyers observed over 90 days.`,
+    v.reciprocal_transfer_share>0?"Reciprocal inter-vendor loop flagged.":"100% genuine retail counter-party commerce."
   ][i];
   const dTa = [
-    `மாதங்களுக்கிடையே தினசரி விற்பனை ${(r.cv*100).toFixed(0)}% மாறியுள்ளது.`,
+    `மாதங்களுக்கிடையே தினசரி வரவு மாற்றம் ${(r.cv*100).toFixed(0)}% ஆக உள்ளது.`,
     `மாத மிச்சம் ${inr(r.mNet)}, தவணை ${inr(r.emi)}-ஐ விட ${r.cover.toFixed(1)} மடங்கு அதிகம்.`,
-    `செலவு விற்பனையில் ${(er*100).toFixed(0)}% ஆக உள்ளது.`,
-    `${v.unique_customers.toLocaleString("en-IN")} வெவ்வேறு வாடிக்கையாளர்கள் பணம் செலுத்தினர்.`,
-    v.reciprocal_transfer_share>0?"வியாபாரிகளிடையே பணம் சுழல்வது கண்டறியப்பட்டது.":"பணம் முன்னும் பின்னும் சுழலவில்லை."
+    `செலவு வரவில் ${(er*100).toFixed(0)}% ஆகக் கட்டுக்குள் உள்ளது.`,
+    `${v.unique_customers.toLocaleString("en-IN")} தனித்துவமான வாடிக்கையாளர்கள் பதிவு.`,
+    v.reciprocal_transfer_share>0?"வியாபாரிகளிடையே பணச்சுழற்சி கண்டறியப்பட்டது.":"முழுக்க வாடிக்கையாளர் உண்மையான விற்பனை."
   ][i];
   if(S.lang==="ta") return dTa;
   if(S.lang==="both") return `${dTa}<span class="both-sub">${dEn}</span>`;
@@ -562,72 +579,67 @@ function calc(v,amt,mths){
   const cv=Math.sqrt(d.reduce((a,b)=>a+(b-avg)**2,0)/3)/avg, mNet=v.net_cashflow/3;
   const emi=amt*(1+0.2*mths/12)/mths, cover=mNet/emi, er=v.total_expenses/v.total_receipts;
   const f=[
-    ["Steady income",25,25*(1-Math.min(cv,.3)/.3),"Daily sales changed "+(cv*100).toFixed(0)+"% between months."],
-    ["Can repay",30,30*Math.min(Math.max(cover,0)/3,1),"Monthly savings "+inr(mNet)+" cover a "+inr(emi)+" instalment "+cover.toFixed(1)+"x."],
-    ["Low costs",15,15*(1-Math.min(Math.max((er-.1)/.5,0),1)),"Expenses were "+(er*100).toFixed(0)+"% of sales."],
-    ["Many customers",15,15*Math.min(v.unique_customers/1000,1),v.unique_customers.toLocaleString("en-IN")+" different customers paid you."],
-    ["Genuine sales",15,15*(1-v.reciprocal_transfer_share),v.reciprocal_transfer_share>0?"Money moving between vendors was found.":"No back-and-forth transfers found."]
+    ["Income Stability",25,25*(1-Math.min(cv,.3)/.3)],
+    ["Debt Repayment Capacity",30,30*Math.min(Math.max(cover,0)/3,1)],
+    ["Expense Discipline",15,15*(1-Math.min(Math.max((er-.1)/.5,0),1))],
+    ["Customer Base Breadth",15,15*Math.min(v.unique_customers/1000,1)],
+    ["Turnover Authenticity",15,15*(1-v.reciprocal_transfer_share)]
   ];
-  let sc=Math.round(f.reduce((a,x)=>a+x[2],0)); if(v.reciprocal_transfer_share>0) sc=Math.min(sc,40);
+  let sc=Math.round(f.reduce((a,x)=>a+x[2],0));
+  if(v.reciprocal_transfer_share>0) sc=Math.min(sc,30);
   return {f,sc,emi,cover,mNet,cv};
 }
 
-const band=s=>s>=75?["Strong",'var(--ok)','badge-pill--ok']:s>=55?["Good",'var(--ok)','badge-pill--ok']:s>=35?["Fair",'var(--wa)','badge-pill--wa']:["Low",'var(--bad)','badge-pill--bad'];
-const V=()=>DATA.find(x=>x.vendor_id===S.vid);
+const band=s=>s>=75?["Prime / Strong",'var(--success)','badge-ok']:s>=55?["Manageable",'var(--warning)','badge-wa']:s>=35?["Limited Buffer",'var(--warning)','badge-wa']:["Insufficient",'var(--danger)','badge-bad'];
+const V=()=>DATA.find(x=>x.vendor_id===S.vid)||DATA[0];
 
-function gauge(s){
-  const c=band(s)[1],r=62,L=Math.PI*r,o=L*(1-s/100);
-  return `<svg class="gauge" width="180" height="110" viewBox="0 0 180 110" role="img" aria-label="${s} out of 100" style="display:block;margin:0 auto">
-    <path d="M22 96A62 62 0 0 1 158 96" fill="none" stroke="#f1f5f9" stroke-width="14" stroke-linecap="round"/>
-    <path d="M22 96A62 62 0 0 1 158 96" fill="none" stroke="${c}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${L}" stroke-dashoffset="${o}"/>
-    <text x="90" y="88" text-anchor="middle" font-size="38" font-weight="800" fill="var(--tx)" font-family="inherit">${s}</text>
-  </svg>`;
+function renderGauge(s){
+  const b=band(s), c=b[1], r=68, L=Math.PI*r, o=L*(1-s/100);
+  return `
+    <svg width="200" height="120" viewBox="0 0 200 120" role="img" aria-label="${s} out of 100" style="display:block;margin:0 auto">
+      <path d="M22 106A68 68 0 0 1 178 106" fill="none" stroke="#E2E8F0" stroke-width="14" stroke-linecap="round"/>
+      <path d="M22 106A68 68 0 0 1 178 106" fill="none" stroke="${c}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${L}" stroke-dashoffset="${o}"/>
+      <text x="100" y="96" text-anchor="middle" font-size="44" font-weight="800" fill="var(--text)" font-family="inherit">${s}</text>
+    </svg>
+  `;
 }
 
-function login(){
-  $("appHeader").hidden = true;
-  $("storiesBar").hidden = true;
-  $("nav").hidden = true;
-  
-  $("m").innerHTML = `
-    <div style="min-height:80vh;display:flex;flex-direction:column;justify-content:center;padding:12px 6px">
-      <div style="text-align:center;margin-bottom:32px">
-        <div style="width:72px;height:72px;border-radius:24px;background:var(--fintech-gradient);color:#fff;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 16px;box-shadow:0 10px 25px rgba(37,99,235,0.25)">🤝</div>
-        <h1 style="font-size:26px;font-weight:800;letter-spacing:-0.5px">TrustCred</h1>
-        <p class="mut" style="margin-top:6px;font-size:14px">${S.lang=="en"?"Instant cash-flow underwriting for micro-merchants.":"உங்கள் தினசரி விற்பனையே உங்கள் கடன் வரலாறு."}</p>
-      </div>
+function initHeader(){
+  const hdrControls = $("headerControls");
+  const navTabs = $("navTabs");
+  const vendorSelect = $("vendorSelect");
+  const langLabel = $("langLabelText");
 
-      <div class="ig-card" style="padding:22px">
-        <label class="mut" for="vs" style="font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:8px">${t("login")}</label>
-        <select id="vs" style="font-weight:600">
-          ${DATA.map(x=>`<option value="${x.vendor_id}">${x.vendor_id} — ₹${(x.loan_amount_requested/1000).toFixed(0)}k Requested (${x.txn_count} Txns)</option>`).join("")}
-        </select>
-        <div style="height:16px"></div>
-        <button class="btn primary-gradient" id="go" style="min-height:50px;font-weight:700;font-size:16px">
-          <span>${t("go")}</span>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </button>
-        <div style="height:12px"></div>
-        <button class="lang-pill-btn" id="lg" style="width:100%;justify-content:center;min-height:44px">${lgLabel()}</button>
-      </div>
+  hdrControls.hidden = false;
+  navTabs.hidden = false;
 
-      <div style="text-align:center;margin-top:16px">
-        <a href="index.html" class="mut" style="text-decoration:none;font-size:13px;font-weight:600;display:inline-flex;align-items:center;gap:6px">
-          <span>🏢 Switch to Underwriter Dashboard</span>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        </a>
-      </div>
-    </div>
-  `;
+  if(langLabel) langLabel.textContent = lgLabel();
 
-  $("go").onclick = () => {
-    S.vid = $("vs").value;
-    S.amt = V().loan_amount_requested;
-    S.tab = "home";
-    S.stopped = false;
-    render();
-  };
-  $("lg").onclick = toggleLang;
+  // Populate vendor dropdown
+  if(vendorSelect && vendorSelect.options.length === 0){
+    vendorSelect.innerHTML = DATA.map(x=>`
+      <option value="${x.vendor_id}" ${x.vendor_id===S.vid?"selected":""}>
+        ${x.vendor_id} (₹${(x.loan_amount_requested/1000).toFixed(0)}k Request)
+      </option>
+    `).join("");
+    vendorSelect.onchange = (e) => {
+      stopAudio();
+      S.vid = e.target.value;
+      S.amt = V().loan_amount_requested;
+      render();
+    };
+  }
+
+  $("langToggleBtn").onclick = toggleLang;
+
+  // Tab click listeners
+  document.querySelectorAll(".tab-pill").forEach(btn => {
+    btn.onclick = () => {
+      stopAudio();
+      S.tab = btn.dataset.tab;
+      render();
+    };
+  });
 }
 
 function toggleLang(){
@@ -637,374 +649,370 @@ function toggleLang(){
   render();
 }
 
-function nav(){
-  const n = $("nav");
-  n.hidden = false;
-  $("appHeader").hidden = false;
-  $("storiesBar").hidden = false;
+/* ==========================================================================
+   VIEW: OVERVIEW (HOME)
+   ========================================================================== */
+function homeView(v){
+  const r = calc(v, S.amt, S.mths);
+  const b = band(r.sc);
+  const mAvgReceipts = v.total_receipts / 3;
+  const mAvgExpenses = v.total_expenses / 3;
 
-  // Update header text
-  const hdrLang = $("hdrLangText");
-  if(hdrLang) hdrLang.textContent = lgLabel();
-
-  // Update stories active state
-  document.querySelectorAll(".story-item").forEach(item => {
-    item.classList.toggle("active", item.dataset.tab === S.tab);
-  });
-
-  const icons = {
-    home: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
-    ai: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>`,
-    cf: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
-    loan: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>`,
-    me: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>`
-  };
-
-  const it = [
-    ["home", icons.home, t("home")],
-    ["ai", icons.ai, t("aiNav")],
-    ["cf", icons.cf, t("cf")],
-    ["loan", icons.loan, t("loan")],
-    ["me", icons.me, t("me")]
-  ];
-
-  n.innerHTML = it.map(i => `<button data-k="${i[0]}" class="${S.tab==i[0]?"on":""}" aria-label="${i[2]}">${i[1]}<span>${i[2]}</span></button>`).join("");
-  
-  n.querySelectorAll("button").forEach(b => b.onclick = () => {
-    stopAudio();
-    S.tab = b.dataset.k;
-    render();
-  });
-}
-
-function home(v){
-  const r = calc(v, S.amt, S.mths), b = band(r.sc);
-  const al = v.reciprocal_transfer_share > 0 ? `
-    <div class="alert-banner" role="alert">
-      <div style="font-size:20px;line-height:1">⚠</div>
+  const alertHtml = v.reciprocal_transfer_share > 0 ? `
+    <div class="alert-box" role="alert">
+      <div style="font-size:22px;line-height:1">⚠</div>
       <div>
         <b>${t("warn")}</b>
         <p>${t("warnT")}</p>
       </div>
-    </div>` : "";
+    </div>
+  ` : "";
 
   return `
-    <!-- Vendor Profile Card (Instagram Post Header) -->
-    <div class="ig-card" style="padding:14px 16px;margin-bottom:12px">
-      <div class="ig-card-header" style="margin-bottom:0">
-        <div class="ig-card-user">
-          <div class="ig-avatar-sm" style="background:var(--fintech-gradient);color:#fff;border:0">${v.vendor_id.substring(0,3)}</div>
-          <div>
-            <div class="ig-user-name">${v.vendor_id} <span style="color:var(--pri);font-size:12px">● Verified</span></div>
-            <div class="ig-user-sub">${v.txn_count} transactions • ${v.unique_customers} customers</div>
-          </div>
+    ${alertHtml}
+
+    <!-- Hero Underwriting Showcase -->
+    <div class="hero-card">
+      <div>
+        <span class="mut" style="font-size:12px;text-transform:uppercase;font-weight:700;letter-spacing:0.8px;display:block;margin-bottom:6px">${t("score")}</span>
+        ${renderGauge(r.sc)}
+        <div style="margin-top:10px">
+          <span class="badge ${b[2]}">${b[0]}</span>
+          <p class="mut" style="font-size:12px;margin-top:4px">${t("of")}</p>
         </div>
-        <span class="badge-pill ${b[2]}">${b[0]} Tier</span>
-      </div>
-    </div>
-
-    ${al}
-
-    <!-- Main Score Card -->
-    <div class="ig-card" style="text-align:center;padding:24px 18px">
-      <span class="mut" style="font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:700">${t("score")}</span>
-      <div style="margin:8px 0 12px">
-        ${gauge(r.sc)}
-      </div>
-      <div style="display:inline-flex;align-items:center;gap:6px">
-        <span class="badge-pill ${b[2]}" style="font-size:13px;padding:5px 14px">${b[0]} Category</span>
-        <span class="mut" style="font-size:13px">• ${t("of")}</span>
       </div>
 
-      <div class="stats-grid" style="margin-top:20px">
-        <div class="stat-box">
-          <div class="stat-label">${t("inc")}</div>
-          <div class="stat-val" style="color:var(--ok)">${inr(v.total_receipts)}</div>
+      <div style="text-align:left">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <h1 style="font-size:22px">${v.vendor_id} Assessment</h1>
+          <span class="badge badge-ok" style="font-size:11px">● Verified UPI Merchant</span>
         </div>
-        <div class="stat-box">
-          <div class="stat-label">${t("exp")}</div>
-          <div class="stat-val" style="color:var(--bad)">${inr(v.total_expenses)}</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-label">${t("net")}</div>
-          <div class="stat-val" style="color:var(--pri)">${inr(v.net_cashflow)}</div>
+        <p class="mut" style="margin-bottom:18px">
+          Eligible for up to <b>${inr(v.loan_amount_requested)}</b> working capital loan. Real-time repayment capacity is estimated at <b>${r.cover.toFixed(1)}x</b> monthly coverage.
+        </p>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn" id="btn-hero-ai" type="button">
+            <span>🔊 ${t("aiEntryBtn")}</span>
+          </button>
+          <button class="btn ghost" id="btn-hero-sim" type="button">
+            <span>Simulate Loan Terms →</span>
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- AI Voice Assistant Prompt Card -->
-    <div class="ig-card" style="border:1.5px solid var(--pri);background:linear-gradient(180deg,#ffffff,#eff6ff)">
-      <div class="row" style="align-items:center">
-        <div style="width:44px;height:44px;border-radius:var(--radius-md);background:var(--pri-light);color:var(--pri);display:flex;align-items:center;justify-content:center;font-size:22px">🤖</div>
-        <div style="flex:1">
-          <h2 style="margin:0 0 2px;font-size:15px">${t("aiCardTitle")}</h2>
-          <p class="mut" style="font-size:12.5px;margin:0">${t("aiCardSub")}</p>
-        </div>
+    <!-- Monthly Velocity Summary -->
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-label">${t("inc")} (Avg)</div>
+        <div class="metric-value" style="color:var(--success)">${inr(mAvgReceipts)}<span style="font-size:12px;color:var(--text-muted);font-weight:500">/mo</span></div>
+        <p class="mut" style="font-size:12px;margin-top:2px">Verified 90-day intake</p>
       </div>
-      <button class="btn primary-gradient" id="open-ai" style="margin-top:14px;min-height:44px">
-        <span>🔊 ${t("aiEntryBtn")}</span>
-      </button>
+      <div class="metric-card">
+        <div class="metric-label">${t("exp")} (Avg)</div>
+        <div class="metric-value" style="color:var(--danger)">${inr(mAvgExpenses)}<span style="font-size:12px;color:var(--text-muted);font-weight:500">/mo</span></div>
+        <p class="mut" style="font-size:12px;margin-top:2px">Supplier & restock outflows</p>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">${t("net")} (Surplus)</div>
+        <div class="metric-value" style="color:var(--primary)">${inr(r.mNet)}<span style="font-size:12px;color:var(--text-muted);font-weight:500">/mo</span></div>
+        <p class="mut" style="font-size:12px;margin-top:2px">Unencumbered free cash flow</p>
+      </div>
     </div>
 
-    <!-- Transparent Score Breakdown -->
-    <div class="ig-card">
-      <div class="row" style="margin-bottom:12px">
-        <h2>${t("why")}</h2>
-        <span class="mut" style="font-size:12px">5 Pillars</span>
+    <!-- Underwriting Pillar Breakdown -->
+    <div class="card">
+      <div class="row" style="margin-bottom:16px">
+        <div>
+          <h2>${t("why")}</h2>
+          <p class="mut" style="font-size:13px">Transparent 5-pillar mathematical scoring</p>
+        </div>
+        <span class="badge badge-ok">Objective Audit</span>
       </div>
+
       ${r.f.map((x,i)=>{
-        const p=x[2]/x[1];
+        const p = x[2] / x[1];
+        const barColor = p >= 0.75 ? "var(--success)" : p >= 0.5 ? "var(--warning)" : "var(--danger)";
         return `
-          <div style="margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)">
-            <div class="row" style="margin-bottom:2px">
-              <b style="font-size:13.5px">${t(fKeys[i])}</b>
-              <span class="mut" style="font-weight:700;font-size:13px">${x[2].toFixed(0)} <span style="font-weight:400">/ ${x[1]}</span></span>
+          <div style="margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border-subtle)">
+            <div class="row" style="margin-bottom:4px">
+              <span style="font-size:14px;font-weight:600">${t(fKeys[i])}</span>
+              <span style="font-size:13px;font-weight:700">${x[2].toFixed(0)} <span style="font-weight:400;color:var(--text-muted)">/ ${x[1]} pts</span></span>
             </div>
-            <div class="bar"><i style="width:${p*100}%;background:${p>.7?"var(--ok)":p>.4?"var(--wa)":"var(--bad)"}"></i></div>
-            <p class="mut" style="font-size:12.5px;margin-top:4px">${tDesc(i,x,v,r)}</p>
+            <div class="bar"><i style="width:${p*100}%;background:${barColor}"></i></div>
+            <p class="mut" style="font-size:12.5px;margin-top:4px">${tDesc(i, x, v, r)}</p>
           </div>
         `;
       }).join("")}
-      <p class="mut" style="font-size:11.5px;text-align:center;margin-top:6px">${t("demo")}</p>
+
+      <p class="mut" style="font-size:12px;text-align:center;margin-top:8px">${t("demo")}</p>
     </div>
   `;
 }
 
-function aiDiagram(){
-  const p=S.lang=="ta"?"UPI வரவுகள்":S.lang=="both"?"வரவு / Payments":"UPI Payments";
-  const c=S.lang=="ta"?"5 AI சோதனைகள்":S.lang=="both"?"5 AI சோதனைகள் / Checks":"5 AI Checks";
-  const s=S.lang=="ta"?"100 மதிப்பெண்":S.lang=="both"?"மதிப்பெண் / Score":"Score / 100";
-  return `<svg viewBox="0 0 340 76" width="100%" style="display:block;margin:6px 0" role="img" aria-label="Payments to AI to Score diagram">
-    <defs><marker id="arr" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 1 L 8 5 L 0 9 z" fill="var(--pri)"/></marker></defs>
-    <rect x="2" y="8" width="94" height="60" rx="12" fill="#f8fafc" stroke="var(--border-strong)" stroke-width="1.5"/>
-    <text x="49" y="32" text-anchor="middle" font-size="18">📲</text>
-    <text x="49" y="52" text-anchor="middle" font-size="10" font-weight="700" fill="var(--tx)">${p}</text>
-    <line x1="98" y1="38" x2="116" y2="38" stroke="var(--pri)" stroke-width="2" marker-end="url(#arr)"/>
-    <rect x="120" y="8" width="100" height="60" rx="12" fill="#eff6ff" stroke="var(--pri)" stroke-width="1.5"/>
-    <text x="170" y="32" text-anchor="middle" font-size="18">🤖</text>
-    <text x="170" y="52" text-anchor="middle" font-size="10" font-weight="700" fill="var(--pri)">${c}</text>
-    <line x1="222" y1="38" x2="240" y2="38" stroke="var(--pri)" stroke-width="2" marker-end="url(#arr)"/>
-    <rect x="244" y="8" width="94" height="60" rx="12" fill="#ecfdf5" stroke="var(--ok)" stroke-width="1.5"/>
-    <text x="291" y="32" text-anchor="middle" font-size="18">💯</text>
-    <text x="291" y="52" text-anchor="middle" font-size="10" font-weight="700" fill="var(--ok)">${s}</text>
-  </svg>`;
-}
-
-function ai(v){
+/* ==========================================================================
+   VIEW: AI VOICE EXPLAINER
+   ========================================================================== */
+function aiView(v){
   const r = calc(v, S.amt, S.mths);
-  const exEn = `You kept ${inr(v.net_cashflow)} in 3 months. Your 5 factors: Steady income (${r.f[0][2].toFixed(0)}/25), Can repay (${r.f[1][2].toFixed(0)}/30), Low costs (${r.f[2][2].toFixed(0)}/15), Many customers (${r.f[3][2].toFixed(0)}/15), Genuine sales (${r.f[4][2].toFixed(0)}/15). Total score: ${r.sc} out of 100.`;
-  const exTa = `3 மாதங்களில் உங்கள் மிச்சம் ${inr(v.net_cashflow)}. உங்கள் 5 காரணிகள்: சீரான வருமானம் (${r.f[0][2].toFixed(0)}/25), திருப்பிச் செலுத்தும் திறன் (${r.f[1][2].toFixed(0)}/30), குறைந்த செலவு (${r.f[2][2].toFixed(0)}/15), அதிக வாடிக்கையாளர்கள் (${r.f[3][2].toFixed(0)}/15), உண்மையான விற்பனை (${r.f[4][2].toFixed(0)}/15). மொத்த மதிப்பெண்: 100-க்கு ${r.sc}.`;
-  const exBody = S.lang=="ta"?`<p style="font-size:13.5px;line-height:1.6">${exTa}</p>`:S.lang=="both"?`<p style="font-size:13.5px;line-height:1.6;font-weight:600">${exTa}</p><p class="both-sub">${exEn}</p>`:`<p style="font-size:13.5px;line-height:1.6">${exEn}</p>`;
+  const exEn = `You generated ${inr(v.total_receipts)} in verified receipts and retained ${inr(v.net_cashflow)} across 90 days. Your 5 pillars scored: Income Stability (${r.f[0][2].toFixed(0)}/25), Repayment Capacity (${r.f[1][2].toFixed(0)}/30), Expense Discipline (${r.f[2][2].toFixed(0)}/15), Customer Breadth (${r.f[3][2].toFixed(0)}/15), and Turnover Authenticity (${r.f[4][2].toFixed(0)}/15). Total verified score: ${r.sc} out of 100.`;
+  const exTa = `நீங்கள் 90 நாட்களில் ${inr(v.total_receipts)} வரவு ஈட்டி, ${inr(v.net_cashflow)} நிகர மிச்சம் வைத்துள்ளீர்கள். உங்கள் 5 காரணிகள்: சீரான வருமானம் (${r.f[0][2].toFixed(0)}/25), திருப்பிச் செலுத்தும் திறன் (${r.f[1][2].toFixed(0)}/30), செலவுக் கட்டுப்பாடு (${r.f[2][2].toFixed(0)}/15), வாடிக்கையாளர் எண்ணிக்கை (${r.f[3][2].toFixed(0)}/15), உண்மையான விற்பனை (${r.f[4][2].toFixed(0)}/15). மொத்த நம்பிக்கை மதிப்பெண்: 100-க்கு ${r.sc}.`;
+  const exBody = S.lang=="ta" ? `<p style="font-size:14px;line-height:1.6">${exTa}</p>` : S.lang=="both" ? `<p style="font-size:14px;line-height:1.6;font-weight:600">${exTa}</p><p class="both-sub">${exEn}</p>` : `<p style="font-size:14px;line-height:1.6">${exEn}</p>`;
 
   return `
-    <div class="row" style="margin-bottom:14px">
+    <div class="row" style="margin-bottom:16px">
       <div>
         <h1>${t("aiTitle")}</h1>
         <p class="mut">${t("aiSub")}</p>
       </div>
+      <span class="badge badge-ok">TTS Audio Engine</span>
     </div>
 
-    <div id="ta-voice-alert" class="alert-banner" role="alert" hidden>
+    <div id="ta-voice-alert" class="alert-box" role="alert" hidden>
       <div>
         <b>⚠ ${t("warn")}</b>
         <p style="margin:2px 0 0">${TX.ta.taVoiceMissing}</p>
-        <p class="mut" style="font-size:11px;margin-top:2px">${TX.en.taVoiceMissing}</p>
+        <p class="mut" style="font-size:12px;margin-top:2px">${TX.en.taVoiceMissing}</p>
       </div>
     </div>
 
-    <!-- Sticky Instagram Audio Player Card -->
-    <div class="tts-ctrls">
-      <button class="btn primary-gradient" id="btn-listen-all" style="min-height:48px" aria-label="${t("listenAll")}">
-        <span>${t("listenAll")}</span>
-      </button>
-      <div class="row" style="margin-top:10px;gap:8px">
-        <button class="btn ghost" id="btn-pause" style="flex:1;min-height:40px" disabled>${t("pause")}</button>
-        <button class="btn ghost" id="btn-stop" style="flex:1;min-height:40px" disabled>${t("stop")}</button>
+    <!-- Sticky Audio Player Deck -->
+    <div class="tts-controls-panel">
+      <div class="row" style="gap:10px">
+        <button class="btn btn-lg" id="btn-listen-all" type="button" style="flex:2">
+          <span>${t("listenAll")}</span>
+        </button>
+        <button class="btn ghost" id="btn-pause" type="button" style="flex:1" disabled>${t("pause")}</button>
+        <button class="btn ghost" id="btn-stop" type="button" style="flex:1" disabled>${t("stop")}</button>
       </div>
-      <div class="row" style="margin-top:10px;align-items:center">
-        <span class="mut" style="font-size:12.5px" id="tts-status">${t("ready")}</span>
-        <span class="mut" style="font-size:11.5px;font-weight:600">${t("speed")}:</span>
-      </div>
-      <div class="speed-group">
-        <button class="speed-btn ${S.rate===0.8?"on":""}" data-r="0.8" id="spd-08">${t("slow")}</button>
-        <button class="speed-btn ${S.rate===1.0?"on":""}" data-r="1.0" id="spd-10">${t("norm")}</button>
-        <button class="speed-btn ${S.rate===1.2?"on":""}" data-r="1.2" id="spd-12">${t("fast")}</button>
+
+      <div class="row" style="margin-top:12px;align-items:center">
+        <div style="display:flex;align-items:center;gap:6px">
+          <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--success)"></span>
+          <span class="mut" style="font-size:13px;font-weight:600" id="tts-status">${t("ready")}</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span class="mut" style="font-size:12px;font-weight:600">${t("speed")}:</span>
+          <div class="speed-btns" style="margin:0">
+            <button class="speed-btn ${S.rate===0.8?"active":""}" data-r="0.8">0.8x</button>
+            <button class="speed-btn ${S.rate===1.0?"active":""}" data-r="1.0">1.0x</button>
+            <button class="speed-btn ${S.rate===1.2?"active":""}" data-r="1.2">1.2x</button>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="ig-card" style="padding:14px">
-      ${aiDiagram()}
-    </div>
-
-    <!-- 6 Step Story Cards -->
+    <!-- 6 Step Explanations -->
     ${STEPS.map((s,i)=>{
-      const title = S.lang=="ta"?s.titleTa:S.lang=="both"?`${s.titleTa}<span class="both-sub">/ ${s.titleEn}</span>`:s.titleEn;
-      const body = S.lang=="ta"?`<p>${s.ta}</p>`:S.lang=="both"?`<p style="font-weight:600">${s.ta}</p><p class="both-sub">${s.en}</p>`:`<p>${s.en}</p>`;
+      const title = S.lang=="ta" ? s.titleTa : S.lang=="both" ? `${s.titleTa}<span class="both-sub">${s.titleEn}</span>` : s.titleEn;
+      const body = S.lang=="ta" ? `<p>${s.ta}</p>` : S.lang=="both" ? `<p style="font-weight:600">${s.ta}</p><p class="both-sub">${s.en}</p>` : `<p>${s.en}</p>`;
       return `
         <div class="step-card" id="step-card-${i}">
           <div class="row" style="align-items:flex-start">
-            <div style="font-size:28px;line-height:1;margin-top:2px">${s.icon}</div>
+            <div style="font-size:32px;line-height:1;margin-top:2px">${s.icon}</div>
             <div style="flex:1">
-              <div class="row" style="margin-bottom:4px">
-                <span class="badge-pill" style="background:var(--pri-light);color:var(--pri);font-size:11px;padding:2px 8px">${S.lang=="ta"?"படி "+(i+1):S.lang=="both"?"படி/Step "+(i+1):"Step "+(i+1)}</span>
-                <button class="step-tts-btn" data-step="${i}" aria-label="${t("playStep")} ${i+1}">🔊</button>
+              <div class="row" style="margin-bottom:6px">
+                <span class="badge" style="background:var(--primary-light);color:var(--primary);font-size:11px">Step 0${i+1}</span>
+                <button class="step-play-btn" data-step="${i}" type="button" aria-label="${t("playStep")} ${i+1}">🔊</button>
               </div>
-              <h2 style="font-size:15px;margin:4px 0">${title}</h2>
-              <div style="font-size:13.5px;line-height:1.5">${body}</div>
+              <h2 style="font-size:16px;margin:4px 0">${title}</h2>
+              <div style="font-size:13.5px;line-height:1.6">${body}</div>
             </div>
           </div>
         </div>
       `;
     }).join("")}
 
-    <!-- Live Vendor Audio Example -->
-    <div class="ig-card" style="border:1.5px solid var(--pri);background:#fafafa">
-      <div class="row" style="margin-bottom:8px">
+    <!-- Live Profile Voice Audio Card -->
+    <div class="card" style="border:2px solid var(--primary);background:var(--surface-subtle)">
+      <div class="row" style="margin-bottom:10px">
         <h2>${t("myExample")}</h2>
-        <span class="badge-pill badge-pill--ok">${v.vendor_id}</span>
+        <span class="badge badge-ok">${v.vendor_id} Assessment</span>
       </div>
       ${exBody}
-      <div style="height:12px"></div>
-      <button class="btn ghost" id="btn-read-score" style="min-height:44px" aria-label="${t("readScore")}">
-        <span>${t("readScore")}</span>
-      </button>
+      <div style="margin-top:14px">
+        <button class="btn ghost btn-lg" id="btn-read-score" type="button">
+          <span>🔊 ${t("readScore")}</span>
+        </button>
+      </div>
     </div>
 
-    <div class="ig-card" style="border-left:4px solid var(--bad)">
+    <!-- Safeguards Card -->
+    <div class="card" style="border-left:4px solid var(--danger)">
       <h2>${t("notTitle")}</h2>
-      <ul style="list-style:none;padding:0;margin:8px 0 0;font-size:13px;line-height:1.7">
-        <li style="margin-bottom:4px">❌ ${t("not1")}</li>
-        <li style="margin-bottom:4px">❌ ${t("not2")}</li>
-        <li style="margin-bottom:4px">❌ ${t("not3")}</li>
-        <li>❌ ${t("not4")}</li>
+      <ul style="list-style:none;padding:0;margin:10px 0 0;font-size:13.5px;line-height:1.8">
+        <li>✓ ${t("not1")}</li>
+        <li>✓ ${t("not2")}</li>
+        <li>✓ ${t("not3")}</li>
+        <li>✓ ${t("not4")}</li>
       </ul>
     </div>
   `;
 }
 
-function cf(v){
-  const ks=Object.keys(days), vals=ks.map(k=>v.monthly_receipts[k]), mx=Math.max(...vals);
+/* ==========================================================================
+   VIEW: CASH FLOW VELOCITY
+   ========================================================================== */
+function cfView(v){
+  const ks = Object.keys(days);
+  const vals = ks.map(k=>v.monthly_receipts[k]);
+  const mx = Math.max(...vals);
+
   return `
-    <h1 style="margin-bottom:14px">${t("cf")}</h1>
-    
-    <div class="ig-card">
-      <div class="row" style="margin-bottom:10px">
-        <h2>${t("inc")} (90-Day Trend)</h2>
-        <span class="badge-pill badge-pill--ok">Active Flow</span>
+    <h1 style="margin-bottom:16px">${t("cf")}</h1>
+
+    <div class="card">
+      <div class="row" style="margin-bottom:12px">
+        <div>
+          <h2>Monthly Retail Turnover</h2>
+          <p class="mut" style="font-size:13px">Verified gross customer receipts across 90 calendar days</p>
+        </div>
+        <span class="badge badge-ok">Monotonic Records</span>
       </div>
-      <svg viewBox="0 0 300 150" width="100%" role="img" aria-label="Monthly sales">
+
+      <svg viewBox="0 0 360 160" width="100%" role="img" aria-label="Monthly sales volume chart">
         ${vals.map((x,i)=>{
-          const h=x/mx*100;
+          const h = (x / mx) * 105;
           return `
-            <rect x="${30+i*90}" y="${115-h}" width="60" height="${h}" rx="10" fill="var(--pri)"/>
-            <text x="${60+i*90}" y="${108-h}" text-anchor="middle" font-size="11" font-weight="700" fill="var(--tx)">${inr(x/1000)}k</text>
-            <text x="${60+i*90}" y="${138}" text-anchor="middle" font-size="12" fill="var(--tx-mut)">${MN[ks[i]]}</text>
+            <rect x="${40 + i*110}" y="${120 - h}" width="65" height="${h}" rx="8" fill="var(--primary)"/>
+            <text x="${72 + i*110}" y="${110 - h}" text-anchor="middle" font-size="12" font-weight="700" fill="var(--text)">${inr(x/1000)}k</text>
+            <text x="${72 + i*110}" y="${144}" text-anchor="middle" font-size="13" font-weight="600" fill="var(--text-muted)">${MN[ks[i]]} 2026</text>
           `;
         }).join("")}
       </svg>
-      <p class="mut" style="font-size:12px;text-align:center;margin-top:8px">Verified transactions across July, August, & September.</p>
+      <p class="mut" style="font-size:12px;text-align:center;margin-top:10px">Observation window covers July 1 to September 28 (28 calendar days for September).</p>
     </div>
 
-    <div class="ig-card">
+    <div class="card">
+      <h2>Transaction Summary Table</h2>
       ${[
         [t("inc"), v.total_receipts],
         [t("exp"), v.total_expenses],
         [t("net"), v.net_cashflow],
-        ["Distinct Buyers", v.unique_customers, 1],
-        ["Total UPI Transactions", v.txn_count, 1]
+        ["Distinct Customer Accounts", v.unique_customers, 1],
+        ["Verified Transaction Count", v.txn_count, 1]
       ].map(x=>`
-        <div class="tog">
+        <div class="toggle-row">
           <span>${x[0]}</span>
-          <b style="color:${x[0]===t("inc")?"var(--ok)":x[0]===t("exp")?"var(--bad)":"var(--tx)"}">${x[2]?x[1].toLocaleString("en-IN"):inr(x[1])}</b>
+          <b style="font-size:15px;color:${x[0]===t("inc")?"var(--success)":x[0]===t("exp")?"var(--danger)":"var(--text)"}">${x[2]?x[1].toLocaleString("en-IN"):inr(x[1])}</b>
         </div>
       `).join("")}
     </div>
   `;
 }
 
-function loan(v){
-  const r = calc(v, S.amt, S.mths), c = r.cover>=2?["good","badge-pill--ok"]:r.cover>=1?["ok","badge-pill--wa"]:["risk","badge-pill--bad"];
+/* ==========================================================================
+   VIEW: DYNAMIC LOAN SIMULATOR
+   ========================================================================== */
+function loanView(v){
+  const r = calc(v, S.amt, S.mths);
+  const c = r.cover >= 2 ? ["good","badge-ok"] : r.cover >= 1.2 ? ["ok","badge-wa"] : ["risk","badge-bad"];
+
   return `
-    <h1 style="margin-bottom:14px">${t("loan")}</h1>
+    <h1 style="margin-bottom:16px">${t("loan")}</h1>
 
-    <div class="ig-card">
-      <div class="row" style="margin-bottom:4px">
-        <label for="a" style="font-weight:600;font-size:14px">${t("req")}</label>
-        <b id="av" style="font-size:17px;color:var(--pri)">${inr(S.amt)}</b>
+    <div class="card">
+      <div style="margin-bottom:20px">
+        <div class="row" style="margin-bottom:8px">
+          <label for="rangeAmt" style="font-weight:600;font-size:14px">${t("req")}</label>
+          <b id="valAmt" style="font-size:18px;color:var(--primary)">${inr(S.amt)}</b>
+        </div>
+        <input id="rangeAmt" type="range" min="10000" max="100000" step="5000" value="${S.amt}">
+        <div class="row" style="margin-top:4px"><span class="mut" style="font-size:11px">₹10,000</span><span class="mut" style="font-size:11px">₹1,00,000</span></div>
       </div>
-      <input id="a" type="range" min="10000" max="100000" step="5000" value="${S.amt}" style="margin:10px 0 16px">
 
-      <div class="row" style="margin-bottom:4px">
-        <label for="mo" style="font-weight:600;font-size:14px">${t("mon")}</label>
-        <b id="mv" style="font-size:16px">${S.mths} months</b>
+      <div>
+        <div class="row" style="margin-bottom:8px">
+          <label for="rangeMths" style="font-weight:600;font-size:14px">${t("mon")}</label>
+          <b id="valMths" style="font-size:18px">${S.mths} months</b>
+        </div>
+        <input id="rangeMths" type="range" min="6" max="24" step="3" value="${S.mths}">
+        <div class="row" style="margin-top:4px"><span class="mut" style="font-size:11px">6 months</span><span class="mut" style="font-size:11px">24 months</span></div>
       </div>
-      <input id="mo" type="range" min="6" max="24" step="3" value="${S.mths}" style="margin-top:10px">
     </div>
 
-    <div class="ig-card" style="text-align:center;padding:22px">
-      <p class="mut" style="font-size:12.5px;text-transform:uppercase;letter-spacing:0.5px;font-weight:700">${t("emi")}</p>
-      <p style="font-size:32px;font-weight:800;letter-spacing:-0.5px;color:var(--tx);margin:4px 0 8px" id="ev">${inr(r.emi)}</p>
-      <p class="mut" id="cv" style="font-size:13.5px">${t("cov")}: <b>${r.cover.toFixed(1)}x</b></p>
-      <div style="margin-top:10px">
-        <span class="badge-pill ${c[1]}" id="cb">${t(c[0])}</span>
+    <!-- Real-Time Decision Card -->
+    <div class="card" style="text-align:center;padding:28px 20px">
+      <span class="mut" style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px">${t("emi")}</span>
+      <p style="font-size:38px;font-weight:800;letter-spacing:-0.5px;color:var(--text);margin:6px 0 10px" id="valEmi">${inr(r.emi)}</p>
+      
+      <div style="display:inline-flex;align-items:center;gap:8px">
+        <span class="badge ${c[1]}" id="badgeCover">${t(c[0])}</span>
+        <span class="mut" id="textCover" style="font-size:13.5px">${t("cov")}: <b>${r.cover.toFixed(1)}x</b></span>
       </div>
-      <p class="mut" style="font-size:11.5px;margin-top:14px">${t("ill")}</p>
+
+      <p class="mut" style="font-size:12px;margin-top:14px">${t("ill")}</p>
     </div>
 
-    <div class="ig-card">
+    <div class="card">
       <h2>${t("tips")}</h2>
-      <ul style="list-style:none;padding:0;margin:8px 0 0;font-size:13.5px;line-height:1.7">
-        <li>✓ Accept regular payments across diverse customers.</li>
-        <li>✓ Maintain steady sales velocity through the entire week.</li>
-        <li>✓ Avoid circular reciprocal transfers with other merchants.</li>
+      <ul style="list-style:none;padding:0;margin:10px 0 0;font-size:13.5px;line-height:1.75">
+        <li>✓ <b>Accept Diverse Buyers:</b> Spread your receipts across hundreds of different customer accounts.</li>
+        <li>✓ <b>Maintain Velocity:</b> Keep transaction frequency steady through both weekdays and weekends.</li>
+        <li>✓ <b>Avoid Inter-Merchant Bouncing:</b> Do not conduct round-tripping transfers with other business accounts.</li>
       </ul>
     </div>
   `;
 }
 
-function me(v){
-  const o=[["r","Credit score assessment report"],["e","Pillar-by-pillar explainable reasons"],["m","3-month cash flow velocity summary"],["c","Verified UPI payment logs"]];
+/* ==========================================================================
+   VIEW: PRIVACY & DATA SHARING
+   ========================================================================== */
+function meView(v){
+  const options = [
+    ["r", "Credit Score Assessment Summary"],
+    ["e", "5-Pillar Mathematical Breakdown"],
+    ["m", "Monthly Operating Cash Flow History"],
+    ["c", "Counter-Party Authenticity Verifications"]
+  ];
+
   return `
-    <div class="ig-card" style="padding:16px;margin-bottom:14px">
-      <div class="row">
-        <div class="ig-card-user">
-          <div class="ig-avatar-sm" style="width:48px;height:48px;font-size:18px;background:var(--fintech-gradient);color:#fff;border:0">${v.vendor_id.substring(0,3)}</div>
-          <div>
-            <div class="ig-user-name" style="font-size:16px">${v.vendor_id}</div>
-            <div class="ig-user-sub">₹${(v.loan_amount_requested/1000).toFixed(0)}k Loan Request • Verified Profile</div>
-          </div>
+    <h1 style="margin-bottom:16px">${t("me")}</h1>
+
+    <div class="card">
+      <div class="row" style="margin-bottom:8px">
+        <div>
+          <h2>${v.vendor_id} Profile Credentials</h2>
+          <p class="mut" style="font-size:13px">Requested Loan: ${inr(v.loan_amount_requested)}</p>
         </div>
+        <span class="badge badge-ok">Active Profile</span>
       </div>
     </div>
 
-    <div class="ig-card">
+    <div class="card">
       <h2>${t("share")}</h2>
-      <p class="mut" style="margin-bottom:8px;font-size:13px">${t("shareT")}</p>
+      <p class="mut" style="margin-bottom:12px;font-size:13px">${t("shareT")}</p>
+
       ${S.stopped ? `
-        <div class="alert-banner" style="background:var(--ok-light);border-color:rgba(5,150,105,0.2)">
-          <div style="font-size:18px">✔</div>
-          <div><b style="color:var(--ok)">${t("stopped")}</b></div>
+        <div class="alert-box" style="border-left-color:var(--success);background:var(--success-light)">
+          <div style="font-size:20px;color:var(--success)">✔</div>
+          <div><b style="color:var(--success)">${t("stopped")}</b></div>
         </div>
-      ` : o.map(x=>`
-        <label class="tog">
+      ` : options.map(x=>`
+        <label class="toggle-row">
           <span>${x[1]}</span>
           <input type="checkbox" data-s="${x[0]}" ${S.share[x[0]]?"checked":""}>
         </label>
       `).join("") + `
-        <div style="height:14px"></div>
-        <button class="btn ghost" id="st" style="color:var(--bad);border-color:rgba(225,29,72,0.3)">${t("stop")}</button>
+        <div style="margin-top:16px">
+          <button class="btn ghost btn-lg" id="btn-stop-sharing" type="button" style="color:var(--danger);border-color:rgba(225,29,72,0.3)">
+            ${t("stop")}
+          </button>
+        </div>
       `}
     </div>
 
-    <div class="ig-card" style="padding:14px">
-      <button class="btn ghost" id="lo" style="min-height:44px">${t("out")}</button>
-      <div style="height:10px"></div>
-      <a href="index.html" class="btn ghost" style="text-decoration:none;min-height:44px;font-size:14px">🏢 Switch to Underwriter Dashboard</a>
+    <div class="card">
+      <h2>Session Controls</h2>
+      <button class="btn ghost btn-lg" id="btn-signout" type="button">${t("out")}</button>
     </div>
   `;
 }
 
-// Speech & TTS Engine
+/* ==========================================================================
+   AUDIO & TEXT-TO-SPEECH (TTS) SYSTEM
+   ========================================================================== */
 let ttsState="idle", activeStep=-1, ttsQueue=[], audioEl=null, audioFilesAvailable=false, audioChecked=false;
 
 function prepareSpeechText(text, lang){
@@ -1025,27 +1033,25 @@ function prepareSpeechText(text, lang){
 function getScoreSpeechSentence(v, lang){
   const r = calc(v, S.amt||v.loan_amount_requested, S.mths||12);
   const isSteady = (r.f[0][2]/r.f[0][1]) >= 0.7;
-  const lowCost = (r.f[2][2]/r.f[2][1]) >= 0.7;
   const canRepay = (r.f[1][2]/r.f[1][1]) >= 0.7;
-  const manyCust = (r.f[3][2]/r.f[3][1]) >= 0.7;
+  const lowCost = (r.f[2][2]/r.f[2][1]) >= 0.7;
   const isGenuine = v.reciprocal_transfer_share === 0;
+
   if(lang==="ta"){
     let reasons = [];
-    if(isSteady) reasons.push("உங்கள் வருமானம் நிலையாக உள்ளது");
-    if(lowCost) reasons.push("செலவு குறைவாக உள்ளது");
-    if(canRepay && reasons.length < 2) reasons.push("திருப்பிச் செலுத்தும் திறன் நன்றாக உள்ளது");
-    if(manyCust && reasons.length < 2) reasons.push("வாடிக்கையாளர்கள் அதிகமாக உள்ளனர்");
-    if(!isGenuine) reasons = ["பரிவர்த்தனைகளில் கவனம் தேவை"];
-    const reasonText = reasons.length ? reasons.join(", ") : "வியாபாரம் இயல்பாக உள்ளது";
+    if(isSteady) reasons.push("வருமானம் சீராக உள்ளது");
+    if(canRepay) reasons.push("திருப்பிச் செலுத்தும் திறன் நன்றாக உள்ளது");
+    if(lowCost) reasons.push("செலவு கட்டுக்குள் உள்ளது");
+    if(!isGenuine) reasons = ["பரிவர்த்தனை சுழற்சியில் எச்சரிக்கை தேவை"];
+    const reasonText = reasons.length ? reasons.join(", ") : "பரிவர்த்தனைகள் இயல்பாக உள்ளன";
     return `உங்கள் நம்பிக்கை மதிப்பெண் 100-க்கு ${r.sc}. ${reasonText}.`;
   } else {
     let reasons = [];
-    if(isSteady) reasons.push("your income is steady");
-    if(lowCost) reasons.push("your costs are low");
-    if(canRepay && reasons.length < 2) reasons.push("your repayment ability is strong");
-    if(manyCust && reasons.length < 2) reasons.push("you have many customers");
-    if(!isGenuine) reasons = ["warning: money moved back and forth with other vendors"];
-    const reasonText = reasons.length ? reasons.join(" and ") : "your sales are active";
+    if(isSteady) reasons.push("your income velocity is steady");
+    if(canRepay) reasons.push("repayment debt coverage is solid");
+    if(lowCost) reasons.push("operational expenses are disciplined");
+    if(!isGenuine) reasons = ["reciprocal transfer loops were detected"];
+    const reasonText = reasons.length ? reasons.join(" and ") : "your cash flow is active";
     return `Your Trust Score is ${r.sc} out of 100. ${reasonText.charAt(0).toUpperCase() + reasonText.slice(1)}.`;
   }
 }
@@ -1079,7 +1085,7 @@ function stopAudio(){
   ttsQueue = []; activeStep = -1; ttsState = "idle";
   if(typeof window!=="undefined"&&window.speechSynthesis){ window.speechSynthesis.cancel(); }
   if(audioEl){ audioEl.pause(); audioEl.currentTime = 0; }
-  const m = $("m"); if(m) m.setAttribute("aria-live", "polite");
+  const m = $("mainContainer"); if(m) m.setAttribute("aria-live", "polite");
   highlightStep(-1);
   updateTtsUi();
 }
@@ -1117,7 +1123,7 @@ function updateTtsUi(){
   }
   if(stopBtn) stopBtn.disabled = ttsState==="idle";
   if(statusEl){
-    if(ttsState==="playing") statusEl.textContent = `${t("speaking")} ${activeStep>=0?(activeStep+1)+"/6":""}`;
+    if(ttsState==="playing") statusEl.textContent = `${t("speaking")} ${activeStep>=0?"0"+(activeStep+1)+"/06":""}`;
     else if(ttsState==="paused") statusEl.textContent = t("paused");
     else statusEl.textContent = t("ready");
   }
@@ -1127,7 +1133,7 @@ function setSpeed(rate){
   S.rate = rate;
   if(audioEl) audioEl.playbackRate = rate;
   document.querySelectorAll(".speed-btn").forEach(b=>{
-    b.classList.toggle("on", parseFloat(b.dataset.r) === rate);
+    b.classList.toggle("active", parseFloat(b.dataset.r) === rate);
   });
 }
 
@@ -1138,7 +1144,7 @@ async function playNextInQueue(){
   ttsState = "playing";
   highlightStep(activeStep);
   updateTtsUi();
-  const m = $("m"); if(m) m.setAttribute("aria-live", "off");
+  const m = $("mainContainer"); if(m) m.setAttribute("aria-live", "off");
 
   const useAudio = await checkAudioFiles();
   if(useAudio && activeStep >= 0){
@@ -1212,58 +1218,72 @@ function speakMyScore(v){
 document.addEventListener("visibilitychange", ()=>{ if(document.hidden) stopAudio(); });
 window.addEventListener("pagehide", stopAudio);
 
+/* ==========================================================================
+   RENDER DISPATCHER
+   ========================================================================== */
 function render(){
-  if(!S.vid) return login();
-  nav();
+  initHeader();
   const v = V();
-  $("m").innerHTML = `<div class="scr">${{home,ai,cf,loan,me}[S.tab](v)}</div>`;
-  $("m").scrollTop = 0;
 
-  const hdrLangBtn = $("hdrLangBtn");
-  if(hdrLangBtn) hdrLangBtn.onclick = toggleLang;
-
-  // Story bar tab switching
-  document.querySelectorAll(".story-item").forEach(item => {
-    item.onclick = () => {
-      stopAudio();
-      S.tab = item.dataset.tab;
-      render();
-    };
+  // Update tabs
+  document.querySelectorAll(".tab-pill").forEach(pill => {
+    pill.classList.toggle("active", pill.dataset.tab === S.tab);
   });
 
-  const oai = $("open-ai");
-  if(oai) oai.onclick = () => { stopAudio(); S.tab="ai"; render(); };
+  const main = $("mainContainer");
+  const views = { home: homeView, ai: aiView, cf: cfView, loan: loanView, me: meView };
+  main.innerHTML = (views[S.tab] || homeView)(v);
+  window.scrollTo({top:0, behavior:"smooth"});
 
-  if(S.tab=="ai"){
-    $("btn-listen-all").onclick = playAll;
-    $("btn-pause").onclick = () => { if(ttsState==="paused") resumeAudio(); else pauseAudio(); };
-    $("btn-stop").onclick = stopAudio;
+  // Bind View Handlers
+  if(S.tab === "home"){
+    const heroAi = $("btn-hero-ai");
+    if(heroAi) heroAi.onclick = () => { stopAudio(); S.tab = "ai"; render(); };
+    const heroSim = $("btn-hero-sim");
+    if(heroSim) heroSim.onclick = () => { stopAudio(); S.tab = "loan"; render(); };
+  }
+
+  if(S.tab === "ai"){
+    const btnAll = $("btn-listen-all"); if(btnAll) btnAll.onclick = playAll;
+    const btnPause = $("btn-pause"); if(btnPause) btnPause.onclick = () => { if(ttsState==="paused") resumeAudio(); else pauseAudio(); };
+    const btnStop = $("btn-stop"); if(btnStop) btnStop.onclick = stopAudio;
     document.querySelectorAll(".speed-btn").forEach(b => b.onclick = () => setSpeed(parseFloat(b.dataset.r)));
-    document.querySelectorAll(".step-tts-btn").forEach(b => b.onclick = () => playStep(parseInt(b.dataset.step, 10)));
-    $("btn-read-score").onclick = () => speakMyScore(v);
+    document.querySelectorAll(".step-play-btn").forEach(b => b.onclick = () => playStep(parseInt(b.dataset.step, 10)));
+    const btnRead = $("btn-read-score"); if(btnRead) btnRead.onclick = () => speakMyScore(v);
   }
 
-  if(S.tab=="loan"){
-    const upd = () => {
-      S.amt = +$("a").value;
-      S.mths = +$("mo").value;
-      const r = calc(v, S.amt, S.mths), c = r.cover>=2?["good","badge-pill--ok"]:r.cover>=1?["ok","badge-pill--wa"]:["risk","badge-pill--bad"];
-      $("av").textContent = inr(S.amt);
-      $("mv").textContent = S.mths + " months";
-      $("ev").textContent = inr(r.emi);
-      $("cv").innerHTML = `${t("cov")}: <b>${r.cover.toFixed(1)}x</b>`;
-      $("cb").textContent = t(c[0]);
-      $("cb").className = `badge-pill ${c[1]}`;
+  if(S.tab === "loan"){
+    const rAmt = $("rangeAmt");
+    const rMths = $("rangeMths");
+    const updateSim = () => {
+      S.amt = +rAmt.value;
+      S.mths = +rMths.value;
+      const res = calc(v, S.amt, S.mths);
+      const c = res.cover >= 2 ? ["good","badge-ok"] : res.cover >= 1.2 ? ["ok","badge-wa"] : ["risk","badge-bad"];
+      $("valAmt").textContent = inr(S.amt);
+      $("valMths").textContent = S.mths + " months";
+      $("valEmi").textContent = inr(res.emi);
+      $("textCover").innerHTML = `${t("cov")}: <b>${res.cover.toFixed(1)}x</b>`;
+      $("badgeCover").textContent = t(c[0]);
+      $("badgeCover").className = `badge ${c[1]}`;
     };
-    $("a").oninput = upd;
-    $("mo").oninput = upd;
+    if(rAmt) rAmt.oninput = updateSim;
+    if(rMths) rMths.oninput = updateSim;
   }
 
-  if(S.tab=="me"){
-    document.querySelectorAll("[data-s]").forEach(i => i.onchange = () => S.share[i.dataset.s] = i.checked ? 1 : 0);
-    const st = $("st");
-    if(st) st.onclick = () => { S.stopped = true; render(); };
-    $("lo").onclick = () => { stopAudio(); S.vid = null; render(); };
+  if(S.tab === "me"){
+    document.querySelectorAll("[data-s]").forEach(i => {
+      i.onchange = () => S.share[i.dataset.s] = i.checked ? 1 : 0;
+    });
+    const btnStop = $("btn-stop-sharing");
+    if(btnStop) btnStop.onclick = () => { S.stopped = true; render(); };
+    const btnOut = $("btn-signout");
+    if(btnOut) btnOut.onclick = () => {
+      stopAudio();
+      S.vid = "V001";
+      S.tab = "home";
+      render();
+    };
   }
 }
 
