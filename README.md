@@ -11,74 +11,10 @@
 
 ![TrustCred AI System Architecture Diagram](docs/images/system_architecture_hld.jpg)
 
-### Architecture Schematic
+### Architecture Schematic (Hand-Drawn Whiteboard Overview)
 
-```
-+===================================================================================================+
-|                                     TRUSTCRED AI SYSTEM ARCHITECTURE                              |
-+===================================================================================================+
-|                                                                                                   |
-|  [ UPI Transaction Data ]                [ Micro-Merchant Requests ]                              |
-|   49,160 UPI Records                      40 Vendor Profiles                                      |
-|   (90-Day Observation Window)             (Loan Requests: ₹30k - ₹75k)                            |
-|             │                                         │                                           |
-|             ▼                                         ▼                                           |
-|  ┌────────────────────────────────────────────────────────────────────────┐                       |
-|  │ 1. DATA VALIDATION & INGESTION LAYER                                    │                       |
-|  │    • Schema verification (C#####, SUP###, V### prefixes)               │                       |
-|  │    • Zero-null enforcement, non-negative amounts, monotonic timestamps │                       |
-|  └────────────────────────────────────┬───────────────────────────────────┘                       |
-|                                       │                                                           |
-|                                       ▼                                                           |
-|  ┌────────────────────────────────────────────────────────────────────────┐                       |
-|  │ 2. CIRCULAR TRANSFER DETECTION & GENUINENESS AUDIT                     │                       |
-|  │    ┌───────────────────────────────┐   ┌───────────────────────────┐   │                       |
-|  │    │  Rule-Based Heuristic Engine  │   │ Unsupervised Check        │   │                       |
-|  │    │  • Reciprocal transfer share  │◄─►│ (Isolation Forest Anomaly │   │                       |
-|  │    │  • Inter-vendor flow dilution │   │  Detection @ 95.0% Agree) │   │                       |
-|  │    └───────────────────────────────┘   └───────────────────────────┘   │                       |
-|  └────────────────────────────────────┬───────────────────────────────────┘                       |
-|                                       │                                                           |
-|                                       ▼                                                           |
-|  ┌────────────────────────────────────────────────────────────────────────┐                       |
-|  │ 3. 26-DIMENSIONAL FEATURE ENGINEERING STORE                            │                       |
-|  │    • Cash Velocity: Monthly Receipts, Expenses, Net Operating Cashflow │                       |
-|  │    • Stability: Weekly Coefficient of Variation (CV)                   │                       |
-|  │    • Diversity: Unique Buyers, Top-Customer Concentration, Repeat Rate │                       |
-|  │    • Debt Servicing: Debt Service Coverage Ratio (DSCR vs Est. EMI)    │                       |
-|  └────────────────────────────────────┬───────────────────────────────────┘                       |
-|                                       │                                                           |
-|                                       ▼                                                           |
-|  ┌────────────────────────────────────────────────────────────────────────┐                       |
-|  │ 4. ZERO-LEAKAGE STRATIFIED PARTITION (80% Train / 20% Test)            │                       |
-|  │    • 32 Train Vendors (39,392 Txns)  │  8 Test Vendors (10,030 Txns)   │                       |
-|  │    • Scalers fitted exclusively on Train to eliminate test leakage     │                       |
-|  └──────────────────┬─────────────────────────────────┬───────────────────┘                       |
-|                     │                                 │                                           |
-|                     ▼                                 ▼                                           |
-|  ┌──────────────────────────────────┐  ┌──────────────────────────────────┐                       |
-|  │ 5. SUPERVISED CLASSIFIERS        │  │ 6. 100-POINT EXPLAINABLE         │                       |
-|  │    • Logistic Regression Baseline│  │    CREDIT SCORECARD ENGINE       │                       |
-|  │    • Random Forest Classifier    │  │    • Pillar 1: Income Stability  │                       |
-|  │    • Cross-Validation on Train   │  │    • Pillar 2: Repayment Capacity│                       |
-|  │    • Test Partition Evaluation   │  │    • Pillar 3: Expense Discipline│                       |
-|  │    • Artifacts: model.pkl        │  │    • Pillar 4: Continuity        │                       |
-|  │                                  │  │    • Pillar 5: Turnover Authent. │                       |
-|  └──────────────────┬───────────────┘  └──────────────────┬───────────────┘                       |
-|                     │                                     │                                       |
-|                     └──────────────────┬──────────────────┘                                       |
-|                                        ▼                                                          |
-|  ┌────────────────────────────────────────────────────────────────────────┐                       |
-|  │ 7. PRODUCTION SERVING & USER INTERFACES                                │                       |
-|  │    ┌───────────────────────────────┐   ┌───────────────────────────┐   │                       |
-|  │    │ Underwriter / Lender Web App  │   │ Mobile Vendor Experience  │   │                       |
-|  │    │ • 40-Merchant Directory       │   │ • Bilingual (English/Tamil│   │                       |
-|  │    │ • Dynamic Loan EMI Simulator  │   │ • Voice TTS Explanations  │   │                       |
-|  │    │ • 3-Way Vendor Comparison     │   │ • Zero-Jargon Score Card  │   │                       |
-|  │    └───────────────────────────────┘   └───────────────────────────┘   │                       |
-|  └────────────────────────────────────────────────────────────────────────┘                       |
-+===================================================================================================+
-```
+![Hand-Drawn System Architecture Schematic](docs/images/architecture_schematic_handdrawn.jpg)
+
 
 ### Mermaid Flowchart (HLD)
 
@@ -270,6 +206,7 @@ c:\Users\dhanu\Documents\PROJECTS\SRI SAKTHI HACKTHON/
 │   └── images/                        # Visual architecture, fraud flows & ML performance figures
 │       ├── lender_dashboard_ui.jpg    # Interactive Underwriter UI preview
 │       ├── system_architecture_hld.jpg# High-Level Design (HLD) architecture diagram
+│       ├── architecture_schematic_handdrawn.jpg # Hand-drawn architecture schematic overview
 │       ├── circular_flow_fraud.jpg    # Genuine vs circular transfer mechanics
 │       ├── confusion_matrix.png       # Test partition confusion matrix chart
 │       ├── feature_importance.png     # Top 10 Random Forest feature importances
